@@ -1,18 +1,13 @@
-SRCPATHLINUX = gui/linux
-SRC = (wildcard *.c)
-OBJ = (wildcard *.o)
-CC = gcc
-CFLAGS = -W -Wall $(pkg-config --libs --cflags gtk+-2.0)
+LINUX_GUI_DIR = gui/linux
+
+LINUX_EXEC = $(LINUX_GUI_DIR)/linux_gui
 
 .PHONY: all clean
 
-all: linux_gui
+all: $(LINUX_EXEC)
 
-linux_gui: $(SRCPATHLINUX)/$(OBJ)
-	$(CC) $(CFLAGS) $^ -o $@
+$(LINUX_EXEC):
+	@(cd $(LINUX_GUI_DIR) && $(MAKE) && cp linux_gui ../../)
 
-%.o: %.c
-	$(CC) $(CFLAGS) $< -o $@
-
-clean:
-	rm $(OBJ)
+clean: 
+	@(cd $(LINUX_GUI_DIR) && $(MAKE) $@)

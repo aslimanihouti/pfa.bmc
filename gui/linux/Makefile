@@ -1,9 +1,11 @@
-SRCLINUX = $(wildcard *.c)#main.c window.c toolbar.c file_selection.c
-OBJLINUX = $(SRCLINUX:.c=.o)
-
 CC = gcc
 CFLAGS = -W -Wall
 GTKFLAGS = $$(pkg-config --libs --cflags gtk+-2.0)
+
+SRCLINUX = $(wildcard *.c)
+OBJLINUX = $(SRCLINUX:.c=.o)
+
+LINUX_EXEC = linux_gui
 
 .PHONY:all clean
 
