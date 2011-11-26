@@ -1,34 +1,45 @@
-#include <gtk/gtk.h>
 #include <stdlib.h>
-#include <stdio.h>
+#include <gtk/gtk.h>
+#include "window.h"
+#include "toolbar.h"
 
-int main(int argc, char **argv){
-  
-  /*GTK+ library initialization*/
-  gtk_init(&argc,&argv);
 
-  /*MainWindow is a pointer to a widget*/
-  GtkWidget *MainWindow = NULL;
 
-  /*Creating a label*/
-  GtkWidget *label = gtk_label_new("This is Music Braille Compiler");
+GtkWidget *text_view;
+	
+int main(int argc, char **argv)
+{
+	GtkWidget *mainWindow;
+	GtkWidget *vBox;
+	GtkWidget *toolbar;
+	GtkWidget *scrollbar;
+	
+	gtk_init(&argc, &argv);
 
-  /*This pointer is assigned a window*/
-  MainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  g_signal_connect(G_OBJECT(MainWindow),"delete-event",G_CALLBACK(gtk_main_quit),NULL);
+	// Creation of the main window 
+	mainWindow = createWindow("BMC",600,400);
+	
+	vBox = gtk_vbox_new(FALSE, 0);
+	gtk_container_add(GTK_CONTAINER(mainWindow), vBox);
+	
+	// Creation of the toolbar 
+	toolbar = createToolbar();
+	gtk_box_pack_start(GTK_BOX(vBox), toolbar, FALSE, FALSE, 5);
+	
+	//Creation of th text view with scrollbar
+	scrollbar = gtk_scrolled_window_new(NULL, NULL);
+	gtk_box_pack_start(GTK_BOX(vBox), scrollbar, TRUE, TRUE, 5);
 
-  /*Set window title*/
-  gtk_window_set_title(GTK_WINDOW(MainWindow),"Braille Music Compiler");
+	text_view=gtk_text_view_new();
+	gtk_container_add(GTK_CONTAINER(scrollbar),text_view);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollbar), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	
+	
+	gtk_widget_show_all(mainWindow);
 
-  /*Set window position*/
-  gtk_window_set_position((GtkWindow *)MainWindow, GTK_WIN_POS_CENTER);
+	gtk_main();
 
-  /*Adding the label to the window*/
-  gtk_container_add((GtkContainer *) MainWindow,label);
-
-  /*Showing the window*/
-  gtk_widget_show_all(MainWindow);
-  gtk_main();
-  
-  return EXIT_SUCCESS;
+	return EXIT_SUCCESS;
 }
+
+
