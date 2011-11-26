@@ -1,5 +1,5 @@
 #include <gtk/gtk.h>
-#include "open.c"
+#include "open.h"
 
 
 void collect_path(GtkWidget *button, GtkWidget *file_selection)
