@@ -1,8 +1,8 @@
 #include <gtk/gtk.h>
+#include "open.c"
 
 
-
-void collect_path(GtkWidget *bouton, GtkWidget *file_selection)
+void collect_path(GtkWidget *button, GtkWidget *file_selection)
 {
 	const gchar* path;
 	GtkWidget *dialog;
@@ -29,7 +29,7 @@ void create_file_selection()
 	//banning use of other window
 	gtk_window_set_modal(GTK_WINDOW(selection), TRUE);
 
-	g_signal_connect(G_OBJECT(GTK_FILE_SELECTION(selection)->ok_button), "clicked", G_CALLBACK(collect_path), selection );
+	g_signal_connect(G_OBJECT(GTK_FILE_SELECTION(selection)->ok_button), "clicked", G_CALLBACK(open_file), selection);
 
 	g_signal_connect_swapped(G_OBJECT(GTK_FILE_SELECTION(selection)->cancel_button), "clicked", G_CALLBACK(gtk_widget_destroy), selection);
 }
