@@ -1,4 +1,5 @@
-GTKFLAGS = $$(pkg-config --libs --cflags gtk+-2.0)
+GTKFLAGS = `pkg-config --libs --cflags gtk+-2.0`
+CC= gcc
 
 SRCLINUX = $(wildcard *.c)
 OBJLINUX = $(SRCLINUX:.c=.o)
@@ -10,10 +11,10 @@ LINUX_EXEC = linux_gui
 all:linux_gui
 
 linux_gui:$(OBJLINUX)
-	$(CC) $(CFLAGS) $(GTKFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@ $(GTKFLAGS)
 
 %.o:%.c
-	$(CC) $(CFLAGS) $(GTKFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ $(GTKFLAGS)
 
 clean: 
 	rm $(OBJLINUX)
