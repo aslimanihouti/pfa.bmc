@@ -1,3 +1,6 @@
+export CC  = gcc
+export CFLAGS = -W -Wall
+
 LINUX_GUI_DIR = gui/linux
 
 LINUX_EXEC = $(LINUX_GUI_DIR)/linux_gui

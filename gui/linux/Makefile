@@ -1,5 +1,3 @@
-CC = gcc
-CFLAGS = -W -Wall
 GTKFLAGS = $$(pkg-config --libs --cflags gtk+-2.0)
 
 SRCLINUX = $(wildcard *.c)
