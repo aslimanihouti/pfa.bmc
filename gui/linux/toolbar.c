@@ -1,5 +1,6 @@
 #include <gtk/gtk.h>
-#include "file_selection.h"
+#include "open.h"
+#include "save.h"
 
 GtkWidget * createToolbar()
 {
@@ -11,16 +12,17 @@ GtkWidget * createToolbar()
 	
 	new = gtk_tool_button_new_from_stock(GTK_STOCK_NEW);
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), new, -1);
-	gtk_tool_item_set_tooltip_text(new, "New");
+	gtk_tool_item_set_tooltip_text(new, "Create a new file");
 
 	open = gtk_tool_button_new_from_stock(GTK_STOCK_OPEN);
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), open, -1);
-	g_signal_connect(G_OBJECT(open),"clicked",G_CALLBACK(create_file_selection),NULL);
-	gtk_tool_item_set_tooltip_text(open, "Open");
+	g_signal_connect(G_OBJECT(open),"clicked",G_CALLBACK(open_file),NULL);
+	gtk_tool_item_set_tooltip_text(open, "Open a file");
 
 	save = gtk_tool_button_new_from_stock(GTK_STOCK_SAVE);
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), save, -1);
 	gtk_tool_item_set_tooltip_text(save, "Save");
+		g_signal_connect(G_OBJECT(save),"clicked",G_CALLBACK(save_file),NULL);
 
 	sep = gtk_separator_tool_item_new();
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), sep, -1); 
