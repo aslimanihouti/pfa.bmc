@@ -36,7 +36,7 @@ GtkWidget * createToolbar()
 	
 	/* Settings of the icons' size */
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar),
-	                          GTK_ICON_SIZE_BUTTON);
+	                          GTK_ICON_SIZE_LARGE_TOOLBAR);
 	/* Only show icons */
 	gtk_toolbar_set_style(GTK_TOOLBAR(toolbar),
 	                      GTK_TOOLBAR_ICONS);

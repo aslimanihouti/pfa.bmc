@@ -6,6 +6,7 @@
 
 
 GtkWidget *text_view;
+const gchar *current_file_path=NULL;
 	
 int main(int argc, char **argv)
 {

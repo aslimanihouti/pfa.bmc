@@ -3,8 +3,5 @@
 
 void open_file(GtkWidget *text_view);
 
-void open_file_(GtkWidget *text_view, GtkWidget *file_selection);
-
-
  
 #endif
