@@ -9,6 +9,7 @@ GtkWidget * createWindow(const gchar* title, gint width , gint height)
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), title);
 	gtk_window_set_default_size(GTK_WINDOW(window), width, height);
+	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
 	g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 	
 	return window;
