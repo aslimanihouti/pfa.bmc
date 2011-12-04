@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <gtk/gtk.h> 
 
-
 //Create a width X height window with the title
 GtkWidget * createWindow(const gchar* title, gint width , gint height)
 {

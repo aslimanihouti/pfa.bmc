@@ -3,12 +3,12 @@
 #include "window.h"
 #include "toolbar.h"
 #include "menubar.h"
-
-
+#include "color.h"
 
 GtkWidget *text_view;
 const gchar *current_file_path=NULL;
-	
+int clik = 0;
+
 int main(int argc, char **argv)
 {
 	GtkWidget *mainWindow;

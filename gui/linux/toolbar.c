@@ -3,13 +3,15 @@
 #include "open.h"
 #include "save.h"
 #include "edit.h"
+#include "color.h"
+
 GtkWidget * createToolbar()
 {
 	GtkWidget *toolbar = gtk_toolbar_new();
 	
 	/* Addition of buttons in the toolbar */
 
-	GtkToolItem *new, *open,*save, *sep, *cut, *copy, *paste,*sep1, *quit;
+	GtkToolItem *new, *open,*save, *color,*sep, *cut, *copy, *paste,*sep1, *quit;
 	
 	new = gtk_tool_button_new_from_stock(GTK_STOCK_NEW);
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), new, -1);
@@ -43,6 +45,12 @@ GtkWidget * createToolbar()
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), paste, -1);
 	gtk_tool_item_set_tooltip_text(paste, "Paste the clipboard's content");
 	g_signal_connect(G_OBJECT(paste),"clicked",G_CALLBACK(on_paste),NULL);
+
+	color = gtk_tool_button_new_from_stock(GTK_STOCK_COLOR_PICKER);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), color, -1);
+        gtk_tool_item_set_tooltip_text(color, "Change text color");
+	g_signal_connect(G_OBJECT(color),"clicked",G_CALLBACK(change_color),NULL);
+	
 
 	sep1 = gtk_separator_tool_item_new();
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), sep1, -1); 
