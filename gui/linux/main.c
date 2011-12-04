@@ -5,6 +5,7 @@
 #include "menubar.h"
 
 
+
 GtkWidget *text_view;
 const gchar *current_file_path=NULL;
 	

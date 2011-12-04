@@ -2,14 +2,14 @@
 #include "new.h"
 #include "open.h"
 #include "save.h"
-
+#include "edit.h"
 GtkWidget * createToolbar()
 {
 	GtkWidget *toolbar = gtk_toolbar_new();
 	
 	/* Addition of buttons in the toolbar */
 
-	GtkToolItem *new, *open,*save, *sep, *quit;
+	GtkToolItem *new, *open,*save, *sep, *cut, *copy, *paste,*sep1, *quit;
 	
 	new = gtk_tool_button_new_from_stock(GTK_STOCK_NEW);
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), new, -1);
@@ -28,6 +28,26 @@ GtkWidget * createToolbar()
 
 	sep = gtk_separator_tool_item_new();
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), sep, -1); 
+
+	cut = gtk_tool_button_new_from_stock(GTK_STOCK_CUT);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), cut, -1);
+	gtk_tool_item_set_tooltip_text(cut, "Cut the selection");
+	g_signal_connect(G_OBJECT(cut),"clicked",G_CALLBACK(on_cut),NULL);
+
+	copy = gtk_tool_button_new_from_stock(GTK_STOCK_COPY);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), copy, -1);
+	gtk_tool_item_set_tooltip_text(copy, "Copy the selection");
+	g_signal_connect(G_OBJECT(copy),"clicked",G_CALLBACK(on_copy),NULL);
+
+	paste = gtk_tool_button_new_from_stock(GTK_STOCK_PASTE);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), paste, -1);
+	gtk_tool_item_set_tooltip_text(paste, "Paste the clipboard's content");
+	g_signal_connect(G_OBJECT(paste),"clicked",G_CALLBACK(on_paste),NULL);
+
+	sep1 = gtk_separator_tool_item_new();
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), sep1, -1); 
+
+
 
 	quit = gtk_tool_button_new_from_stock(GTK_STOCK_QUIT);
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), quit, -1);
