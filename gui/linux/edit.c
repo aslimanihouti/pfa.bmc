@@ -1,18 +1,18 @@
 #include <gtk/gtk.h>
+#include "BrailleMusicEditor.h"
 
-extern GtkWidget *text_view;
 
-void on_copy()
+void on_copy(GtkWidget *widget, BrailleMusicEditor *editor)
 {
-	g_signal_emit_by_name(text_view, "copy-clipboard", NULL);
+	g_signal_emit_by_name(editor->textview, "copy-clipboard", NULL);
 }
 
-void on_cut()
+void on_cut(GtkWidget *widget, BrailleMusicEditor *editor)
 {
-	g_signal_emit_by_name(text_view, "cut-clipboard", NULL);
+	g_signal_emit_by_name(editor->textview, "cut-clipboard", NULL);
 }
 
-void on_paste()
+void on_paste(GtkWidget *widget, BrailleMusicEditor *editor)
 {
-	g_signal_emit_by_name(text_view, "paste-clipboard", NULL);
+	g_signal_emit_by_name(editor->textview, "paste-clipboard", NULL);
 }

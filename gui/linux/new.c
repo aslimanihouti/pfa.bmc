@@ -1,19 +1,13 @@
 #include <gtk/gtk.h>
+#include "BrailleMusicEditor.h"
 
-extern GtkWidget *text_view;
-extern const gchar *current_file_path;
-
-void new_file()
+void new_file(GtkWidget * widget, BrailleMusicEditor *editor)
 {
 	GtkTextBuffer *buffer;
-	GtkTextIter start;
-	GtkTextIter end;
-
-	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_view));
 	
-	gtk_text_buffer_get_start_iter(buffer,&start);
-	gtk_text_buffer_get_end_iter(buffer,&end);
-	gtk_text_buffer_delete(buffer, &start, &end);
-
-	current_file_path = NULL;
+	editor->filename = NULL;
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (editor->textview));
+	gtk_text_buffer_set_text (buffer, "", -1);
+	gtk_text_buffer_set_modified (buffer, FALSE);
+	
 }

@@ -1,10 +1,10 @@
 #ifndef SAVE_H
 #define SAVE_H
 
-void save_file(GtkWidget *button);
+void save_file(GtkWidget *widget, BrailleMusicEditor *editor);
 
-void save_file_as(GtkWidget *button);
+void save_file_as(GtkWidget *widget, BrailleMusicEditor *editor);
 
-void write_file(const gchar *path,GtkTextBuffer *buffer, GtkWidget *file_selection);
+void write_file(gchar *path,GtkTextBuffer *buffer, GtkWidget *file_selection, BrailleMusicEditor *editor);
 
 #endif

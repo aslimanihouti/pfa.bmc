@@ -2,8 +2,8 @@
 #define EDIT_H
 
 
-void on_copy();
-void on_cut();
-void on_paste();
+void on_copy(GtkWidget *widget, BrailleMusicEditor *editor);
+void on_cut(GtkWidget *widget, BrailleMusicEditor *editor);
+void on_paste(GtkWidget *widget, BrailleMusicEditor *editor);
 
 #endif

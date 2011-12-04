@@ -1,22 +1,20 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
+#include "BrailleMusicEditor.h"
 #include "errors.h"
 
-extern GtkWidget *text_view;
-extern const gchar *current_file_path;
 
-
-void open_file(GtkWidget *button)
+void open_file(GtkWidget *widget, BrailleMusicEditor *editor)
 {
 	GtkTextBuffer *buffer;
 	GtkTextIter start;
 	GtkTextIter end;
 	GtkWidget * file_selection;
 	FILE *file;
-	const gchar *path;
+	gchar *path;
 	gchar read[1024];
 
-	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_view));
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview));
 
 	//creation of the file selection window
 	file_selection = gtk_file_chooser_dialog_new ("Open File",
@@ -36,7 +34,7 @@ void open_file(GtkWidget *button)
 			open_error(file_selection, file, "Can't open the file : \n%s", path);
 
 			//save the current file path
-			current_file_path=path;
+			editor->filename=path;
 
 			
 			gtk_text_buffer_get_start_iter(buffer,&start);

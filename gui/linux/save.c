@@ -1,21 +1,19 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
+#include "BrailleMusicEditor.h"
 #include "save.h"
 #include "errors.h"
 
-extern GtkWidget *text_view;
-extern const gchar *current_file_path;
-
-void save_file(GtkWidget *button)
+void save_file(GtkWidget *widget, BrailleMusicEditor *editor)
 {
 	GtkTextBuffer *buffer;
 	GtkWidget *file_selection;
-	const gchar *path;
+	gchar *path;
 	
-	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_view));
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview));
 	
-	if(current_file_path!=NULL)
-		write_file(current_file_path,buffer, NULL);
+	if(editor->filename!=NULL)
+		write_file(editor->filename,buffer, NULL, editor);
 	else
 		{
 			//creation of the file selection window
@@ -33,22 +31,22 @@ void save_file(GtkWidget *button)
 			if(gtk_dialog_run(GTK_DIALOG(file_selection))==GTK_RESPONSE_ACCEPT)
 				{
 					path = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_selection));
-					write_file(path,buffer, file_selection);
+					write_file(path,buffer, file_selection, editor);
 				}
 			gtk_widget_destroy(file_selection);
 		}
 }
 	
 	
-void save_file_as(GtkWidget *button)
+void save_file_as(GtkWidget *widget, BrailleMusicEditor *editor)
 {
-	current_file_path=NULL;
-	save_file(button);
+	editor->filename=NULL;
+	save_file(widget, editor);
 }
 
 
 
-void write_file(const gchar *path,GtkTextBuffer *buffer, GtkWidget *file_selection)
+void write_file(gchar *path,GtkTextBuffer *buffer, GtkWidget *file_selection, BrailleMusicEditor *editor)
 {
 	FILE *file;
 	GtkTextIter start;
@@ -58,7 +56,7 @@ void write_file(const gchar *path,GtkTextBuffer *buffer, GtkWidget *file_selecti
 	open_error(file_selection, file, "Can't save in the file : \n%s", path);
 	
 	//save the current file path
-	current_file_path=path;
+	editor->filename=path;
 	
 	gtk_text_buffer_get_start_iter(buffer,&start);
 	gtk_text_buffer_get_end_iter(buffer,&end);
