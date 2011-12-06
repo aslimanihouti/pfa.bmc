@@ -29,7 +29,10 @@ void create_menubar(BrailleMusicEditor *editor)
 	gtk_widget_add_accelerator(open, "activate", accel_group,GDK_o, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
 	
 	GtkWidget *sep1 = gtk_separator_menu_item_new();
+
 	
+	
+
 	GtkWidget *save = gtk_image_menu_item_new_from_stock(GTK_STOCK_SAVE, accel_group);
 	g_signal_connect(G_OBJECT(save), "activate", 
 	                 G_CALLBACK(save_file), editor);
@@ -86,12 +89,26 @@ void create_menubar(BrailleMusicEditor *editor)
 	g_signal_connect(G_OBJECT(paste), "activate", 
 	                 G_CALLBACK(on_paste), editor);
 
+	GtkWidget *sep3= gtk_separator_menu_item_new();
+
+	GtkWidget *select_all = gtk_image_menu_item_new_from_stock(GTK_STOCK_SELECT_ALL, accel_group);
+	g_signal_connect(G_OBJECT(select_all), "activate", 
+	                 G_CALLBACK(on_select_all), editor);
+	gtk_widget_add_accelerator(select_all, "activate", accel_group,GDK_a, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+
+	/* GtkWidget *select = gtk_menu_item_new(); */
+	/* g_signal_connect(G_OBJECT(select), "activate", */
+	/*                  G_CALLBACK(on_select), editor); */
+	/* gtk_widget_add_accelerator(select, "activate", accel_group,GDK_space, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE); */
 
 
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(edit), editmenu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),cut);
 	gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),copy);
 	gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),paste);
+	gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),sep3);
+	//	gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),select);
+	gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),select_all);
 	gtk_menu_shell_append(GTK_MENU_SHELL(editor->menubar), edit);
 
 }
