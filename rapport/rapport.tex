@@ -14,17 +14,32 @@
 \tableofcontents
 \listoffigures
 
-\chapter{Introduction}
-\include{intro.tex}
 
-\chapter{partie1}
-\include{partie1.tex}
+\newcommand{\chaptertoc}[1]{\chapter*{#1}
+\addcontentsline{toc}{chapter}{#1}
+\markboth{\slshape\MakeUppercase{#1}}{\slshape\MakeUppercase{#1}}}
 
-\chapter{partie2}
-\include{partie2.tex}
 
-\chapter{Conclusion}
-\include{conclusion.tex}
+
+
+\chaptertoc{Introduction}
+\include{intro}
+
+
+\chapter{Organisation du travail}
+\include{partie1}
+
+\chapter{Spécification des besoins}
+\include{partie2}
+
+\chapter{Travil effectué}
+\include{partie3}
+
+
+\chaptertoc{Conclusion}
+\include{conclusion}
 
 %\chapter{Glossaire}
 %\include{glossaire.tex}
+
+\end{document}
