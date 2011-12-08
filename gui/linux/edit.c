@@ -35,15 +35,16 @@ void on_select_all(GtkWidget *widget, BrailleMusicEditor *editor)
 
 }
 
-void on_select(GtkWidget *widget, BrailleMusicEditor *editor)
-{
-	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview));
+/* void on_select(GtkWidget *widget, BrailleMusicEditor *editor) */
+/* { */
+/* 	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)); */
 
-	GtkTextMark *mark_cursor = gtk_text_buffer_get_mark (buffer, "insert");
-	GtkTextIter iter_cursor;
+/* 	GtkTextMark *mark_cursor = gtk_text_buffer_get_mark (buffer, "insert"); */
+/* 	GtkTextIter iter_cursor; */
 
-	gtk_text_buffer_get_iter_at_mark(buffer, &iter_cursor, mark_cursor);
+/* 	gtk_text_buffer_get_iter_at_mark(buffer, &iter_cursor, mark_cursor); */
 	
-	gtk_text_buffer_create_mark(buffer, "selection_bound", &iter_cursor, FALSE);
+/* 	gtk_text_buffer_create_mark(buffer, "selection_bound", &iter_cursor, FALSE); */
 	
-}
+/* } */
+

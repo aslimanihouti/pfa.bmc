@@ -8,10 +8,13 @@ typedef struct
 {
 	GtkWidget *window;
 	GtkWidget *vbox;
+	GtkWidget *hbox;
 	GtkWidget *menubar;
 	GtkWidget *toolbar;
 	GtkWidget *scrollbar;
+	GtkWidget *scrollbar2;
 	GtkWidget *textview;
+	GtkWidget *rightview;
 
 	gchar     *filename;
 } BrailleMusicEditor;

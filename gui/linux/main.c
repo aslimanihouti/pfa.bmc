@@ -31,14 +31,27 @@ int main(int argc, char **argv)
 	create_toolbar(editor);
 	gtk_box_pack_start(GTK_BOX(editor->vbox), editor->toolbar, FALSE, FALSE, 2);
 	
-	//Creation of th text view with scrollbar
+	//Creation of the two text views with scrollbars
+
+	editor->hbox = gtk_hbox_new(FALSE, 0);
+	gtk_container_add(GTK_CONTAINER(editor->vbox), editor->hbox); 
+	
 	editor->scrollbar = gtk_scrolled_window_new(NULL, NULL);
-	gtk_box_pack_start(GTK_BOX(editor->vbox),editor->scrollbar, TRUE, TRUE, 5);
+	gtk_box_pack_start(GTK_BOX(editor->hbox),editor->scrollbar, TRUE, TRUE, 5);
 
 	editor->textview=gtk_text_view_new();
 	gtk_container_add(GTK_CONTAINER(editor->scrollbar),editor->textview);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(editor->scrollbar), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	
+	
+	editor->scrollbar2 = gtk_scrolled_window_new(NULL, NULL);
+	gtk_box_pack_start(GTK_BOX(editor->hbox),editor->scrollbar2, TRUE, TRUE, 5);
+
+	editor->rightview = gtk_text_view_new();
+	gtk_container_add(GTK_CONTAINER(editor->scrollbar2),editor->rightview);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(editor->scrollbar2), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	
+
 	gtk_widget_grab_focus(editor->textview);
 
 	// show the window
