@@ -1,3 +1,0 @@
-Ceci est un essai destiné à m'entrainer à Git.
-Il sera supprimé ultérieurement.
-Modification.
