@@ -2,10 +2,26 @@
 #include <gtk/gtk.h>
 #include "BrailleMusicEditor.h"
 #include "errors.h"
-
+#include "open.h"
 
 void open_file(GtkWidget *widget, BrailleMusicEditor *editor)
 {
+	
+	gint resp=check_for_save (editor);
+	if (resp == 1)
+		{
+			save_file(widget, editor);
+			open_file_(editor);
+		}			
+	else if(resp == 0)
+		open_file_(editor);
+ 
+	
+	
+	
+}
+void open_file_(BrailleMusicEditor *editor)
+{		
 	GtkTextBuffer *buffer;
 	GtkTextIter start;
 	GtkTextIter end;
@@ -18,11 +34,11 @@ void open_file(GtkWidget *widget, BrailleMusicEditor *editor)
 
 	//creation of the file selection window
 	file_selection = gtk_file_chooser_dialog_new ("Open File",
-	                                         NULL,
-	                                         GTK_FILE_CHOOSER_ACTION_OPEN,
-	                                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-	                                         GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
-	                                         NULL);
+	                                              NULL,
+	                                              GTK_FILE_CHOOSER_ACTION_OPEN,
+	                                              GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+	                                              GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+	                                              NULL);
 	//banning use of other window
 	gtk_window_set_modal(GTK_WINDOW(file_selection), TRUE);
 	if(gtk_dialog_run(GTK_DIALOG(file_selection))==GTK_RESPONSE_ACCEPT)
@@ -36,7 +52,7 @@ void open_file(GtkWidget *widget, BrailleMusicEditor *editor)
 			//save the current file path
 			editor->filename=path;
 
-			
+
 			gtk_text_buffer_get_start_iter(buffer,&start);
 			gtk_text_buffer_get_end_iter(buffer,&end);
 			gtk_text_buffer_delete(buffer, &start, &end);
@@ -48,5 +64,5 @@ void open_file(GtkWidget *widget, BrailleMusicEditor *editor)
 				}
 			fclose(file);
 		}
-	gtk_widget_destroy(file_selection);	
+	gtk_widget_destroy(file_selection); 
 }

@@ -67,3 +67,38 @@ void write_file(gchar *path,GtkTextBuffer *buffer, GtkWidget *file_selection, Br
 	
 	fclose(file);
 }
+
+
+gint check_for_save (BrailleMusicEditor *editor)
+{
+	int ret = 2;
+	//0 means no, 1 means yes, 2 means cancel 
+	GtkTextBuffer *buffer;
+        
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (editor->textview));
+        
+	if (gtk_text_buffer_get_modified (buffer) == TRUE)
+		{
+			// we need to prompt for save 
+			GtkWidget *dialog;
+                
+			const gchar *msg  = "Do you want to save the changes you have made?";
+                
+			dialog = gtk_message_dialog_new (GTK_WINDOW(editor->window), 
+			                                 GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+			                                 GTK_MESSAGE_QUESTION,
+			                                 GTK_BUTTONS_YES_NO,
+			                                 msg);
+        
+			gtk_window_set_title (GTK_WINDOW (dialog), "Save?");
+			
+			gint resp=gtk_dialog_run (GTK_DIALOG (dialog));
+			if ( resp == GTK_RESPONSE_YES)
+				ret = 1;
+			else if( resp == GTK_RESPONSE_NO)
+				ret = 0;
+                
+			gtk_widget_destroy (dialog);     
+		}     	
+	return ret;
+}

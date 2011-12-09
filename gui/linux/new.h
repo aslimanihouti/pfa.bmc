@@ -3,4 +3,5 @@
 
 void new_file(GtkWidget * widget, BrailleMusicEditor *editor);
 
+void new_file_(BrailleMusicEditor *editor);
 #endif

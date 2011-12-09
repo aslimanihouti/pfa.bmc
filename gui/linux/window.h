@@ -4,6 +4,8 @@
 
 void create_window(const gchar* title, gint width , gint height, BrailleMusicEditor *editor);
 
-void on_window_destroy(GtkObject *object, BrailleMusicEditor *editor);
-	
+void window_destroy (GtkWidget *widget, BrailleMusicEditor *editor);
+
+gboolean window_delete_event (GtkWidget *widget, GdkEvent *event, BrailleMusicEditor *editor);	
+
 #endif

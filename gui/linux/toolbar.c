@@ -4,6 +4,7 @@
 #include "open.h"
 #include "save.h"
 #include "edit.h"
+#include "window.h"
 #include "color.h"
 
 void create_toolbar(BrailleMusicEditor *editor)
@@ -61,7 +62,7 @@ void create_toolbar(BrailleMusicEditor *editor)
 	quit = gtk_tool_button_new_from_stock(GTK_STOCK_QUIT);
 	gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), quit, -1);
 	g_signal_connect(G_OBJECT(quit), "clicked", 
-	                 G_CALLBACK(gtk_main_quit), NULL);
+	                 G_CALLBACK(window_destroy), editor);
 	gtk_tool_item_set_tooltip_text(quit, "Quit");
 
 	

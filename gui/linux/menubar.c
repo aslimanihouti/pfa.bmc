@@ -5,7 +5,7 @@
 #include "open.h"
 #include "save.h"
 #include "edit.h"
-
+#include "window.h"
 void create_menubar(BrailleMusicEditor *editor)
 {
 	
@@ -48,7 +48,7 @@ void create_menubar(BrailleMusicEditor *editor)
 
 	GtkWidget *quit = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, NULL);
 	g_signal_connect(G_OBJECT(quit), "activate", 
-	                 G_CALLBACK(gtk_main_quit), editor);
+	                 G_CALLBACK(window_destroy), editor);
 	gtk_widget_add_accelerator(quit, "activate", accel_group,GDK_q, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE); 
 
 
