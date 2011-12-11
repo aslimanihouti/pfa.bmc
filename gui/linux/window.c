@@ -4,8 +4,18 @@
 #include "window.h"
 #include "save.h"
 
+/**
+ * \file window.c
+ * \author Team BMC editor 
+ */
+
 /** 
- * Create a width X height window with the title 
+ * \fn void create_window(const gchar *title, gint width, gint height, BrailleMusicEditor *editor)
+ * \brief Create a new window.
+ * \param title The title of the window
+ * \param width The width of the window
+ * \param height The height of the window
+ * \param editor A pointer to a structure BrailleMusicEditor
  */
 
 void create_window(const gchar* title, gint width , gint height, BrailleMusicEditor *editor)
@@ -23,8 +33,10 @@ void create_window(const gchar* title, gint width , gint height, BrailleMusicEdi
 }
 
 /** 
- * Check if there is un saved work and destroy the window after by
- * calling gtk_main_quit() (for menubar and toolbar) .
+ * \fn void window_destroy (GtkWidget *widget, BrailleMusicEditor *editor)
+ * \brief Closes the window.
+ * \param widget The window to close
+ * \param editor The BrailleMusicEditor in which to check values for saving modifications purposes
  */
 
 void window_destroy (GtkWidget *widget, BrailleMusicEditor *editor)
@@ -41,7 +53,7 @@ void window_destroy (GtkWidget *widget, BrailleMusicEditor *editor)
 }
 
 
-/*
+/**
  * When the window is requested to be closed, we need to check if
  * there is unsaved work.  We use this callback to prompt the
  * user to save their work before they exit the application. With the
@@ -49,6 +61,13 @@ void window_destroy (GtkWidget *widget, BrailleMusicEditor *editor)
  * close based on the value we return.
  */
 
+/**
+ * \fn gboolean window_delete_event (GtkWidget *widget, GdkEvent *event, BrailleMusicEditor *editor)
+ * \brief When closing the window, checks if there is unsaved work.
+ * \param widget The window to close
+ * \param event
+ * \param editor The BrailleMusicEditor structure containing flags for save purposes.
+ */
 gboolean window_delete_event (GtkWidget *widget, GdkEvent *event, 
 	                        BrailleMusicEditor *editor)
 {
