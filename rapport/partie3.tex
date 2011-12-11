@@ -10,23 +10,21 @@
 
 
 \section{Interface graphique}
-L'un est critère essentiel de ce projet est l'accessibilité. Par
-conséquence pour la réalisation de l'interface graphique, la
-bibliothèque GTK+ a été chosie. Cette bibliothèque graphique est bien
-connue pour être compatible avec les lecteurs d'écran sur les système
-d'exploitation linux.
+
+L'un des critères essentiels de ce projet est l'accessibilité. Par
+conséquent, nous avons choisi d'utiliser la bibliothèque GTK+ pour
+l'interface graphique sur plateforme linux. En effet, cette
+bibliothèque est compatible avec les lecteurs d'écran des systèmes
+linux.
+
 
 \subsection*{Forme}
-Pour ne pas dépayser le l'utilisateur, l'interface graphique réalisé
-possède la forme classique des fenêtres. C'est à dire il présente une
-barre de menu listant tous les fonctionnalitées du programme, une
-barre d'outils avec les fonctions fréquenment utilisées et une partie
-représentant l'activité du programme.  Cette dernière dans le
-programme realisé se décompose en deux parties.  Une partie gauche qui
-sert à éditer des partitions en braille musique et une partie droite
-qui est destinée à afficher ces partions avec les notes visuelles
-classiques.
-
+L'interface graphique est très classique: elle présente une barre de
+menu, une barre de raccourcis ainsi que les raccourcis naturels,
+encore en cours d'implémentation. La fenêtre se divise en deux
+parties: la premiere partie sert pour l'utilisateur malvoyant à éditer les partitions braille. La
+deuxième partie sert à l'utilisateur voyant à avoir une partition
+classique.
 
 
 \subsection*{Fonctionnalitées}
@@ -39,11 +37,12 @@ classiques comme copier, couper, coller, séléctionner du texte.
 de menu et/ou la barre d'outils, elles sont également toutes associées
 avec des raccourci clavier. Les raccourci utilisés sont très
 classiques. Par exemple, Ctrl + o pour ouvrir, Ctrl + c pour copier et
-Ctrl + v pour coller.\\ Le prototype possède aussi une procedure de
+Ctrl + v pour coller.
+\\ Le prototype possède aussi une procedure de
 sécurité qui consiste à vérifier si le fichier en cours d'édition est
-sauvegardé ou pas et propose à l'utilisateur de d'enregistrer son
-fichier lorsque l'utilisateur tente de créer un nouveau fichier, de
-ouvrir un autre fichier ou encore de quitter le programme.
+sauvegardé ou non et propose à l'utilisateur d'enregistrer son
+fichier lorsque l'utilisateur tente de créer un nouveau fichier,
+d'ouvrir un autre fichier ou encore de quitter le programme.
 
 
 
