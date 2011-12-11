@@ -71,7 +71,7 @@ void write_file(gchar *path,GtkTextBuffer *buffer, GtkWidget *file_selection, Br
 
 gint check_for_save (BrailleMusicEditor *editor)
 {
-	int ret = 2;
+	int ret = 0;
 	//0 means no, 1 means yes, 2 means cancel 
 	GtkTextBuffer *buffer;
         
@@ -97,7 +97,8 @@ gint check_for_save (BrailleMusicEditor *editor)
 				ret = 1;
 			else if( resp == GTK_RESPONSE_NO)
 				ret = 0;
-                
+			else
+				ret = 2;
 			gtk_widget_destroy (dialog);     
 		}     	
 	return ret;
