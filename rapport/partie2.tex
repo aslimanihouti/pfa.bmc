@@ -1,19 +1,39 @@
-%% Spécification des besoins
-%% ne pas oublier les sénaris
-\section{Réalisations fonctionnelles}
+\chapter{Besoins Client}
+Le braille Music Compiler est d'abord conçu pour pouvoir convertir en sortie audio un fichier existant écrit en braille musical ainsi que pour permettre à son utilisateur d'apporter des modifications à un tel fichier ou d'en éditer un nouveau. Le BMC a, de plus, pour objectif de faciliter le travail commun de personnes voyantes et non-voyantes.\\
+Le travail effectuer par l'équipe prends en compte ces deux aspects.\\  
 
-\subsection*{}
+Les besoins du client nous ont été communiqués dans le document \textit{README.txt} sections \textit{User Interface(s)} et \textit{TODO}.\\
+Après avoir rencontré M. Thibault, notre client local, et avoir discuté avec notre encadrant pédagogique M. Ta, nous avons pu déterminer les tâches que nous sommes en mesure de réaliser. \\
 
-\subsection*{}
-
-\subsection*{}
-
+Les sections qui suivent résument les actions que le délivrable devrait pouvoir accomplir. 
 
 
-\section{Réalisations non-fonctionnelle}
+\section{Besoins fonctionnels}
+Le développeur du BMC souhaite que cet outil soit accessible au plus large public possible. Dans ce sens, le système d'exploitation sur lequel travaille l'utilisateur ne devrait pas être un obstacle à l'utilisation du Braille Music Compiler.\\
 
-\subsection*{}
+Nous décidons, dans un premier temps, de mettre en place une interface graphique sous Linux qui sera ensuite portée sous Windows.\\
+ 
+Quelle que soit le système d'exploitation, la version finale de l'interface graphique devra pouvoir réaliser les actions suivantes, classées par ordre de priorité : \\
 
-\subsection*{}
+\begin{itemize}
+  \item[\textbullet] \textbf{Ouvrir un fichier :} Affichage sur le programme principal du contenu d'un fichier écrit en braille musical sélectionné via une fenêtre de sélection.\\
+  \item[\textbullet] \textbf{Enregistrer un fichier :} Enregistrement sur le disque dur du fichier ouvert en écrasant sa copie existante (se trouvant au même emplacement).\\  
+  \item[\textbullet] \textbf{Fermer l'application :} Fermeture du fichier ouvert en demandant la confirmation de sauvegarde des modifications éventuelles.\\
+  \item[\textbullet] \textbf{Éditer un fichier braille :} ce point regroupe toutes les fonctionnalités habituellement proposées par un éditeur de texte comme les actions de copier, coller, couper un partie du texte ainsi que les actions de sélection de lignes et paragraphes.\\  
+  \item[\textbullet] \textbf{Écouter une sélection :} Lecture des notes sélectionnées.\\
+  \item[\textbullet] \textbf{Colorer le texte braille :} coloration du texte afin de faciliter à la personne voyante (collaborant avec un non-voyant) de se repérer par rapport aux notes écrites en braille musical.\\
+  \item[\textbullet] \textbf{Afficher la note en cours :} déplacement du curseur au fur et à mesure que les notes sont jouées pour que l'utilisateur puisse savoir à quel son correspond quelle note.\\
+%  \item[\textbullet] \textbf{Afficher partition visuelle :}\\ 
+  \item[\textbullet] \textbf{numéroter les mesures :} autre fonctionnalité pour faciliter la collaboration entre voyant et non-voyant, la numérotation des mesures permet à chacun de se repérer par rapport aux notes de l'autre.\\
+\end{itemize}
 
-\subsection*{}
+\section{Besoins non-fonctionnels}
+En plus des besoins fonctionnels auxquels doit répondre le projet, ce dernier doit satisfaire les point suivants:\\ 
+\begin{itemize}
+item[\textbullet] \textbf{Portabilité :} le code doit être écrit de façon à pouvoir en réutiliser la plus grande portion lors du portage sur d'autres systèmes d'exploitation.\\
+\item[\textbullet] \textbf{L'extensibilité :} le délivrable doit répondre à ce critère car il est susceptible d'être modifié par M. Lang.\\
+\item[\textbullet] \textbf{Autonomie :} l'utilisation du travail rendu ne devrait pas demander de mise en place lourde, et son installation doit être facile.\\
+\item[\textbullet] \textbf{ Modularité :} le code doit être réparti en modules, afin de garantir la possibilité de réutiliser le code par le client ainsi qu'une meilleure gestion des erreurs. De plus, l'injection de nouvelles classes ou méthodes dans le projet doit être le plus possible indépendante du code du client.\\ 
+\item[\textbullet] \textbf{ Documentation :} le code doit être documenté en anglais pour faciliter sa compréhension ainsi que sa réutilisation par le client.\\
+
+\end{itemize}
