@@ -6,6 +6,20 @@
 #include "save.h"
 #include "edit.h"
 #include "window.h"
+
+/**
+ * \file menubar.c
+ * \author Team BMC editor 
+ */
+
+
+/**
+ * \fn void create_menubar(BrailleMusicEditor *editor)
+ * \brief This function creates the menubar of the window (the menu containing open, edit...).
+ * \param editor The structure in which to create the menubar.
+ */
+
+
 void create_menubar(BrailleMusicEditor *editor)
 {
 	

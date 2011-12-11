@@ -1,7 +1,19 @@
 #include <gtk/gtk.h> 
 #include "BrailleMusicEditor.h"
 
+/**
+ * \file color.c
+ * \author Team BMC editor 
+ */
 
+/**
+ * \fn void change_color(GtkButton *widget, BrailleMusicEditor *editor)
+ * \brief This function is called when selecting change color button.
+ * \param widget The button trigerring the function.
+ * \param editor The structure holding the data.
+ * 
+ * This function will color the text in green. It still has to change to be able to color paterns so that the seing end user can see time signatures for example.
+ */
 void change_color(GtkButton *widget, BrailleMusicEditor *editor){
 	
 	static int clik=0;

@@ -1,6 +1,11 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+/**
+ * \file window.h
+ * \author Team BMC editor 
+ */
+
 
 void create_window(const gchar* title, gint width , gint height, BrailleMusicEditor *editor);
 

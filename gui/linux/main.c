@@ -6,6 +6,11 @@
 #include "menubar.h"
 #include "color.h"
 
+/**
+ * \file main.c
+ * \author Team BMC editor 
+ */
+
 int main(int argc, char **argv)
 {
 	BrailleMusicEditor *editor;

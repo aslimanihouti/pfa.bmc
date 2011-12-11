@@ -4,6 +4,21 @@
 #include "save.h"
 #include "errors.h"
 
+
+/**
+ * \file save.c
+ * \author Team BMC editor 
+ */
+
+
+/**
+ * \fn void save_file(GtkWidget *widget, BrailleMusicEditor *editor)
+ * \brief This function is called when selecting save file.
+ * \param widget This parameter is not used in the function, but it has to be present in the prototype due to gtk+ standards.
+ * \param editor The structure in which the current file is to be read.
+ * 
+ * This function displays the window where one can chose in which file the data has to be saved.
+*/
 void save_file(GtkWidget *widget, BrailleMusicEditor *editor)
 {
 	GtkTextBuffer *buffer;
@@ -37,7 +52,12 @@ void save_file(GtkWidget *widget, BrailleMusicEditor *editor)
 		}
 }
 	
-	
+/** 
+ * \fn void save_file_as(GtkWidget *widget, BrailleMusicEditor *editor)
+ * \brief This function is called when selecting save file as.
+ * \param widget This parameter is not used in the function, but it has to be present in the prototype due to gtk+ standards.
+ * \param editor The structure in which the current file is to be read.
+ */	
 void save_file_as(GtkWidget *widget, BrailleMusicEditor *editor)
 {
 	editor->filename=NULL;
@@ -45,7 +65,14 @@ void save_file_as(GtkWidget *widget, BrailleMusicEditor *editor)
 }
 
 
-
+/**
+ * \fn void write_file(gchar *path,GtkTextBuffer *buffer, GtkWidget *file_selection, BrailleMusicEditor *editor)
+ * \brief Once save_file is called, the function calls write_file to save the content of the editor into a file.
+ * \param path The file in which to save the data.
+ * \param buffer The buffer where the data is.
+ * \param file_selection 
+ * \param editor The structure holding everything.
+*/
 void write_file(gchar *path,GtkTextBuffer *buffer, GtkWidget *file_selection, BrailleMusicEditor *editor)
 {
 	FILE *file;
@@ -68,6 +95,13 @@ void write_file(gchar *path,GtkTextBuffer *buffer, GtkWidget *file_selection, Br
 	fclose(file);
 }
 
+
+/**
+ * \fn  gint check_for_save (BrailleMusicEditor *editor)
+ * \brief This functions returns the boolean that represents wether the user wants to save changes before exiting the program.
+ * \param editor The structure that holds the data.
+ * \return 0 means no, 1 means yes, 2 means cancel.
+*/
 
 gint check_for_save (BrailleMusicEditor *editor)
 {

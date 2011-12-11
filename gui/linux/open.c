@@ -4,6 +4,20 @@
 #include "errors.h"
 #include "open.h"
 
+/**
+ * \file open.c
+ * \author Team BMC editor 
+ */
+
+
+/**
+ * \fn void open_file(GtkWidget *widget, BrailleMusicEditor *editor)
+ * \brief That function is called when selecting open file.
+ *  \param widget The object that triggers the function, here, the button open file.
+ * \param editor The structure holding the data.
+ * 
+ * This function will check if there is unsaved changes in the editor calling check_for_save function.
+*/
 void open_file(GtkWidget *widget, BrailleMusicEditor *editor)
 {
 	
@@ -20,6 +34,12 @@ void open_file(GtkWidget *widget, BrailleMusicEditor *editor)
 	
 	
 }
+
+/**
+ * \fn void open_file_(BrailleMusicEditor *editor)
+ * \brief This function actually opens a file
+ * \param editor The structure holding the data.
+ */
 void open_file_(BrailleMusicEditor *editor)
 {		
 	GtkTextBuffer *buffer;

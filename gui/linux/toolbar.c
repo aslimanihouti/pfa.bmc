@@ -7,6 +7,19 @@
 #include "window.h"
 #include "color.h"
 
+
+/**
+ * \file toolbar.c
+ * \author Team BMC editor 
+ */
+
+
+/**
+ * \fn void create_toolbar(BrailleMusicEditor *editor)
+ * \brief That function creates the toolbar of the window (the bar with the buttons open, copy, paste ...
+ * \param editor The structure in which to create the toolbar.
+ */
+
 void create_toolbar(BrailleMusicEditor *editor)
 {	
 	editor->toolbar=gtk_toolbar_new();
@@ -28,7 +41,7 @@ void create_toolbar(BrailleMusicEditor *editor)
 	save = gtk_tool_button_new_from_stock(GTK_STOCK_SAVE);
 	gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), save, -1);
 	gtk_tool_item_set_tooltip_text(save, "Save the current file");
-		g_signal_connect(G_OBJECT(save),"clicked",G_CALLBACK(save_file),editor);
+	g_signal_connect(G_OBJECT(save),"clicked",G_CALLBACK(save_file),editor);
 
 	sep = gtk_separator_tool_item_new();
 	gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), sep, -1); 

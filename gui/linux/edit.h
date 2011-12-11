@@ -1,6 +1,13 @@
 #ifndef EDIT_H
 #define EDIT_H
 
+
+/**
+ * \file edit.h
+ * \author Team BMC editor 
+ */
+
+
 /**
  * edit menu callback prototypes
  */

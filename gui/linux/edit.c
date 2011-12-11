@@ -1,27 +1,41 @@
 #include <gtk/gtk.h>
 #include "BrailleMusicEditor.h"
 
-
+/**
+ * \file edit.c
+ * \author Team BMC editor 
+ */
 /**
  * edit menu callback 
  */
 
-
+/**
+ * \fn void on_copy(GtkWidget *widget, BrailleMusicEditor *editor)
+ */
 void on_copy(GtkWidget *widget, BrailleMusicEditor *editor)
 {
 	g_signal_emit_by_name(editor->textview, "copy-clipboard", NULL);
 }
 
+/**
+ * \fn void on_cut(GtkWidget *widget, BrailleMusicEditor *editor)
+ */
 void on_cut(GtkWidget *widget, BrailleMusicEditor *editor)
 {
 	g_signal_emit_by_name(editor->textview, "cut-clipboard", NULL);
 }
 
+/**
+ * \fn void on_paste(GtkWidget *widget, BrailleMusicEditor *editor)
+ */
 void on_paste(GtkWidget *widget, BrailleMusicEditor *editor)
 {
 	g_signal_emit_by_name(editor->textview, "paste-clipboard", NULL);
 }
 
+/**
+ * \fn void on_select_all(GtkWidget *widget, BrailleMusicEditor *editor)
+ */
 void on_select_all(GtkWidget *widget, BrailleMusicEditor *editor)
 {
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview));

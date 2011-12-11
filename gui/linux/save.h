@@ -1,6 +1,12 @@
 #ifndef SAVE_H
 #define SAVE_H
 
+/**
+ * \file save.h
+ * \author Team BMC editor 
+ */
+
+
 void save_file(GtkWidget *widget, BrailleMusicEditor *editor);
 
 void save_file_as(GtkWidget *widget, BrailleMusicEditor *editor);
