@@ -47,14 +47,23 @@ d'ouvrir un autre fichier ou encore de quitter le programme.
 
 
 
-\subsection*{}
+\section{Bibliotèque BOOST}
+
+Lors de notre analyse du langage abstrait et ce en scrutant de plus près le code source du \textit{Brail Music Compiler} nous étions amenés à étudier la bibliothèque BOOST  qui est un ensemble de bibliothèques C++ gratuites et portables. BOOST est très riche et fournit un large choix de bibliothèques, mais nous ne préciserons que celles utilisées pour le stockage de la music sous forme de langage abstrait.
 
 
-\section{BOOST}
+\subsection*{Boost.Variant}
 
-\subsection*{}
+Le Boost.Variant est une sorte de type \textit{somme}. Il s'agit en fait de décomposer un type donné en plusieurs sous-types. Une instance de ce type donné peut être obtenue par une valeur de ses sous-types, mais pas deux types à la fois. Ce qui peut être assimiler à une \textit{union}. Cependant, en \textit{C} et \textit{C++} le type \textit{union} ne permet pas de gérer des classes dès qu'elles ont un constructeur ce qui est rendu possible grâce au Boost.Variant en \textit{C++}.
 
-\subsection*{}
+Donc contrairement à un \textit{std::vector} en C++ qui offre des éléments \textit{multi-valeur, type unique}, le \textit{boost::variant} quant à lui offre des éléments \textit{multi-type, valeur unique}.
 
-\subsection*
-{}
+%Dans le cadre de notre projet, le boost variant nous permet de
+
+\subsection*{Boost.rational}
+
+Le langage C++ offre plusieurs possibilités de stocker des nombres, des entiers naturels au réels et ce en les approximants pa différents types : unsigned int, int, float... La bibliothèque boost.rational permet de représenter un nouveau groupe de nombre : Les nombres rationnels.
+
+Au niveau implémentation le type Boost.rational est constitué de deux nombres type entier, qui représente le numérateur et le dénominateur. De cette façon, cela permet d'avoir une meilleure précision de calcul et faciliter l'implémentation.
+
+
