@@ -104,18 +104,19 @@ linux.
 L'interface graphique est très classique: elle présente une barre de
 menu, une barre de raccourcis ainsi que les raccourcis naturels,
 encore en cours d'implémentation. La fenêtre se divise en deux
-parties: la première sert pour l'utilisateur malvoyant à éditer les partitions brailles. La
-seconde sert à l'utilisateur voyant à l'affichage d'une partition classique.
-La figure 4 présente l'apparence de la fenêtre sous le système d'exploitation Ubuntu 
+parties: la première sert pour l'utilisateur malvoyant à éditer les
+partitions brailles. La seconde est destinée à afficher les partitions
+classiques avec les notes resultant de la conversion des partitions
+brailles.  La figure~\ref{interface} présente l'apparence de la fenêtre sous le
+système d'exploitation Ubuntu
 
 \begin{center}
 \begin{figure}[hbtp]
   \includegraphics[width=1\textwidth]{images/linux_gui.png}
-  \caption{Apparence de la fenêtre graphique}
+  \caption{Apparence de l'interface graphique}
+  \label{interface}
 \end{figure}
 \end{center}
-
-
 
 \subsubsection*{Fonctionnalités}
 Le prototype réalisé comporte tous les fonctionnalités de base d'un
@@ -134,13 +135,62 @@ sauvegardé ou non et propose à l'utilisateur d'enregistrer son
 fichier lorsque l'utilisateur tente de créer un nouveau fichier,
 d'ouvrir un autre fichier ou encore de quitter le programme.
 
+\subsubsection*{Structure de l'interface graphique}
+L'interface graphique réalisée se base sur une structure centrale qui
+est \textit{BrailleMusicEditor}. Cette structure est de la forme
+suivante:
+\begin{verbatim}
+typedef struct
+{
+  GtkWidget *window;
+  GtkWidget *vbox; 
+  GtkWidget *hbox; 
+  GtkWidget *menubar;
+  GtkWidget *toolbar;
+  GtkWidget *scrollbar;
+  GtkWidget *scrollbar2;
+  GtkWidget *textview;
+  GtkWidget *rightview;
+  gchar *filename;
+} BrailleMusicEditor;
+\end{verbatim}
 
-\subsubsection*{Programmation évenementielle}
+La fenêtre obtenue est le résultat d'emboîtements des composantes
+(\textit{GtkWidget}) présentes dans cette structure.  La composante
+principale est le \textit{window}, elle contient le \textit{vbox} qui
+est un conteneur permettant de stocker une séquences de composantes de
+manière verticale. Dans le prototype réalisé , ce conteneur contient,
+dans l'ordre, les composants suivants:
+\begin{itemize}
+\item \textit{menubar}: une barre de menu
+\item \textit{toolbar}: une barre d'outils
+\item \textit{hbox}: un conteneur horizontal
+\end{itemize}
+Le conteneur horizontal contient les deux barres de défilement,
+\textit{scrollbar} et \textit{scrollbar2}, qui contienent elles-mêmes
+chacune une composante de visualisation et d'édition de texte,
+\textit{textview} et \textit{rightview}.  Un schéma illustratif est
+représenté sur la figure~\ref{structure}.
 
-La programmation événementielle est la base de tout programme interactif.
-Il fonctionne sur le principe $action \rightarrow reaction$. L'exemple 
-immédiat est le clic sur un bouton (\textit{action}) qui déclenche (\textit{réaction}) 
-l'appel à une fonction, dite \textit{CALLBACK}.
+La liaison entre ces composantes et leurs
+fonctions s'effectue grâce à la programmation événementielle. 
+
+\begin{center}
+\begin{figure}[hbtp]
+  \includegraphics[width=1\textwidth]{images/structure.png}
+  \caption{Structure de l'interface graphique}
+  \label{structure}
+\end{figure}
+\end{center}
+
+
+\subsubsection*{Programmation événementielle}
+
+La programmation événementielle est la base de tout programme
+interactif.  Il fonctionne sur le principe $action \rightarrow
+reaction$. L'exemple immédiat est le clic sur un bouton
+(\textit{action}) qui déclenche (\textit{réaction}) l'appel à une
+fonction, dite \textit{CALLBACK}.
 
 GTK+ gère lui-même ces différentes actions (signaux) pour tous les widgets.
 Ceux-ci captent l'action de l'utilisateur (\textit{e.g} le clic), émettent 
