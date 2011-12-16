@@ -3,11 +3,11 @@
 
 
 \textit{Braille music compiler} est un programme qui se veut de
-transformer un fichier écris en \textit{Braille Music} en un autre langage
+transformer un fichier écrit en \textit{Braille Music} en un autre langage
 utilisable par d'autres applications. La difficulté est que le langage
 \textit{Braille Music} possède beaucoup d'ambiguïtés, en effet par exemple
-pour connaitre la note exacte en cours, il est nécessaire de savoir
-quelles ont été les notes précédentes. À l'heure actuel le programme
+pour connaître la note exacte en cours, il est nécessaire de savoir
+quelles ont été les notes précédentes. \`A l'heure actuelle le programme
 arrive correctement à compiler le langage \textit{Braille Music} en un
 langage Abstrait qui lui ne possède aucune ambiguïté. Ce langage
 abstrait peut être converti en n'importe quels formats de musique. Par
@@ -27,7 +27,7 @@ Le schéma \ref{compiler} résume le fonctionement de BMC.
   \label{compiler}
 \end{figure}
 
-Notre travail est donc d'implémenter ses modules de convesion. Pour
+Notre travail est donc d'implémenter ces modules de conversion. Pour
 cela il est nécessaire de comprendre comment est conçu le langage
 Abstrait. Après la compilation du \textit{Braille Music}, l'ensemble des
 données sont stockées dans une structure nommée "score". Cette
@@ -64,11 +64,11 @@ Il est donc maintenant plus facile d'expliquer la structure
 \textit{score}. Un fichier de musique braille peut donc se diviser en
 plusieurs parties (parts). Chaque partie possède un ou plusieurs
 "staff". Un "staff" n'est autre que la portée, typiquement si le
-compositeur écris une partition de musique pour piano il y aura deux
+compositeur écrit une partition de musique pour piano il y aura deux
 portées. Chaque portée possède un nombre de mesures. Si la musique
 composée est polyphonique il y aura plusieurs voix ("voices"). Une
-voix est ensuite divisée en mesures partielles, ses mesures partielles
-peuvent de nouveau être divisées en voix ("partial\_voices") qui elles
+voix est ensuite divisée en mesures partielles, ces mesures partielles
+pouvant de nouveau être divisées en voix ("partial\_voices") qui elles
 sont divisées en un vecteur de \textit{sign}. Un sign pouvant être une
 note, un repos, une barre ... La figure \ref{musicexe} représente sur
 une partition de musique ses différents termes.
@@ -80,7 +80,7 @@ une partition de musique ses différents termes.
   \label{musicexe}
 \end{figure}
 
-Avant de se mettre à faire la conversion du langage abstrait vers un format de musique conventionel nous avons d'abord créé les classes de base que nous devrons utiliser pour effectuer les différentes conversions. On procède à un affichage sur le terminal dans un premier temps.
+Avant de se mettre à faire la conversion du langage abstrait vers un format de musique conventionel nous avons d'abord créé les classes de base que nous devrons utiliser pour effectuer les différentes conversions. On procède dans un premier temps à un affichage sur le terminal.
 
 \begin{verbatim}
 ./bmc < input/bwv988-v30.bmc 
@@ -104,9 +104,9 @@ linux.
 L'interface graphique est très classique: elle présente une barre de
 menu, une barre de raccourcis ainsi que les raccourcis naturels,
 encore en cours d'implémentation. La fenêtre se divise en deux
-parties: la premiere partie sert pour l'utilisateur malvoyant à éditer les partitions brailles. La
-deuxième partie sert à l'utilisateur voyant à avoir une partition
-classique.
+parties: la première sert pour l'utilisateur malvoyant à éditer les partitions brailles. La
+seconde sert à l'utilisateur voyant à l'affichage d'une partition classique.
+La figure 4 présente l'apparence de la fenêtre sous le système d'exploitation Ubuntu 
 
 \begin{center}
 \begin{figure}[hbtp]
@@ -123,12 +123,12 @@ Le prototype réalisé comporte tous les fonctionnalités de base d'un
 fichier, d'enregistrer un fichier et d'enregistrer le fichier courant
 sous un autre nom. Il permet aussi d'éditer les textes avec les outils
 classiques comme copier, couper, coller, séléctionner du texte.
-\\ Non seulement, toutes ces fonctions sont accessible depuis la barre
-de menu et/ou la barre d'outils, elles sont également toutes associées
+\\ Non seulement toutes ces fonctions sont accessible depuis la barre
+de menu et/ou la barre d'outils, mais elles sont également toutes associées
 à des raccourci clavier. Les raccourcis utilisés sont très
 classiques. Par exemple, Ctrl+O pour ouvrir, Ctrl+C pour copier et
 Ctrl+V pour coller.
-\\ Le prototype possède aussi une procedure de
+\\ Le prototype possède aussi une procédure de
 sécurité qui consiste à vérifier si le fichier en cours d'édition est
 sauvegardé ou non et propose à l'utilisateur d'enregistrer son
 fichier lorsque l'utilisateur tente de créer un nouveau fichier,
@@ -159,13 +159,11 @@ où
 \item $func$ est la fonction \textit{CALLBACK} (\textit{e.g} $G\_CALLBACK(gtk\_main\_quit)$) ;
 \item $func\_data$ est un paramètre donné à $func$.
 \end{itemize}
-
-
 Une autre méthode permet d'associer le clic d'un bouton à une action.
 Dans le cadre d'une boîte de dialogue proposant plusieurs choix (\textit{e.g} : Voulez-vous 
 sauvegarder avant de quitter ?), la création de ce $dialog$ permet au développeur de décrire son 
-fonctionnement. Suite à la création d'un nouveau widget $dialog$, contenant les boutons OUI et NON 
-$GTK\_BUTTONS\_YES\_NO$, il suffit de lancer ce widget et stocker sa valeur de retour dans une variable :
+fonctionnement. Suite à la création d'un nouveau widget $dialog$ contenant les boutons OUI et NON (opération simplifiée 
+par l'utilisation de la variable $GTK\_BUTTONS\_YES\_NO$), il suffit de lancer ce widget et stocker sa valeur de retour dans une variable :
 \begin{verbatim}
 	gint resp=gtk_dialog_run (GTK_DIALOG (dialog));
 \end{verbatim}
@@ -182,21 +180,21 @@ Il ne reste plus qu'à dissocier :
 
 \subsection{Bibliotèque BOOST}
 
-Lors de notre analyse du langage abstrait et ce en scrutant de plus près le code source du \textit{Braille Music Compiler} nous étions amenés à étudier la bibliothèque BOOST  qui est un ensemble de bibliothèques C++ gratuites et portables. BOOST est très riche et fournit un large choix de bibliothèques, mais nous ne préciserons que celles utilisées pour le stockage de la musique sous forme de langage abstrait.
+Lors de notre analyse du langage abstrait et ce en scrutant de plus près le code source du \textit{Braille Music Compiler} nous étions amenés à étudier la bibliothèque BOOST  qui est un ensemble de bibliothèques \textit{C++} gratuites et portables. BOOST est très riche et fournit un large choix de bibliothèques, mais nous ne préciserons que celles utilisées pour le stockage de la musique sous forme de langage abstrait.
 
 
 \subsubsection*{Boost.Variant}
 
-Le Boost.Variant est une sorte de type \textit{somme}. Il s'agit en fait de décomposer un type donné en plusieurs sous-types. Une instance de ce type donné peut être obtenue par une valeur de ses sous-types, mais pas deux types à la fois. Ce qui peut être assimilé à une \textit{union}. Cependant, en \textit{C} et \textit{C++} le type \textit{union} ne permet pas de gérer des classes dès qu'elles ont un constructeur ce qui est rendu possible grâce au Boost.Variant en \textit{C++}.
+Le Boost.Variant est une sorte de type \textit{somme}. Il s'agit en fait de décomposer un type donné en plusieurs sous-types. Une instance de ce type donné peut être obtenue par une valeur de ses sous-types, mais pas deux types à la fois, ce qui peut donc  être assimilé à une \textit{union}. Cependant, en \textit{C} et \textit{C++} le type \textit{union} ne permet pas de gérer des classes dès qu'elles ont un constructeur ce qui est rendu possible grâce au Boost.Variant en \textit{C++}.
 
-Donc contrairement à un \textit{std::vector} en C++ qui offre des éléments \textit{multi-valeur, type unique}, le \textit{boost::variant} offre des éléments \textit{multi-type, valeur unique}.
+Donc contrairement à un \textit{std::vector} en \textit{C++} qui offre des éléments \textit{multi-valeur, type unique}, le \textit{boost::variant} offre des éléments \textit{multi-type, valeur unique}.
 
 %Dans le cadre de notre projet, le boost variant nous permet de
 
 \subsubsection*{Boost.rational}
 
-Le langage C++ offre plusieurs possibilités pour stocker des nombres, des entiers naturels aux réels et ce en les approximant par différents types : unsigned int, int, float... La bibliothèque boost.rational permet de représenter un nouveau groupe de nombres : les nombres rationnels.
+Le langage \textit{C++} offre plusieurs possibilités pour stocker des nombres, des entiers naturels aux réels et ce en les approximant par différents types : unsigned int, int, float... La bibliothèque boost.rational permet de représenter un nouveau groupe de nombres : les nombres rationnels.
 
-Au niveau implémentation le type Boost.rational est constitué de deux nombres de type entier, qui représente le numérateur et le dénominateur. De cette façon, cela permet d'avoir une meilleure précision de calcul et de faciliter l'implémentation.
+Au niveau implémentation, le type Boost.rational est constitué de deux nombres de type entier, qui représente le numérateur et le dénominateur. De cette façon, cela permet d'avoir une meilleure précision de calcul et de faciliter l'implémentation.
 
 
