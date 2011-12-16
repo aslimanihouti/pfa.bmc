@@ -1,4 +1,4 @@
-\documentclass{report}
+\documentclass{article}
 
 \usepackage[french]{babel}
 \usepackage[utf8]{inputenc}
@@ -21,31 +21,31 @@
 
 
 
-\newcommand{\chaptertoc}[1]{\chapter*{#1}
-\addcontentsline{toc}{chapter}{#1}
+\newcommand{\sectiontoc}[1]{\section*{#1}
+\addcontentsline{toc}{section}{#1}
 \markboth{\slshape\MakeUppercase{#1}}{\slshape\MakeUppercase{#1}}}
 
 
+\newpage
 
-
-\chaptertoc{Introduction}
+\sectiontoc{Introduction}
 \input{intro}
 
 
-\chapter{Organisation du travail}
+\section{Organisation du travail}
 \input{partie1}
 
-\chapter{Spécification des besoins}
+\section{Spécification des besoins}
 \input{partie2}
 
-\chapter{Travail effectué}
+\section{Travail effectué}
 \input{partie3}
 
 
-\chaptertoc{Conclusion}
+\sectiontoc{Conclusion}
 \input{conclusion}
 
-%\chapter{Glossaire}
+%\section{Glossaire}
 %\include{glossaire.tex}
 
 \end{document}

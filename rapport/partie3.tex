@@ -1,5 +1,5 @@
 %% Travail effectué
-\section{BMC}
+\subsection{BMC}
 
 
 \textit{Braille music compiler} est un programme qui se veut de
@@ -91,7 +91,7 @@ Avant de se mettre à faire la conversion du langage abstrait vers un format de 
  r1/4  r1/8 D 6 >  G 5 A 5 B 5 C 6 D 6 C 6 B 5 A 5 D 6 >  G 5 G 5 A 5 A 5 > 
 \end{verbatim}
 
-\section{Interface graphique}
+\subsection{Interface graphique}
 
 L'un des critères essentiels de ce projet est l'accessibilité. Par
 conséquent, nous avons choisi d'utiliser la bibliothèque GTK+ pour
@@ -100,7 +100,7 @@ bibliothèque est compatible avec les lecteurs d'écran des systèmes
 linux.
 
 
-\subsection*{Apparence}
+\subsubsection*{Apparence}
 L'interface graphique est très classique: elle présente une barre de
 menu, une barre de raccourcis ainsi que les raccourcis naturels,
 encore en cours d'implémentation. La fenêtre se divise en deux
@@ -117,7 +117,7 @@ classique.
 
 
 
-\subsection*{Fonctionnalités}
+\subsubsection*{Fonctionnalités}
 Le prototype réalisé comporte tous les fonctionnalités de base d'un
 éditeur de texte. Il permet de créer un nouveau fichier, d'ouvrir un
 fichier, d'enregistrer un fichier et d'enregistrer le fichier courant
@@ -135,7 +135,7 @@ fichier lorsque l'utilisateur tente de créer un nouveau fichier,
 d'ouvrir un autre fichier ou encore de quitter le programme.
 
 
-\subsection{Programmation évenementielle}
+\subsubsection{Programmation évenementielle}
 
 La programmation événementielle est la base de tout programme interactif.
 Il fonctionne sur le principe $action \rightarrow reaction$. L'exemple 
@@ -180,12 +180,12 @@ Il ne reste plus qu'à dissocier :
 
 
 
-\section{Bibliotèque BOOST}
+\subsection{Bibliotèque BOOST}
 
 Lors de notre analyse du langage abstrait et ce en scrutant de plus près le code source du \textit{Braille Music Compiler} nous étions amenés à étudier la bibliothèque BOOST  qui est un ensemble de bibliothèques C++ gratuites et portables. BOOST est très riche et fournit un large choix de bibliothèques, mais nous ne préciserons que celles utilisées pour le stockage de la musique sous forme de langage abstrait.
 
 
-\subsection*{Boost.Variant}
+\subsubsection*{Boost.Variant}
 
 Le Boost.Variant est une sorte de type \textit{somme}. Il s'agit en fait de décomposer un type donné en plusieurs sous-types. Une instance de ce type donné peut être obtenue par une valeur de ses sous-types, mais pas deux types à la fois. Ce qui peut être assimilé à une \textit{union}. Cependant, en \textit{C} et \textit{C++} le type \textit{union} ne permet pas de gérer des classes dès qu'elles ont un constructeur ce qui est rendu possible grâce au Boost.Variant en \textit{C++}.
 
@@ -193,7 +193,7 @@ Donc contrairement à un \textit{std::vector} en C++ qui offre des éléments \t
 
 %Dans le cadre de notre projet, le boost variant nous permet de
 
-\subsection*{Boost.rational}
+\subsubsection*{Boost.rational}
 
 Le langage C++ offre plusieurs possibilités pour stocker des nombres, des entiers naturels aux réels et ce en les approximant par différents types : unsigned int, int, float... La bibliothèque boost.rational permet de représenter un nouveau groupe de nombres : les nombres rationnels.
 
