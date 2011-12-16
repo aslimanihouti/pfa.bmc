@@ -1,7 +1,6 @@
 
 Le braille Music Compiler est d'abord conçu pour pouvoir convertir en sortie audio un fichier existant écrit en braille musical ainsi que pour permettre à son utilisateur d'apporter des modifications à un tel fichier ou d'en éditer un nouveau. Le BMC a, de plus, pour objectif de faciliter le travail commun de personnes voyantes et non-voyantes.
-
-Le travail effectuer par l'équipe prends en compte ces deux aspects.
+Le travail effectuer par l'équipe prend en compte ces deux aspects.
 
 Les besoins du client nous ont été communiqués dans le document \textit{README.txt} sections \textit{User Interface(s)} et \textit{TODO}.
 
@@ -10,10 +9,10 @@ Après avoir rencontré M. Thibault, notre client local, et avoir discuté avec 
 Les sections qui suivent résument les actions que le délivrable devrait pouvoir accomplir.
 
 
-\section{Besoins fonctionnels}
-Le développeur du BMC souhaite que cet outil soit accessible au plus large public possible. Dans ce sens, le système d'exploitation sur lequel travaille l'utilisateur ne devrait pas être un obstacle à l'utilisation du Braille Music Compiler.\\
+\subsection{Besoins fonctionnels}
+Le développeur du BMC souhaite que cet outil soit accessible au plus large public possible. Dans ce sens, le système d'exploitation sur lequel travaille l'utilisateur ne devrait pas être un obstacle à l'utilisation du Braille Music Compiler.
 
-Nous décidons, dans un premier temps, de mettre en place une interface graphique sous Linux qui sera ensuite portée sous Windows.\\
+Nous décidons, dans un premier temps, de mettre en place une interface graphique sous Linux qui sera ensuite portée sous Windows.
  
 Quelle que soit le système d'exploitation, la version finale de l'interface graphique devra pouvoir réaliser les actions suivantes, classées par ordre de priorité : \\
 
@@ -21,7 +20,8 @@ Quelle que soit le système d'exploitation, la version finale de l'interface gra
   \item \textbf{Ouvrir un fichier :} affichage sur le programme principal du contenu d'un fichier écrit en braille musical sélectionné via une fenêtre de sélection.\\
   \item \textbf{Enregistrer un fichier :} enregistrement sur le disque dur du fichier ouvert en écrasant sa copie existante (se trouvant au même emplacement).\\
   \item \textbf{Fermer l'application :} fermeture du fichier ouvert en demandant la confirmation de sauvegarde des modifications éventuelles.\\
-  \item \textbf{Éditer un fichier braille :} ce point regroupe toutes les fonctionnalités habituellement proposées par un éditeur de texte comme les actions de copier, coller, couper un partie du texte ainsi que les actions de sélection de lignes et paragraphes.\\
+  \item \textbf{Éditer un fichier braille :} ce point regroupe toutes les fonctionnalités habituellement proposées par un éditeur de texte comme les actions de copier, coller, couper un partie du texte ainsi que les actions de sélection de lignes et de paragraphes.\\
+
   \item \textbf{Écouter une sélection :} lecture des notes sélectionnées.\\
   \item \textbf{Colorer le texte braille :} coloration du texte afin de faciliter à la personne voyante (collaborant avec un non-voyant) de se repérer par rapport aux notes écrites en braille musical.\\
   \item \textbf{Afficher la note en cours :} déplacement du curseur au fur et à mesure que les notes sont jouées pour que l'utilisateur puisse savoir à quel son correspond quelle note.\\
@@ -29,14 +29,16 @@ Quelle que soit le système d'exploitation, la version finale de l'interface gra
   \item \textbf{Numéroter les mesures :} autre fonctionnalité pour faciliter la collaboration entre voyant et non-voyant, la numérotation des mesures permet à chacun de se repérer par rapport aux notes de l'autre.\\
 \end{itemize}
 
-\section{Besoins non-fonctionnels}
-En plus des besoins fonctionnels auxquels doit répondre le projet, ce dernier doit satisfaire les point suivants:\\
+En plus des besoins que doit satisfaire l'interface graphique, il faut aussi implémenter des modules d'export qui convertissent le langage abstrait renvoyé par le compilateur en des fichiers MIDI (sortie audio), musicXML ou lilypond. Ce point sera détaillé dans la section \textit{BMC}  .
+
+\subsection{Besoins non-fonctionnels}
+En surcroît des besoins fonctionnels auxquels doit répondre le projet, ce dernier doit satisfaire les point suivants:\\
 \begin{itemize}
-\item \textbf{Portabilité :} le code doit être écrit de façon à pouvoir en réutiliser la plus grande portion lors du portage sur d'autres systèmes d'exploitation.\\
-\item \textbf{L'extensibilité :} le délivrable doit répondre à ce critère car il est susceptible d'être modifié par M. Lang.\\
-\item \textbf{Autonomie :} l'utilisation du travail rendu ne devrait pas demander de mise en place lourde, et son installation doit être facile.\\
+\item \textbf{Portabilité :} le code doit être écrit de façon à pouvoir en réutiliser la plus grande portion possible lors du portage sur d'autres systèmes d'exploitation, notamment lors du portage sous windows.\\ 
+\item \textbf{L'extensibilité :} le délivrable est susceptible d'être modifié par M. Lang, ce critère doit donc être pris en compte afin de résister aux changements éventuels .\\
+\item \textbf{Autonomie :} l'utilisation du travail rendu, notamment l'interface graphique ne devrait pas nécessiter la mise en place d'installations lourdes, sa mise en oeuvre doit être facile et la plus intuitive posssible.\\
 \item \textbf{Modularité :} le code doit être réparti en modules, afin de garantir la possibilité de réutiliser le code par le client ainsi qu'une meilleure gestion des erreurs. De plus, l'injection de nouvelles classes ou méthodes dans le projet doit être le plus possible indépendante du code du client.\\
-\item \textbf{Documentation :} le code doit être documenté en anglais pour faciliter sa compréhension ainsi que sa réutilisation par le client.\\
+\item \textbf{Documentation :} le code doit être documenté en anglais pour faciliter sa compréhension par le client.\\
 
 \end{itemize}
 
