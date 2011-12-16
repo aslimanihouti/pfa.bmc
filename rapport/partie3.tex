@@ -1,13 +1,13 @@
 %% Travail effectué
-\section{BMC}
+\subsection{BMC}
 
 
 \textit{Braille music compiler} est un programme qui se veut de
-transformer un fichier écris en \textit{Braille Music} en un autre langage
+transformer un fichier écrit en \textit{Braille Music} en un autre langage
 utilisable par d'autres applications. La difficulté est que le langage
 \textit{Braille Music} possède beaucoup d'ambiguïtés, en effet par exemple
-pour connaitre la note exacte en cours, il est nécessaire de savoir
-quelles ont été les notes précédentes. À l'heure actuel le programme
+pour connaître la note exacte en cours, il est nécessaire de savoir
+quelles ont été les notes précédentes. \`A l'heure actuelle le programme
 arrive correctement à compiler le langage \textit{Braille Music} en un
 langage Abstrait qui lui ne possède aucune ambiguïté. Ce langage
 abstrait peut être converti en n'importe quels formats de musique. Par
@@ -27,7 +27,7 @@ Le schéma \ref{compiler} résume le fonctionement de BMC.
   \label{compiler}
 \end{figure}
 
-Notre travail est donc d'implémenter ses modules de convesion. Pour
+Notre travail est donc d'implémenter ces modules de conversion. Pour
 cela il est nécessaire de comprendre comment est conçu le langage
 Abstrait. Après la compilation du \textit{Braille Music}, l'ensemble des
 données sont stockées dans une structure nommée "score". Cette
@@ -64,11 +64,11 @@ Il est donc maintenant plus facile d'expliquer la structure
 \textit{score}. Un fichier de musique braille peut donc se diviser en
 plusieurs parties (parts). Chaque partie possède un ou plusieurs
 "staff". Un "staff" n'est autre que la portée, typiquement si le
-compositeur écris une partition de musique pour piano il y aura deux
+compositeur écrit une partition de musique pour piano il y aura deux
 portées. Chaque portée possède un nombre de mesures. Si la musique
 composée est polyphonique il y aura plusieurs voix ("voices"). Une
-voix est ensuite divisée en mesures partielles, ses mesures partielles
-peuvent de nouveau être divisées en voix ("partial\_voices") qui elles
+voix est ensuite divisée en mesures partielles, ces mesures partielles
+pouvant de nouveau être divisées en voix ("partial\_voices") qui elles
 sont divisées en un vecteur de \textit{sign}. Un sign pouvant être une
 note, un repos, une barre ... La figure \ref{musicexe} représente sur
 une partition de musique ses différents termes.
@@ -80,7 +80,7 @@ une partition de musique ses différents termes.
   \label{musicexe}
 \end{figure}
 
-Avant de se mettre à faire la conversion du langage abstrait vers un format de musique conventionel nous avons d'abord créé les classes de base que nous devrons utiliser pour effectuer les différentes conversions. On procède à un affichage sur le terminal dans un premier temps.
+Avant de se mettre à faire la conversion du langage abstrait vers un format de musique conventionel nous avons d'abord créé les classes de base que nous devrons utiliser pour effectuer les différentes conversions. On procède dans un premier temps à un affichage sur le terminal.
 
 \begin{verbatim}
 ./bmc < input/bwv988-v30.bmc 
@@ -91,7 +91,7 @@ Avant de se mettre à faire la conversion du langage abstrait vers un format de 
  r1/4  r1/8 D 6 >  G 5 A 5 B 5 C 6 D 6 C 6 B 5 A 5 D 6 >  G 5 G 5 A 5 A 5 > 
 \end{verbatim}
 
-\section{Interface graphique}
+\subsection{Interface graphique}
 
 L'un des critères essentiels de ce projet est l'accessibilité. Par
 conséquent, nous avons choisi d'utiliser la bibliothèque GTK+ pour
@@ -100,47 +100,97 @@ bibliothèque est compatible avec les lecteurs d'écran des systèmes
 linux.
 
 
-\subsection*{Apparence}
+\subsubsection*{Apparence}
 L'interface graphique est très classique: elle présente une barre de
 menu, une barre de raccourcis ainsi que les raccourcis naturels,
 encore en cours d'implémentation. La fenêtre se divise en deux
-parties: la premiere partie sert pour l'utilisateur malvoyant à éditer les partitions brailles. La
-deuxième partie sert à l'utilisateur voyant à avoir une partition
-classique.
+parties: la première sert pour l'utilisateur malvoyant à éditer les
+partitions brailles. La seconde est destinée à afficher les partitions
+classiques avec les notes resultant de la conversion des partitions
+brailles.  La figure~\ref{interface} présente l'apparence de la fenêtre sous le
+système d'exploitation Ubuntu
 
 \begin{center}
 \begin{figure}[hbtp]
   \includegraphics[width=1\textwidth]{images/linux_gui.png}
-  \caption{Apparence de la fenêtre graphique}
+  \caption{Apparence de l'interface graphique}
+  \label{interface}
 \end{figure}
 \end{center}
 
-
-
-\subsection*{Fonctionnalités}
+\subsubsection*{Fonctionnalités}
 Le prototype réalisé comporte tous les fonctionnalités de base d'un
 éditeur de texte. Il permet de créer un nouveau fichier, d'ouvrir un
 fichier, d'enregistrer un fichier et d'enregistrer le fichier courant
 sous un autre nom. Il permet aussi d'éditer les textes avec les outils
 classiques comme copier, couper, coller, séléctionner du texte.
-\\ Non seulement, toutes ces fonctions sont accessible depuis la barre
-de menu et/ou la barre d'outils, elles sont également toutes associées
+\\ Non seulement toutes ces fonctions sont accessible depuis la barre
+de menu et/ou la barre d'outils, mais elles sont également toutes associées
 à des raccourci clavier. Les raccourcis utilisés sont très
 classiques. Par exemple, Ctrl+O pour ouvrir, Ctrl+C pour copier et
 Ctrl+V pour coller.
-\\ Le prototype possède aussi une procedure de
+\\ Le prototype possède aussi une procédure de
 sécurité qui consiste à vérifier si le fichier en cours d'édition est
 sauvegardé ou non et propose à l'utilisateur d'enregistrer son
 fichier lorsque l'utilisateur tente de créer un nouveau fichier,
 d'ouvrir un autre fichier ou encore de quitter le programme.
 
+\subsubsection*{Structure de l'interface graphique}
+L'interface graphique réalisée se base sur une structure centrale qui
+est \textit{BrailleMusicEditor}. Cette structure est de la forme
+suivante:
+\begin{verbatim}
+typedef struct
+{
+  GtkWidget *window;
+  GtkWidget *vbox; 
+  GtkWidget *hbox; 
+  GtkWidget *menubar;
+  GtkWidget *toolbar;
+  GtkWidget *scrollbar;
+  GtkWidget *scrollbar2;
+  GtkWidget *textview;
+  GtkWidget *rightview;
+  gchar *filename;
+} BrailleMusicEditor;
+\end{verbatim}
 
-\subsection{Programmation évenementielle}
+La fenêtre obtenue est le résultat d'emboîtements des composantes
+(\textit{GtkWidget}) présentes dans cette structure.  La composante
+principale est le \textit{window}, elle contient le \textit{vbox} qui
+est un conteneur permettant de stocker une séquences de composantes de
+manière verticale. Dans le prototype réalisé , ce conteneur contient,
+dans l'ordre, les composants suivants:
+\begin{itemize}
+\item \textit{menubar}: une barre de menu
+\item \textit{toolbar}: une barre d'outils
+\item \textit{hbox}: un conteneur horizontal
+\end{itemize}
+Le conteneur horizontal contient les deux barres de défilement,
+\textit{scrollbar} et \textit{scrollbar2}, qui contienent elles-mêmes
+chacune une composante de visualisation et d'édition de texte,
+\textit{textview} et \textit{rightview}.  Un schéma illustratif est
+représenté sur la figure~\ref{structure}.
 
-La programmation événementielle est la base de tout programme interactif.
-Il fonctionne sur le principe $action \rightarrow reaction$. L'exemple 
-immédiat est le clic sur un bouton (\textit{action}) qui déclenche (\textit{réaction}) 
-l'appel à une fonction, dite \textit{CALLBACK}.
+La liaison entre ces composantes et leurs
+fonctions s'effectue grâce à la programmation événementielle. 
+
+\begin{center}
+\begin{figure}[hbtp]
+  \includegraphics[width=1\textwidth]{images/structure.png}
+  \caption{Structure de l'interface graphique}
+  \label{structure}
+\end{figure}
+\end{center}
+
+
+\subsubsection*{Programmation événementielle}
+
+La programmation événementielle est la base de tout programme
+interactif.  Il fonctionne sur le principe $action \rightarrow
+reaction$. L'exemple immédiat est le clic sur un bouton
+(\textit{action}) qui déclenche (\textit{réaction}) l'appel à une
+fonction, dite \textit{CALLBACK}.
 
 GTK+ gère lui-même ces différentes actions (signaux) pour tous les widgets.
 Ceux-ci captent l'action de l'utilisateur (\textit{e.g} le clic), émettent 
@@ -159,13 +209,11 @@ où
 \item $func$ est la fonction \textit{CALLBACK} (\textit{e.g} $G\_CALLBACK(gtk\_main\_quit)$) ;
 \item $func\_data$ est un paramètre donné à $func$.
 \end{itemize}
-
-
 Une autre méthode permet d'associer le clic d'un bouton à une action.
 Dans le cadre d'une boîte de dialogue proposant plusieurs choix (\textit{e.g} : Voulez-vous 
 sauvegarder avant de quitter ?), la création de ce $dialog$ permet au développeur de décrire son 
-fonctionnement. Suite à la création d'un nouveau widget $dialog$, contenant les boutons OUI et NON 
-$GTK\_BUTTONS\_YES\_NO$, il suffit de lancer ce widget et stocker sa valeur de retour dans une variable :
+fonctionnement. Suite à la création d'un nouveau widget $dialog$ contenant les boutons OUI et NON (opération simplifiée 
+par l'utilisation de la variable $GTK\_BUTTONS\_YES\_NO$), il suffit de lancer ce widget et stocker sa valeur de retour dans une variable :
 \begin{verbatim}
 	gint resp=gtk_dialog_run (GTK_DIALOG (dialog));
 \end{verbatim}
@@ -180,23 +228,23 @@ Il ne reste plus qu'à dissocier :
 
 
 
-\section{Bibliotèque BOOST}
+\subsection{Bibliotèque BOOST}
 
-Lors de notre analyse du langage abstrait et ce en scrutant de plus près le code source du \textit{Braille Music Compiler} nous étions amenés à étudier la bibliothèque BOOST  qui est un ensemble de bibliothèques C++ gratuites et portables. BOOST est très riche et fournit un large choix de bibliothèques, mais nous ne préciserons que celles utilisées pour le stockage de la musique sous forme de langage abstrait.
+Lors de notre analyse du langage abstrait et ce en scrutant de plus près le code source du \textit{Braille Music Compiler} nous étions amenés à étudier la bibliothèque BOOST  qui est un ensemble de bibliothèques \textit{C++} gratuites et portables. BOOST est très riche et fournit un large choix de bibliothèques, mais nous ne préciserons que celles utilisées pour le stockage de la musique sous forme de langage abstrait.
 
 
-\subsection*{Boost.Variant}
+\subsubsection*{Boost.variant}
 
-Le Boost.Variant est une sorte de type \textit{somme}. Il s'agit en fait de décomposer un type donné en plusieurs sous-types. Une instance de ce type donné peut être obtenue par une valeur de ses sous-types, mais pas deux types à la fois. Ce qui peut être assimilé à une \textit{union}. Cependant, en \textit{C} et \textit{C++} le type \textit{union} ne permet pas de gérer des classes dès qu'elles ont un constructeur ce qui est rendu possible grâce au Boost.Variant en \textit{C++}.
+Le Boost.variant est une sorte de type \textit{somme}. Il s'agit en fait de décomposer un type donné en plusieurs sous-types. Une instance de ce type donné peut être obtenue par une valeur de ses sous-types, mais pas deux types à la fois, ce qui peut donc  être assimilé à une \textit{union}. Cependant, en \textit{C} et \textit{C++} le type \textit{union} ne permet pas de gérer des classes dès qu'elles ont un constructeur ce qui est rendu possible grâce au Boost.Variant en \textit{C++}.
 
-Donc contrairement à un \textit{std::vector} en C++ qui offre des éléments \textit{multi-valeur, type unique}, le \textit{boost::variant} offre des éléments \textit{multi-type, valeur unique}.
+Donc contrairement à un \textit{std::vector} en \textit{C++} qui offre des éléments \textit{multi-valeur, type unique}, le \textit{boost::variant} offre des éléments \textit{multi-type, valeur unique}.
 
 %Dans le cadre de notre projet, le boost variant nous permet de
 
-\subsection*{Boost.rational}
+\subsubsection*{Boost.rational}
 
-Le langage C++ offre plusieurs possibilités pour stocker des nombres, des entiers naturels aux réels et ce en les approximant par différents types : unsigned int, int, float... La bibliothèque boost.rational permet de représenter un nouveau groupe de nombres : les nombres rationnels.
+Le langage \textit{C++} offre plusieurs possibilités pour stocker des nombres, des entiers naturels aux réels et ce en les approximant par différents types : unsigned int, int, float... La bibliothèque boost.rational permet de représenter un nouveau groupe de nombres : les nombres rationnels.
 
-Au niveau implémentation le type Boost.rational est constitué de deux nombres de type entier, qui représente le numérateur et le dénominateur. De cette façon, cela permet d'avoir une meilleure précision de calcul et de faciliter l'implémentation.
+Au niveau implémentation, le type Boost.rational est constitué de deux nombres de type entier, qui représente le numérateur et le dénominateur. De cette façon, cela permet d'avoir une meilleure précision de calcul et de faciliter l'implémentation.
 
 
