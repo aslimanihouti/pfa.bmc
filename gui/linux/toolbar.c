@@ -6,7 +6,7 @@
 #include "edit.h"
 #include "window.h"
 #include "color.h"
-
+#include "player.h"
 
 /**
  * \file toolbar.c
@@ -22,72 +22,80 @@
 
 void create_toolbar(BrailleMusicEditor *editor)
 {	
-	editor->toolbar=gtk_toolbar_new();
+    editor->toolbar=gtk_toolbar_new();
 	
-	/* Addition of buttons in the toolbar */
+    /* Addition of buttons in the toolbar */
+    GtkToolItem *new, *open, *save, *color, *sep, *cut, *copy, *paste, *sep1, *sep2, *play, *pause, *stop, *quit;
+    new = gtk_tool_button_new_from_stock(GTK_STOCK_NEW);
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), new, -1);
+    gtk_tool_item_set_tooltip_text(new, "Create a new file");
+    g_signal_connect(G_OBJECT(new),"clicked",G_CALLBACK(new_file),editor);
+   
+    open = gtk_tool_button_new_from_stock(GTK_STOCK_OPEN);
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), open, -1);
+    g_signal_connect(G_OBJECT(open),"clicked",G_CALLBACK(open_file),editor);
+    gtk_tool_item_set_tooltip_text(open, "Open a file");
 
-	GtkToolItem *new, *open, *save, *color, *sep, *cut, *copy, *paste, *sep1, *quit;
+    save = gtk_tool_button_new_from_stock(GTK_STOCK_SAVE);
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), save, -1);
+    gtk_tool_item_set_tooltip_text(save, "Save the current file");
+    g_signal_connect(G_OBJECT(save),"clicked",G_CALLBACK(save_file),editor);
+
+    sep = gtk_separator_tool_item_new();
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), sep, -1); 
+
+    cut = gtk_tool_button_new_from_stock(GTK_STOCK_CUT);
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), cut, -1);
+    gtk_tool_item_set_tooltip_text(cut, "Cut the selection");
+    g_signal_connect(G_OBJECT(cut),"clicked",G_CALLBACK(on_cut),editor);
+
+    copy = gtk_tool_button_new_from_stock(GTK_STOCK_COPY);
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), copy, -1);
+    gtk_tool_item_set_tooltip_text(copy, "Copy the selection");
+    g_signal_connect(G_OBJECT(copy),"clicked",G_CALLBACK(on_copy),editor);
+
+    paste = gtk_tool_button_new_from_stock(GTK_STOCK_PASTE);
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), paste, -1);
+    gtk_tool_item_set_tooltip_text(paste, "Paste the clipboard's content");
+    g_signal_connect(G_OBJECT(paste),"clicked",G_CALLBACK(on_paste),editor);
+
+    color = gtk_tool_button_new_from_stock(GTK_STOCK_COLOR_PICKER);
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), color, -1);
+    gtk_tool_item_set_tooltip_text(color, "Change text color");
+    g_signal_connect(G_OBJECT(color),"clicked",G_CALLBACK(change_color), editor);
 	
-	new = gtk_tool_button_new_from_stock(GTK_STOCK_NEW);
-	gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), new, -1);
-	gtk_tool_item_set_tooltip_text(new, "Create a new file");
-	g_signal_connect(G_OBJECT(new),"clicked",G_CALLBACK(new_file),editor);
+    sep1 = gtk_separator_tool_item_new();
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), sep1, -1); 
+
+    play = gtk_tool_button_new_from_stock(GTK_STOCK_MEDIA_PLAY);
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), play, -1);
+    gtk_tool_item_set_tooltip_text(play, "Play");
+    g_signal_connect(G_OBJECT(play),"clicked",G_CALLBACK(bmc_play),NULL);
+
+    pause = gtk_tool_button_new_from_stock(GTK_STOCK_MEDIA_PAUSE);
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), pause, -1);
+    gtk_tool_item_set_tooltip_text(pause, "Pause");
+    g_signal_connect(G_OBJECT(pause),"clicked",G_CALLBACK(bmc_pause), NULL);
+    
+    
+    
+    sep2 = gtk_separator_tool_item_new();
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), sep2, -1); 
+
+    quit = gtk_tool_button_new_from_stock(GTK_STOCK_QUIT);
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), quit, -1);
+    g_signal_connect(G_OBJECT(quit), "clicked", G_CALLBACK(window_destroy), editor);
+    gtk_tool_item_set_tooltip_text(quit, "Quit");
 	
-	open = gtk_tool_button_new_from_stock(GTK_STOCK_OPEN);
-	gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), open, -1);
-	g_signal_connect(G_OBJECT(open),"clicked",G_CALLBACK(open_file),editor);
-	gtk_tool_item_set_tooltip_text(open, "Open a file");
-
-	save = gtk_tool_button_new_from_stock(GTK_STOCK_SAVE);
-	gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), save, -1);
-	gtk_tool_item_set_tooltip_text(save, "Save the current file");
-	g_signal_connect(G_OBJECT(save),"clicked",G_CALLBACK(save_file),editor);
-
-	sep = gtk_separator_tool_item_new();
-	gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), sep, -1); 
-
-	cut = gtk_tool_button_new_from_stock(GTK_STOCK_CUT);
-	gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), cut, -1);
-	gtk_tool_item_set_tooltip_text(cut, "Cut the selection");
-	g_signal_connect(G_OBJECT(cut),"clicked",G_CALLBACK(on_cut),editor);
-
-	copy = gtk_tool_button_new_from_stock(GTK_STOCK_COPY);
-	gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), copy, -1);
-	gtk_tool_item_set_tooltip_text(copy, "Copy the selection");
-	g_signal_connect(G_OBJECT(copy),"clicked",G_CALLBACK(on_copy),editor);
-
-	paste = gtk_tool_button_new_from_stock(GTK_STOCK_PASTE);
-	gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), paste, -1);
-	gtk_tool_item_set_tooltip_text(paste, "Paste the clipboard's content");
-	g_signal_connect(G_OBJECT(paste),"clicked",G_CALLBACK(on_paste),editor);
-
-	color = gtk_tool_button_new_from_stock(GTK_STOCK_COLOR_PICKER);
-	gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), color, -1);
-	gtk_tool_item_set_tooltip_text(color, "Change text color");
-	g_signal_connect(G_OBJECT(color),"clicked",G_CALLBACK(change_color), editor);
+    // Settings of the icons' size 
+    gtk_toolbar_set_icon_size(GTK_TOOLBAR(editor->toolbar),
+			      GTK_ICON_SIZE_LARGE_TOOLBAR);
+    // Only show icons 
+    gtk_toolbar_set_style(GTK_TOOLBAR(editor->toolbar),
+			  GTK_TOOLBAR_ICONS);
 	
-
-	sep1 = gtk_separator_tool_item_new();
-	gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), sep1, -1); 
-
-
-
-	quit = gtk_tool_button_new_from_stock(GTK_STOCK_QUIT);
-	gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), quit, -1);
-	g_signal_connect(G_OBJECT(quit), "clicked", 
-	                 G_CALLBACK(window_destroy), editor);
-	gtk_tool_item_set_tooltip_text(quit, "Quit");
-
-	
-	/* Settings of the icons' size */
-	gtk_toolbar_set_icon_size(GTK_TOOLBAR(editor->toolbar),
-	                          GTK_ICON_SIZE_LARGE_TOOLBAR);
-	/* Only show icons */
-	gtk_toolbar_set_style(GTK_TOOLBAR(editor->toolbar),
-	                      GTK_TOOLBAR_ICONS);
-	
-	/*Settings of the toolbar's orientation */
-	gtk_toolbar_set_orientation(GTK_TOOLBAR(editor->toolbar),GTK_ORIENTATION_HORIZONTAL);
+    //Settings of the toolbar's orientation 
+    gtk_toolbar_set_orientation(GTK_TOOLBAR(editor->toolbar),GTK_ORIENTATION_HORIZONTAL);
    
 
 }

@@ -20,17 +20,17 @@
 
 typedef struct
 {
-  GtkWidget *window; /*!< A pointer to the window.*/
-  GtkWidget *vbox; /*!< A pointer to the container that organizes all its widgets vertically.*/
-  GtkWidget *hbox; /*!< A pointer to the container that organizes all its widgets horizontally/*/
-  GtkWidget *menubar;/*!< A pointer to the menubar.*/
-  GtkWidget *toolbar;/*! A pointer to the toolbar (with all the shortcuts).*/
-  GtkWidget *scrollbar;/*!< A pointer to the editing scrollbar.*/
-  GtkWidget *scrollbar2;/*!< A pointer to the partiture scrollbar.*/
-  GtkWidget *textview;/*!< A pointer to the text view (the editing part of the window).*/
-  GtkWidget *rightview;/*!< A pointer to the partiture view (the right part of the window).*/ 
+    GtkWidget *window; /*!< A pointer to the window.*/
+    GtkWidget *vbox; /*!< A pointer to the container that organizes all its widgets vertically.*/
+    GtkWidget *hbox; /*!< A pointer to the container that organizes all its widgets horizontally/*/
+    GtkWidget *menubar;/*!< A pointer to the menubar.*/
+    GtkWidget *toolbar;/*! A pointer to the toolbar (with all the shortcuts).*/
+    GtkWidget *scrollbar;/*!< A pointer to the editing scrollbar.*/
+    GtkWidget *scrollbar2;/*!< A pointer to the partiture scrollbar.*/
+    GtkWidget *textview;/*!< A pointer to the text view (the editing part of the window).*/
+    GtkWidget *rightview;/*!< A pointer to the partiture view (the right part of the window).*/ 
 
-  gchar     *filename;/*!< A pointer to the name of the opened file.*/ 
+    gchar     *filename;/*!< A pointer to the name of the opened file.*/ 
 } BrailleMusicEditor;
 
 #endif

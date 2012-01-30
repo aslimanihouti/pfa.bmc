@@ -1,4 +1,6 @@
 GTKFLAGS = `pkg-config --libs --cflags gtk+-2.0`
+LDFLAGS = -lSDL_mixer -lSDL
+CFLAGS = -Wall -ggdb
 CC= gcc
 
 SRCLINUX = $(wildcard *.c)
@@ -11,10 +13,10 @@ LINUX_EXEC = linux_gui
 all:linux_gui
 
 linux_gui:$(OBJLINUX)
-	$(CC) $(CFLAGS) $^ -o $@ $(GTKFLAGS)
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS) $(GTKFLAGS) 
 
 %.o:%.c
-	$(CC) $(CFLAGS) -c $< -o $@ $(GTKFLAGS)
+	$(CC) $(CFLAGS) -c $< -o $@ $(LDFLAGS) $(GTKFLAGS)
 
 clean: 
 	rm $(OBJLINUX)
