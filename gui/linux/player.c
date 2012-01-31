@@ -1,8 +1,14 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 #include <pthread.h>
+#include <gtk/gtk.h>
+#include "player.h"
 
 #define MUSIC_FILE "music.mid"
+
+//Mix_Music holds the music information.
+static Mix_Music* myMus=NULL;
+
 
 /**
  * \file player.c
@@ -12,34 +18,13 @@
 
 
 /**
- * \fn Mix_Music *create_mix_music(char *music_file)
- * \brief This function creates and initialize an instance of Mix_Music with the name of the music file. 
- * \param music_file the name of music file.
- */
-
-/**
- * \fn void free_mix_music(Mix_Music *myMus)
- * \brief This function delete an instance of Mix_Music. 
- * \param myMus a pointer to the instance to delete.
- */
-
-
-void free_mix_music(Mix_Music *myMus)
-{
-    Mix_FreeMusic(myMus);
-    Mix_CloseAudio();
-}
-
-/**
  * \fn void *bmc_play_(void *)
  * \brief This function plays the music contained in an instance of Mix_Music. 
  */
 
 void *bmc_play_(void *v)
 {   
-    //Mix_Music holds the music information.
-    Mix_Music* myMus;
-
+    
     // initialize thz sound
     SDL_Init(SDL_INIT_AUDIO);
     
@@ -59,7 +44,7 @@ void *bmc_play_(void *v)
 	//While th music isn't finshed, we do something otherwise the programme exits and stops playing 
 	SDL_Delay(10);
     }
-    free_mix_music(myMus);
+    //free_mix_music();
     return NULL;
 }
 
@@ -70,8 +55,13 @@ void *bmc_play_(void *v)
 
 void bmc_play()
 {   
-    pthread_t t;
-    pthread_create(&t,NULL, bmc_play_, NULL);
+    if(!Mix_PlayingMusic()) {
+	pthread_t t;
+	pthread_create(&t,NULL, bmc_play_, NULL);
+    }
+    else {
+	bmc_resume();
+    }
 }
 
 
@@ -96,4 +86,28 @@ void bmc_resume()
 {
     if(Mix_PausedMusic())
 	Mix_ResumeMusic();
+}
+
+/**
+ * \fn void bmc_stop()
+ * \brief This function stop the music. 
+ */
+
+void bmc_stop()
+{
+    if(myMus!=NULL && (Mix_PausedMusic() || Mix_PlayingMusic()))
+	free_mix_music();
+}
+
+/**
+ * \fn void free_mix_music(Mix_Music *myMus)
+ * \brief This function delete the instance of Mix_Music which is created by bmc_play_(). 
+ */
+
+
+void free_mix_music()
+{
+    Mix_FreeMusic(myMus);
+    myMus=NULL;
+    Mix_CloseAudio();
 }

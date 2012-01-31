@@ -77,6 +77,10 @@ void create_toolbar(BrailleMusicEditor *editor)
     gtk_tool_item_set_tooltip_text(pause, "Pause");
     g_signal_connect(G_OBJECT(pause),"clicked",G_CALLBACK(bmc_pause), NULL);
     
+    stop = gtk_tool_button_new_from_stock(GTK_STOCK_MEDIA_STOP);
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), stop, -1);
+    gtk_tool_item_set_tooltip_text(stop, "Stop");
+    g_signal_connect(G_OBJECT(stop),"clicked",G_CALLBACK(bmc_stop), NULL);
     
     
     sep2 = gtk_separator_tool_item_new();
