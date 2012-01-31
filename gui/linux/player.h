@@ -6,8 +6,11 @@
  * \author Team BMC editor 
  */
 
+void free_mix_music(Mix_Music *myMus);
 
-void bmc_play(char *music_file);
+void *bmc_play_(void *);
+
+void bmc_play();
 
 void bmc_pause();
 

@@ -1,5 +1,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
+#include <pthread.h>
 
 #define MUSIC_FILE "music.mid"
 
@@ -23,7 +24,6 @@
  */
 
 
-
 void free_mix_music(Mix_Music *myMus)
 {
     Mix_FreeMusic(myMus);
@@ -31,12 +31,11 @@ void free_mix_music(Mix_Music *myMus)
 }
 
 /**
- * \fn void play(Mix_Music *myMus)
- * \brief This function play the music contained in an instance of Mix_Music. 
- * \param myMus a pointer to the instance of Mix_Music.
+ * \fn void *bmc_play_(void *)
+ * \brief This function plays the music contained in an instance of Mix_Music. 
  */
 
-void bmc_play()
+void *bmc_play_(void *v)
 {   
     //Mix_Music holds the music information.
     Mix_Music* myMus;
@@ -59,13 +58,26 @@ void bmc_play()
     while (Mix_PlayingMusic() == 1) {
 	//While th music isn't finshed, we do something otherwise the programme exits and stops playing 
 	SDL_Delay(10);
-	printf("dfddff\n");
     }
     free_mix_music(myMus);
+    return NULL;
 }
 
 /**
- * \fn void pause()
+ * \fn void bmc_play()
+ * \brief This function calls bmc_play_() in a new thread. 
+ */
+
+void bmc_play()
+{   
+    pthread_t t;
+    pthread_create(&t,NULL, bmc_play_, NULL);
+}
+
+
+
+/**
+ * \fn void bmc_pause()
  * \brief This function pauses the music. 
  */
 
@@ -76,7 +88,7 @@ void bmc_pause()
 }
 
 /**
- * \fn void resume()
+ * \fn void bmc_resume()
  * \brief This function resumes the paused music. 
  */
 
