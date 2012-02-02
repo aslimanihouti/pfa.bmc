@@ -44,7 +44,8 @@ void *bmc_play_(void *v)
 	//While th music isn't finshed, we do something otherwise the programme exits and stops playing 
 	SDL_Delay(10);
     }
-    //free_mix_music();
+    if(myMus != NULL)
+	free_mix_music();
     return NULL;
 }
 
@@ -110,4 +111,5 @@ void free_mix_music()
     Mix_FreeMusic(myMus);
     myMus=NULL;
     Mix_CloseAudio();
+    SDL_Quit();
 }

@@ -6,7 +6,7 @@
 #include "save.h"
 #include "edit.h"
 #include "window.h"
-
+#include "player.h"
 /**
  * \file menubar.c
  * \author Team BMC editor 
@@ -97,4 +97,25 @@ void create_menubar(BrailleMusicEditor *editor)
     gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),select_all);
     gtk_menu_shell_append(GTK_MENU_SHELL(editor->menubar), edit);
 
+    //creation of the player submenu
+    GtkWidget *playermenu = gtk_menu_new();
+    
+    //creation of the player submenu's items
+    GtkWidget *player = gtk_menu_item_new_with_mnemonic("_Player");
+    GtkWidget *play = gtk_image_menu_item_new_from_stock(GTK_STOCK_MEDIA_PLAY, accel_group);
+    g_signal_connect(G_OBJECT(play), "activate", G_CALLBACK(bmc_play), NULL);
+    //gtk_widget_add_accelerator(play, "activate", accel_group,GDK_p, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+    GtkWidget *pause = gtk_image_menu_item_new_from_stock(GTK_STOCK_MEDIA_PAUSE, accel_group);
+    g_signal_connect(G_OBJECT(pause), "activate", G_CALLBACK(pause), NULL);
+    //gtk_widget_add_accelerator(pause, "activate", accel_group,GDK_o, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+    GtkWidget *stop = gtk_image_menu_item_new_from_stock(GTK_STOCK_MEDIA_STOP,accel_group);
+    g_signal_connect(G_OBJECT(stop), "activate", G_CALLBACK(bmc_stop), NULL);
+    //gtk_widget_add_accelerator(save, "activate", accel_group,GDK_s, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);	
+    //addition of the player submenu's items in the menu 
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(player), playermenu);
+    gtk_menu_shell_append(GTK_MENU_SHELL(playermenu), play);
+    gtk_menu_shell_append(GTK_MENU_SHELL(playermenu), pause);
+    gtk_menu_shell_append(GTK_MENU_SHELL(playermenu), stop);
+
+    gtk_menu_shell_append(GTK_MENU_SHELL(editor->menubar), player);
 }
