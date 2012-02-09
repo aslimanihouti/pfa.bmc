@@ -20,16 +20,12 @@
 
 void create_window(const gchar* title, gint width , gint height, BrailleMusicEditor *editor)
 {
-	editor->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(editor->window), title);
-	gtk_window_set_default_size(GTK_WINDOW(editor->window), width, height);
-	gtk_window_set_position(GTK_WINDOW(editor->window), GTK_WIN_POS_CENTER);
-	
-	g_signal_connect(G_OBJECT(editor->window), "delete_event", G_CALLBACK(window_delete_event), editor);
-	g_signal_connect(G_OBJECT(editor->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
-
-	
-	
+    editor->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title(GTK_WINDOW(editor->window), title);
+    gtk_window_set_default_size(GTK_WINDOW(editor->window), width, height);
+    gtk_window_set_position(GTK_WINDOW(editor->window), GTK_WIN_POS_CENTER);	
+    g_signal_connect(G_OBJECT(editor->window), "delete_event", G_CALLBACK(window_delete_event), editor);
+    g_signal_connect(G_OBJECT(editor->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);	
 }
 
 /** 
@@ -41,15 +37,13 @@ void create_window(const gchar* title, gint width , gint height, BrailleMusicEdi
 
 void window_destroy (GtkWidget *widget, BrailleMusicEditor *editor)
 {
-	gint resp=check_for_save (editor);
-	if (resp == 1)
-		{
-			save_file(widget, editor);
-			gtk_main_quit();
-		}			
-	else if(resp == 0)
-		gtk_main_quit();
-  
+    gint resp=check_for_save (editor);
+    if (resp == 1){
+	save_file(widget, editor);
+	gtk_main_quit();
+    }			
+    else if(resp == 0)
+	gtk_main_quit();    
 }
 
 
@@ -69,13 +63,12 @@ void window_destroy (GtkWidget *widget, BrailleMusicEditor *editor)
  * \param editor The BrailleMusicEditor structure containing flags for save purposes.
  */
 gboolean window_delete_event (GtkWidget *widget, GdkEvent *event, 
-	                        BrailleMusicEditor *editor)
+			      BrailleMusicEditor *editor)
 {
-	gint resp=check_for_save (editor);
-	if (resp == 1)
-		save_file(widget, editor);
-	else if(resp == 2)
-		return TRUE;
-	
-	return FALSE; //propogate event to destroy window		
+    gint resp=check_for_save (editor);
+    if (resp == 1)
+	save_file(widget, editor);
+    else if(resp == 2)
+	return TRUE;	
+    return FALSE; //propogate event to destroy window		
 }

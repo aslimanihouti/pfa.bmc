@@ -14,12 +14,12 @@
  * 
  * This function will color the text in green. It still has to change to be able to color paterns so that the seing end user can see time signatures for example.
  */
-void change_color(GtkButton *widget, BrailleMusicEditor *editor){
-	
-	static int clik=0;
-	GdkColor color;
-	gdk_color_parse ("green", &color);
-	if(clik%2 == 0)
+void change_color(GtkButton *widget, BrailleMusicEditor *editor)
+{	
+    static int clik=0;
+    GdkColor color;
+    gdk_color_parse ("green", &color);
+    if(clik%2 == 0)
         gdk_color_parse ("green", &color);
     else
         gdk_color_parse ("black", &color);
