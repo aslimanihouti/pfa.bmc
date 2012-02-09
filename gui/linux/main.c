@@ -5,7 +5,7 @@
 #include "toolbar.h"
 #include "menubar.h"
 #include "color.h"
-
+#include "goto.h"
 /**
  * \file main.c
  * \author Team BMC editor 
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 	
 
     gtk_widget_grab_focus(editor->textview);
-
+        
     // show the window
     gtk_widget_show_all(editor->window);
 

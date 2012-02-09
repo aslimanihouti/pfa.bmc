@@ -7,6 +7,7 @@
 #include "edit.h"
 #include "window.h"
 #include "player.h"
+#include "goto.h"
 /**
  * \file menubar.c
  * \author Team BMC editor 
@@ -78,6 +79,13 @@ void create_menubar(BrailleMusicEditor *editor)
     GtkWidget *paste = gtk_image_menu_item_new_from_stock(GTK_STOCK_PASTE, accel_group);
     g_signal_connect(G_OBJECT(paste), "activate", G_CALLBACK(on_paste), editor);
     GtkWidget *sep3= gtk_separator_menu_item_new();
+    GtkWidget *next= gtk_image_menu_item_new_from_stock(GTK_STOCK_GO_FORWARD, accel_group);
+    g_signal_connect(G_OBJECT(next), "activate", G_CALLBACK(goto_next), editor);
+    gtk_widget_add_accelerator(next, "activate", accel_group,GDK_n, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);	
+    GtkWidget *prev = gtk_image_menu_item_new_from_stock(GTK_STOCK_GO_BACK, accel_group);
+    g_signal_connect(G_OBJECT(prev), "activate", G_CALLBACK(goto_prev), editor);
+    gtk_widget_add_accelerator(prev, "activate", accel_group,GDK_b, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);	
+    GtkWidget *sep4= gtk_separator_menu_item_new();
     GtkWidget *select_all = gtk_image_menu_item_new_from_stock(GTK_STOCK_SELECT_ALL, accel_group);
     g_signal_connect(G_OBJECT(select_all), "activate", G_CALLBACK(on_select_all), editor);
     gtk_widget_add_accelerator(select_all, "activate", accel_group,GDK_a, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
@@ -93,6 +101,9 @@ void create_menubar(BrailleMusicEditor *editor)
     gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),copy);
     gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),paste);
     gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),sep3);
+    gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),next);
+    gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),prev);
+    gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),sep4);
     //	gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),select);
     gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),select_all);
     gtk_menu_shell_append(GTK_MENU_SHELL(editor->menubar), edit);
