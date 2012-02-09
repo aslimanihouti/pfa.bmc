@@ -9,4 +9,8 @@ void goto_next(GtkWidget * widget, BrailleMusicEditor *editor);
 
 void goto_prev(GtkWidget * widget, BrailleMusicEditor *editor); 
 
+void goto_num(GtkWidget * widget, BrailleMusicEditor *editor); 
+
+void goto_num_(unsigned int n, GtkTextBuffer *buffer);
+
 #endif
