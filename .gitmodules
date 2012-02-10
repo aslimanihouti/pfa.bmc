@@ -1,0 +1,3 @@
+[submodule "bmc"]
+	path = bmc
+	url = git://github.com/mlang/bmc.git
