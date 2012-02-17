@@ -61,8 +61,8 @@ void create_toolbar(BrailleMusicEditor *editor)
 
     color = gtk_tool_button_new_from_stock(GTK_STOCK_COLOR_PICKER);
     gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), color, -1);
-    gtk_tool_item_set_tooltip_text(color, "Change text color");
-    g_signal_connect(G_OBJECT(color),"clicked",G_CALLBACK(change_color), editor);
+    gtk_tool_item_set_tooltip_text(color, "Syntax Highlighting");
+    g_signal_connect(G_OBJECT(color),"clicked",G_CALLBACK(syntax_highlighting), editor);
 	
     sep1 = gtk_separator_tool_item_new();
     gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), sep1, -1); 
