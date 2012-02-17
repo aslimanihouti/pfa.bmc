@@ -1,12 +1,6 @@
 #include <gtk/gtk.h> 
 #include "BrailleMusicEditor.h"
 #include "color.h"
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 /**
  * \file color.c
  * \author Team BMC editor 
@@ -47,12 +41,8 @@ void color_barline(BrailleMusicEditor *editor)
     GtkTextIter start_find, end_find;
     GtkTextIter start_match, end_match;
 
-    gchar bar_line[4];     
-    int fd = open("bar_line",O_RDONLY);
-    read(fd,bar_line,4);
-    close(fd);
-    
-     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)); 
+    gchar bar_line[4] ={0xE2,0xA0,0x87,0x0};
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)); 
     gtk_text_buffer_create_tag(buffer, "blue_fg", 
 			       "foreground", "blue", NULL); 
     
