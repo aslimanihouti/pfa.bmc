@@ -1,26 +1,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "BrailleMusicEditor.h"
 #include "goto.h"
-
-static gchar bar_line[4];   
-
-void load_braille_char() 
-{
-    static int loaded =0;
-    if(!loaded) {
-	int fd = open("bar_line",O_RDONLY);
-	read(fd,bar_line,4);
-	close(fd);
-	loaded = 1;
-    }
-}
 
 void goto_next_prev(GtkWidget * widget, BrailleMusicEditor *editor, char n_p) 
 {
@@ -28,8 +9,7 @@ void goto_next_prev(GtkWidget * widget, BrailleMusicEditor *editor, char n_p)
     GtkTextIter start_match, end_match;
     GtkTextMark *cursor;
     GtkTextBuffer * buffer; 
-    
-    load_braille_char();
+    gchar bar_line[4] ={0xE2,0xA0,0x87,0x0};
     
     // Get the textview buffer. 
     buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview));
@@ -117,11 +97,10 @@ void goto_num_(unsigned int n, GtkTextBuffer *buffer)
     GtkTextIter start_find, end_find;
     GtkTextIter start_match, end_match;
     unsigned int num = 0;
-    load_braille_char();
+    gchar bar_line[4] ={0xE2,0xA0,0x87,0x0};
     
     gtk_text_buffer_get_start_iter(buffer, &start_find);
     gtk_text_buffer_get_end_iter(buffer, &end_find);
-    
     
     while(num < n &&
 	  gtk_text_iter_forward_search(&start_find, bar_line, 
