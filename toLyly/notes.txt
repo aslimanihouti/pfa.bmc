@@ -1,0 +1,4 @@
+Mémento :
+
+. ambigous.hpp -> lié = slur
+. toText -> toLily
