@@ -35,65 +35,65 @@ private:
       switch(note.step)
 	{
 	case 0:
-	  std::wcout<< " C " ;
+	  std::wcout<< " c " ;
 	  break;
 	case 1:
-	  std::wcout<< " D " ;
+	  std::wcout<< " d " ;
 	  break;
 	case 2:
-	  std::wcout<< " E " ;
+	  std::wcout<< " e " ;
 	  break;
 	case 3:
-	  std::wcout<< " F " ;
+	  std::wcout<< " f " ;
 	  break;
 	case 4:
-	  std::wcout<< " G " ;
+	  std::wcout<< " g " ;
 	  break;
 	case 5:
-	  std::wcout<< " A " ;
+	  std::wcout<< " a " ;
 	  break;
 	case 6:
-	  std::wcout<< " B " ;
+	  std::wcout<< " b " ;
 	  break;
 	default:
 	  std::wcout<< " ? " ;
 	  break;
 	}
-      std::wcout << note.octave;
+    //   std::wcout << note.octave;
           
-      if(note.acc){
-	switch(*note.acc){
-	case 0:
-	  std::wcout << " Natural ";
-	  break;
-	case 1:
-	  std::wcout << " flat ";
-	  break;
-	case 2:
-	  std::wcout << " double_flat ";
-	  break;
-	case 3:
-	  std::wcout << " triple_flat ";
-	  break;
-	case 4:
-	  std::wcout << " sharp ";
-	  break;
-	case 5:
-	  std::wcout << " double_sharp ";
-	  break;
-	case 6:
-	  std::wcout << " triple_sharp ";
-	  break;
-	default:
-	  break;
-	}      
-	}
+    //   if(note.acc){
+    // 	switch(*note.acc){
+    // 	case 0:
+    // 	  std::wcout << " Natural ";
+    // 	  break;
+    // 	case 1:
+    // 	  std::wcout << " flat ";
+    // 	  break;
+    // 	case 2:
+    // 	  std::wcout << " double_flat ";
+    // 	  break;
+    // 	case 3:
+    // 	  std::wcout << " triple_flat ";
+    // 	  break;
+    // 	case 4:
+    // 	  std::wcout << " sharp ";
+    // 	  break;
+    // 	case 5:
+    // 	  std::wcout << " double_sharp ";
+    // 	  break;
+    // 	case 6:
+    // 	  std::wcout << " triple_sharp ";
+    // 	  break;
+    // 	default:
+    // 	  break;
+    // 	}      
+    // 	}
     }
    
     
     result_type
     operator()(braille::ambiguous::barline const& barline)const{
-      switch(barline)
+      /*  switch(barline)
 	{
 	case 0:
 	  std::wcout << " Begin Repeat " ;
@@ -104,15 +104,15 @@ private:
 	default:
 	  std::wcout << " Error barline ";
 
-	}
+	  }*/
     }
 
     result_type
     operator()(braille::ambiguous::rest const& rest)const{
-       if(rest.whole_measure)
+      if(rest.whole_measure)
 	std::wcout << " r1  " ;
       else
-      std::wcout << "  r" << rest.as_rational().numerator() << "/" << rest.as_rational().denominator() << "" ; 
+      std::wcout << "  r" <</* rest.as_rational().numerator() << "/" <<*/ rest.as_rational().denominator() << "" ;
     }
 
 
@@ -125,8 +125,7 @@ private:
 
   class toLily : public boost::static_visitor<void> {
     rational current_position;
-    // std::ofstream &ref_theFile;
-       std::ofstream ab;
+
   public:
     toLily(std::string);
     ~toLily();
