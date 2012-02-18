@@ -1,16 +1,27 @@
-#include "toText.hpp"
+#include "toLily.hpp"
 #include <thread>
 #include <boost/range/numeric.hpp>
-
-
+#include <fstream>
 
 namespace music{
-  toText::toText(){}
-  toText::~toText(){}
+  toLily::toLily(std::string fileName){
+    //std::ofstream ab(fileName.c_str(), std::ios::out | std::ios::trunc);
+    std::wcout << fileName.c_str() << std::endl;
+    //lylyfile = &ab;
+    // ab << "\\version \"2.11.44\"" << std::endl;
+    std::wcout << "constructeur ok" << std::endl;
+  }
+  toLily::~toLily(){
+    //ab.close();
+ }
 
 
   void
-  toText::operator()(braille::ambiguous::score const& score){
+  toLily::operator()(braille::ambiguous::score const& score){
+    //   
+   std::wcout << "open ok" << std::endl;
+   //ab << "\\version \"2.11.44\"" << std::endl;
+
     for(braille::ambiguous::part const& part: score.parts) {
       for(braille::ambiguous::staff const& staff: part)
 	{
@@ -20,12 +31,12 @@ namespace music{
 
 	}
     }
-
+    //    ab.close();
   }
 
 
   void
-  toText::operator()(braille::ambiguous::measure const& measure){
+  toLily::operator()(braille::ambiguous::measure const& measure){
     for(braille::ambiguous::voice const& voice: measure.voices) {
       for(braille::ambiguous::partial_measure const& partial_measure: voice) {
 	for(braille::ambiguous::partial_voice const& partial_voice: partial_measure) {

@@ -3,23 +3,29 @@
  *
  */
 
-
+#include <fstream>
 #include "ambiguous.hpp"
+#include <string>
+#include <iostream>
 //#include "midi.hpp"
 
 namespace music {
+  
 
 class text_performer : public boost::static_visitor<void>
 
-  {
-    int a ;
-    
+{
+
+private:
+  //  std::ofstream &theFile;
   public:
-    text_performer(int v){
-      a=v;
-    }
-    ~text_performer(){}
-    
+  int a;
+  text_performer(int v)//, std::ofstream &theFileB){
+  { a = v;
+    // theFile = theFileB;
+  }
+  ~text_performer(){}
+  
     
     //note management
     
@@ -117,17 +123,15 @@ class text_performer : public boost::static_visitor<void>
   };
 
 
-  class toText: public boost::static_visitor<void> {
+  class toLily : public boost::static_visitor<void> {
     rational current_position;
+    // std::ofstream &ref_theFile;
+       std::ofstream ab;
   public:
-    toText();
-    ~toText();
-
-
+    toLily(std::string);
+    ~toLily();
     void operator()(braille::ambiguous::score const&);
     void operator()(braille::ambiguous::measure const&);
-
-
   };
 
 
