@@ -11,6 +11,12 @@
 
 namespace music {
   
+  struct backend {
+    bool begin_repeat;
+    bool end_repeat;
+    
+  };
+
 
 class text_performer : public boost::static_visitor<void>
 
@@ -20,8 +26,11 @@ private:
   //  std::ofstream &theFile;
   public:
   int a;
-  text_performer(int v)//, std::ofstream &theFileB){
-  { a = v;
+  struct backend * data;
+  text_performer(int v,struct backend * _data)//, std::ofstream &theFileB){
+  { 
+    a = v;
+    data = _data;
     // theFile = theFileB;
   }
   ~text_performer(){}
@@ -93,18 +102,18 @@ private:
     
     result_type
     operator()(braille::ambiguous::barline const& barline)const{
-      /*  switch(barline)
+        switch(barline)
 	{
 	case 0:
-	  std::wcout << " Begin Repeat " ;
+	  data->end_repeat = true;
 	  break;
 	case 1:
-	  std::wcout << " End Repeat " ; 
+	  data->begin_repeat = true;
 	  break;
 	default:
 	  std::wcout << " Error barline ";
 
-	  }*/
+	  }
     }
 
     result_type
@@ -126,7 +135,10 @@ private:
   class toLily : public boost::static_visitor<void> {
     rational current_position;
 
+  private:
+    void remove_barline();
   public:
+    struct backend * data; 
     toLily(std::string);
     ~toLily();
     void operator()(braille::ambiguous::score const&);

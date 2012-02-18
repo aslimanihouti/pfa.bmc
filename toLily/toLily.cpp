@@ -2,24 +2,26 @@
 #include <thread>
 #include <boost/range/numeric.hpp>
 #include <fstream>
-
+#include "stdlib.h"
 namespace music{
   toLily::toLily(std::string fileName){
-    //std::ofstream ab(fileName.c_str(), std::ios::out | std::ios::trunc);
-    //    std::wcout << fileName.c_str() << std::endl;
-    //lylyfile = &ab;
-    // ab << "\\version \"2.11.44\"" << std::endl;
-    //    std::wcout << "constructeur ok" << std::endl;
+   
   }
   toLily::~toLily(){
-    //ab.close();
+    //free(data);
   }
 
-
+  void toLily::remove_barline(){
+    data->end_repeat = false;
+    data->begin_repeat = false;
+  }
   void
   toLily::operator()(braille::ambiguous::score const& score){
     //   
     //   std::wcout << "open ok" << std::endl;
+    data = new backend;
+    data->begin_repeat = false;
+    data->end_repeat = false;
 
    std::wcout << "\\version \"2.12.3\"" << std::endl;
    std::wcout << "\\score{" << std::endl;
@@ -31,8 +33,28 @@ namespace music{
 	  //std::wcout << "\\relative g{" << std::endl;
 //	  std::wcout <<  std::endl << std::endl << " Staff  " << std::endl << std::endl;
 	  current_position = zero;
-	  std::for_each(staff.begin(), staff.end(), boost::apply_visitor(*this));
-	  //	  std::wcout << "}" << std::endl;
+	  //	  std::for_each(staff.begin(), staff.end(), boost::apply_visitor(*this));
+	  //	  std::for_each(staff.begin(), staff.end(), boost::apply_visitor(*this));
+
+
+	  for (int i = 0; i < staff.size(); i ++){
+	    staff[i]();
+	    
+	    if(data->begin_repeat && data->end_repeat){
+	      std::wcout << ">> \\bar \":|:\" " << std::endl;
+	    }
+	    else if(data->begin_repeat){
+	      std::wcout << ">> \\bar \"|:\" " << std::endl;
+	    }
+	    else if(data->end_repeat){
+	      std::wcout << ">> \\bar \":|\"" << std::endl;
+	    }
+	    else {
+	      std::wcout << ">> |" << std::endl;
+	    }
+	    remove_barline();
+	    }
+  //	  std::wcout << "}" << std::endl;
 	}
     }
     	  std::wcout << "}}" << std::endl;
@@ -51,7 +73,8 @@ namespace music{
       //for(braille::ambiguous::partial_measure const& partial_measure: voice) {
       for(int i =0; i < measure.voices[j].size() ; i++){
 	for(braille::ambiguous::partial_voice const& partial_voice: (measure.voices[j])[i]) {
-	  text_performer perform(12);
+	      printf(" adresse text_performer %p",data);
+	  text_performer perform(12,data);
 	  std::for_each(partial_voice.begin(), partial_voice.end(),boost::apply_visitor(perform));
 	}
       }
@@ -60,8 +83,6 @@ namespace music{
 	std::wcout << "\\\\";    
       
     }
-    std::wcout << ">> |" << std::endl;
-    
   }
 }
 
