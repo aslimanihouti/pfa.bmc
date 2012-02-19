@@ -7,6 +7,7 @@
 #include "window.h"
 #include "color.h"
 #include "player.h"
+#include "compile.h"
 
 /**
  * \file toolbar.c
@@ -25,7 +26,7 @@ void create_toolbar(BrailleMusicEditor *editor)
     editor->toolbar=gtk_toolbar_new();
 	
     /* Addition of buttons in the toolbar */
-    GtkToolItem *new, *open, *save, *color, *sep, *cut, *copy, *paste, *sep1, *sep2, *play, *pause, *stop, *quit;
+    GtkToolItem *new, *open, *save, *color, *sep, *cut, *copy, *paste, *sep1, *sep2, *play, *pause, *stop, *quit, *comp;
     new = gtk_tool_button_new_from_stock(GTK_STOCK_NEW);
     gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), new, -1);
     gtk_tool_item_set_tooltip_text(new, "Create a new file");
@@ -90,6 +91,11 @@ void create_toolbar(BrailleMusicEditor *editor)
     gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), quit, -1);
     g_signal_connect(G_OBJECT(quit), "clicked", G_CALLBACK(window_destroy), editor);
     gtk_tool_item_set_tooltip_text(quit, "Quit");
+
+    comp = gtk_tool_button_new_from_stock(GTK_STOCK_EXECUTE);
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), comp, -1);
+    g_signal_connect(G_OBJECT(comp), "clicked", G_CALLBACK(compile), editor);
+    gtk_tool_item_set_tooltip_text(comp, "Compile");
 	
     // Settings of the icons' size 
     gtk_toolbar_set_icon_size(GTK_TOOLBAR(editor->toolbar),

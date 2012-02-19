@@ -101,7 +101,7 @@ gint check_for_save (BrailleMusicEditor *editor)
     //0 means no, 1 means yes, 2 means cancel 
     GtkTextBuffer *buffer;
         
-    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (editor->textview));
+    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW(editor->textview));
         
     if (gtk_text_buffer_get_modified (buffer) == TRUE){
 	// we need to prompt for save 

@@ -59,7 +59,7 @@ int main(int argc, char **argv)
         
     editor->error_scrollbar = gtk_scrolled_window_new(NULL, NULL);
     gtk_box_pack_start(GTK_BOX(editor->vbox),editor->error_scrollbar, FALSE, TRUE, 0);
-    gtk_widget_set_size_request (editor->error_scrollbar, -1, 60);
+    gtk_widget_set_size_request (editor->error_scrollbar, -1, 100);
     gtk_container_set_border_width(GTK_CONTAINER(editor->error_scrollbar), 5);
     editor->error_view = gtk_text_view_new();
     gtk_text_view_set_editable(GTK_TEXT_VIEW(editor->error_view), FALSE);
