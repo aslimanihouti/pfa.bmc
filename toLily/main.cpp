@@ -41,7 +41,7 @@ main()
     music::braille::compiler compile(error_handler);
     if (compile(score)) {
       //      std::wcout << source;
-      std::thread player(music::toLily(fileName), score);
+      std::thread player(music::toLily(), score);
 
       
       

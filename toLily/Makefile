@@ -43,3 +43,4 @@ brlsym.o: brlsym.hpp brlsym.cpp
 compiler.o: compiler.hpp disambiguate.hpp
 test.o: spirit/qi/primitive/brl.hpp
 toLily.o : toLily.hpp toLily.cpp
+#toText.o : toText.hpp toText.cpp
