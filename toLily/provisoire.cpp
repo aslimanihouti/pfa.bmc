@@ -93,7 +93,7 @@ switch (){
 
 switch (accidental){
  case natural :
-   std::wcout << "NATURAL "; // Rien ?
+   std::wcout << "NATURAL "; // Rien ?  "\key note \minor"  ?
    break;
  case flat:
    std::wcout << "es ";
