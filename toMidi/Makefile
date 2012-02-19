@@ -15,8 +15,8 @@ all: bmc
 install: brltr
 	/usr/bin/install -c -s brltr $(bindir)
 
-bmc: test main.o brlsym.o compiler.o score.o measure.o numbers.o music.o ttb/ttb.a fluidsynth.o toText.o
-	$(CXX) -o $@ main.o brlsym.o compiler.o score.o measure.o numbers.o music.o ttb/ttb.a fluidsynth.o toText.o -lpthread -licuuc -lfluidsynth
+bmc: main.o brlsym.o compiler.o score.o measure.o numbers.o music.o ttb/ttb.a fluidsynth.o toLily.o
+	$(CXX) -o $@ main.o brlsym.o compiler.o score.o measure.o numbers.o music.o ttb/ttb.a fluidsynth.o toLily.o -lpthread -licuuc -lfluidsynth
 
 test: $(TEST_OBJECTS) ttb/ttb.a
 	$(CXX) -o $@ $(TEST_OBJECTS) ttb/ttb.a  -ldl -lm   -L/usr/lib -licui18n -licuuc -licudata  -ldl -lm   
@@ -42,4 +42,5 @@ numbers.o: numbers.hpp numbers_def.hpp numbers.cpp
 brlsym.o: brlsym.hpp brlsym.cpp
 compiler.o: compiler.hpp disambiguate.hpp
 test.o: spirit/qi/primitive/brl.hpp
-toText.o : toText.hpp toText.cpp
+toLily.o : toLily.hpp toLily.cpp
+#toText.o : toText.hpp toText.cpp

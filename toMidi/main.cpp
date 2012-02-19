@@ -9,16 +9,18 @@
 #include "ambiguous.hpp"
 #include "compiler.hpp"
 #include "fluidsynth.hpp"
-#include "toText.hpp"
+#include "toLily.hpp"
 
 #include "score.hpp"
 #include <boost/spirit/include/qi_parse.hpp>
 #include "ttb/ttb.h"
 #include <thread>
+#include <string>
 
 int
 main()
 {
+  std::string fileName = "test.ly";
   std::locale::global(std::locale(""));
 
   textTable = compileTextTable("ttb/Tables/de.ttb");
@@ -38,8 +40,8 @@ main()
   if (success && iter == end) {
     music::braille::compiler compile(error_handler);
     if (compile(score)) {
-      std::wcout << source;
-      std::thread player(music::toText(), score);
+      //      std::wcout << source;
+      std::thread player(music::toLily(), score);
 
       
       
