@@ -45,7 +45,8 @@ namespace music{
 	  staff_count++;
 	  current_position = zero;
 
-	  for (int i = 0; i < staff.size(); i ++){
+	  //	  for (int i = 0; i < staff.size(); i ++){
+	  	  for (int i = 0; i < 5; i ++){
 	    remove_barline();
 	    scan=false;
 	    boost::apply_visitor(*this,staff[i]);
@@ -101,21 +102,25 @@ namespace music{
 	  for(int k = 0; k < (measure.voices[j])[i].size(); k++){
 	    // true if there is a new partial voices
 	    if( k < ((measure.voices[j])[i]).size()-1  && 1 != ((measure.voices[j])[i]).size() ){
+	      //if(1 != ((measure.voices[j])[i]).size()){
 	      std::wcout << "<<";
 	    }
 	    text_performer perform(data,false);
 	    for(int l = 0; l < (((measure.voices[j])[i])[k]).size() ; l++ ){
 	      struct backend * fakedata = new backend;
 	      boost::apply_visitor(text_performer(fakedata,true),(((measure.voices[j])[i])[k])[l]);
-	      if( fakedata->fakescan && k < ((measure.voices[j])[i]).size()-1  && 1 != ((measure.voices[j])[i]).size() ) {
+	      // if( fakedata->fakescan && k < ((measure.voices[j])[i]).size()-1  && 1 != ((measure.voices[j])[i]).size() ) {
+		if(fakedata->fakescan && 1 != ((measure.voices[j])[i]).size() ){
 		  std::wcout << "{";
 	      } 
 	      boost::apply_visitor(perform,(((measure.voices[j])[i])[k])[l]);
-	      if(fakedata->fakescan && k < ((measure.voices[j])[i]).size()-1  && 1 != ((measure.voices[j])[i]).size()){
+	      //if(fakedata->fakescan && k < ((measure.voices[j])[i]).size()-1  && 1 != ((measure.voices[j])[i]).size()){
+	      if(fakedata->fakescan && 1 != ((measure.voices[j])[i]).size() ){
 		std::wcout << "}";
 	      }
 	    }
-	    if( k < ((measure.voices[j])[i]).size()-1 && 1 != ((measure.voices[j])[i]).size() ){
+	    if( k == ((measure.voices[j])[i]).size()-1 && 1 != ((measure.voices[j])[i]).size() ){
+	      //if(1 != ((measure.voices[j])[i]).size() ){
 	      std::wcout << ">>";
 	    }
 	  }
