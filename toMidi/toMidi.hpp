@@ -11,15 +11,11 @@
 
 namespace music {
   
-  struct backend {
-    // Repeat
-    bool begin_repeat;
-    bool end_repeat;
-    // FakeScan
-    bool fakescan;
-    // Octave
-    int last_note_step;
-
+  struct score {
+    float t;
+    struct note;
+    struct score *previous;
+    struct score *next;
   };
 
 
@@ -288,17 +284,17 @@ private:
   };
 
 
-  class toLily : public boost::static_visitor<void> {
+  class toMidi : public boost::static_visitor<void> {
     rational current_position;
-
+    
   private:
     void remove_barline();
     /* If scan is true we will do something different */
     bool scan;
   public:
-    struct backend * data; 
-    toLily();
-    ~toLily();
+    struct score *song; 
+    toMidi();
+    ~toMidi();
     void operator()(braille::ambiguous::score const&);
     void operator()(braille::ambiguous::measure const&);
   };
