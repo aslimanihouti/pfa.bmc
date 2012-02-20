@@ -1,0 +1,25 @@
+Information on the exportation to lilypond
+
+We use two class :
+   - toLily
+   - text_performer
+
+The first class will go through the structure score and call methods
+of the other class.
+
+When we go through the structure score we sometimes have to know
+information on the measure ahead. In order to collect these
+information we will use a structur backend. We wil scan the measure
+ahead using text_performer which will take two arguments. The first
+one is the structure backend and the second one is a boolean which is set to
+true if we are scanning. We will use this tricks several times.
+
+In the operator()(braille::ambiguous::score const& score), we use this
+trick in order to know if the next measure have a begin repeat bar or not.
+
+In the operator()(braille::ambiguous::score const& measure), we use
+this trick in order to know if the next item is a note or a rest. (we
+will use here the same structure backend, and we call the variable
+"fake...", the name is maybe not appropriate and need to be change, it
+was the only variable name that make sense when I was writting the
+code)

@@ -1,0 +1,14 @@
+ -> Duration of note
+
+At the moment we do not implement the duration for the
+ note, if the duration is not standard, meaning 3/8 for example in
+ lilypond it will be traduce x8.
+
+-> Duration of measure
+
+ At the moment nothing is implemented, if the
+size of the measure is not standard the output of the pdf file is
+depending only on lilypond performance for measure duration. Sometimes
+lilypond do a good job, but sometimes not. 
+
+->
