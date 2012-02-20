@@ -15,16 +15,12 @@ namespace music{
   };
 
 class listMidi{
-private:
-  struct keyWithInfo *score;
+public:
+  std::list <keyWithInfo *> song;
   
 public:
   listMidi();
   ~listMidi();
-  void addKey(struct keyWithInfo *);
-  void removeKey();
-  void addListOfKeys(struct keyWithInfo *);
-  void debug();
 };
 }  
 #endif
