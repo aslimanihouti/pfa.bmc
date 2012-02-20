@@ -17,110 +17,52 @@ namespace music {
     bool end_repeat;
     // FakeScan
     bool fakescan;
+    int number_note;
     // Octave
     int last_note_step;
 
   };
 
 
-class text_performer : public boost::static_visitor<void>
+  class text_performer : public boost::static_visitor<void>
 
-{
+  {
 
-private:
+  private:
 
   public:
-  struct backend * data;
-  /* If scan is true we will do something different */
-  bool scan;
-  text_performer(struct backend * _data, bool _scan)//, std::ofstream &theFileB){
-  { 
-    scan = _scan;
-    data = _data;
-    data->fakescan = true;
-  }
-  ~text_performer(){}
-  
-    
+    struct backend * data;
+    /* If scan is true we will do something different */
+    bool scan;
+    text_performer(struct backend * _data, bool _scan)//, std::ofstream &theFileB){
+    { 
+      scan = _scan;
+      data = _data;
+      data->number_note = 0;
+    }
+    ~text_performer(){}
+
+    void add_articulation(enum articulation arti)const;
+    void add_note(enum diatonic_step d_step)const;
+    void add_accidental_lily(boost::optional<accidental> acci)const;
+    void add_octave_chord(int octave,std::string previous_octave)const;
+    void add_octave(int octave)const;
+    void add_duration(rational duration)const;
     //note management
     
     result_type 
     operator()(braille::ambiguous::note const& note)const{
-	
-
-      
+      data->fakescan = true;
+      data->number_note++;
       if(!scan){
-	
-	std::string s_octave = "";
-	if( (int) note.octave == 5){
-	  s_octave += "'";
+	add_note(note.step);
+	add_accidental_lily(note.acc);
+	int _octave = note.octave;
+	add_octave(_octave);
+	add_duration(note.as_rational());
+   	for(int i = 0; i < note.articulations.size();i++){
+	  add_articulation(note.articulations[i]);
 	}
-	else if( (int) note.octave == 6){
-	  s_octave += "''";
-	}
-	
-	else if ( (int) note.octave == 3){
-	  s_octave += ",";
-	}
-	
-     
-      
-      switch(note.step)
-	{
-	case 0:
-	  std::wcout<< " c" << s_octave.c_str()  << note.as_rational().denominator();
-	  break;
-	case 1:
-	  std::wcout<< " d" << s_octave.c_str() << note.as_rational().denominator();
-	  break;
-	case 2:
-	  std::wcout<< " e" << s_octave.c_str() << note.as_rational().denominator();
-	  break;
-	case 3:
-	  std::wcout<< " f" << s_octave.c_str() << note.as_rational().denominator();
-	  break;
-	case 4:
-	  std::wcout<< " g" << s_octave.c_str() << note.as_rational().denominator();
-	  break;
-	case 5:
-	  std::wcout<< " a" << s_octave.c_str() << note.as_rational().denominator();
-	  break;
-	case 6:
-	  std::wcout<< " b" << s_octave.c_str() << note.as_rational().denominator();
-	  break;
-	default:
-	  std::wcout<< " ?" ;
-	  break;
- 	}
-    //   std::wcout << note.octave;
-          
-    //   if(note.acc){
-    // 	switch(*note.acc){
-    // 	case 0:
-    // 	  std::wcout << " Natural ";
-    // 	  break;
-    // 	case 1:
-    // 	  std::wcout << " flat ";
-    // 	  break;
-    // 	case 2:
-    // 	  std::wcout << " double_flat ";
-    // 	  break;
-    // 	case 3:
-    // 	  std::wcout << " triple_flat ";
-    // 	  break;
-    // 	case 4:
-    // 	  std::wcout << " sharp ";
-    // 	  break;
-    // 	case 5:
-    // 	  std::wcout << " double_sharp ";
-    // 	  break;
-    // 	case 6:
-    // 	  std::wcout << " triple_sharp ";
-    // 	  break;
-    // 	default:
-    // 	  break;
-    // 	}      
-    // 	}
       }
       
     }
@@ -128,9 +70,9 @@ private:
     
     result_type
     operator()(braille::ambiguous::barline const& barline)const{
-        switch(barline)
+      switch(barline)
 	{
-	  	data->fakescan = false;
+	  data->fakescan = false;
 	case 0:
 	  if(scan)
 	    data->begin_repeat = true;
@@ -143,25 +85,28 @@ private:
 	  std::wcout << " Error barline ";
 
 	}
-	data->fakescan = false;
+
     }
 
     result_type
     operator()(braille::ambiguous::rest const& rest)const{
+      data->fakescan = true;
       if(!scan){
-      if(rest.whole_measure)
-	std::wcout << " r1  " ;
-      else
-      std::wcout << "  r" <</* rest.as_rational().numerator() << "/" <<*/ rest.as_rational().denominator() << "" ;
+       
+	if(rest.whole_measure)
+	  std::wcout << " r1  " ;
+	else
+	  std::wcout <<" r" <</* rest.as_rational().numerator() << "/" <<*/ rest.as_rational().denominator() << "" ;
       }
     }
   
-  result_type
-  operator()(braille::ambiguous::chord const& chord)const{
-    data->fakescan = false;
-    //std::wcout << "FDLKQJLDFKJQDSF" << (int) chord.base.step << (int) chord.intervals[0].steps  << std::endl;
-    if(!scan){
-      std::wcout << "<";
+    result_type
+    operator()(braille::ambiguous::chord const& chord)const{
+
+      
+      if(!scan){
+
+	std::wcout << "<";
       	std::string s_octave = "";
 	if( (int) chord.base.octave == 5){
 	  s_octave += "'";
@@ -175,87 +120,94 @@ private:
 	}
 	
       
-      switch(chord.base.step)
-	{
-	case 0:
-	  std::wcout<< " c" << s_octave.c_str(); 
-	  break;
-	case 1:
-	  std::wcout<< " d" << s_octave.c_str();
-	  break;
-	case 2:
-	  std::wcout<< " e" << s_octave.c_str();
-	  break;
-	case 3:
-	  std::wcout<< " f" << s_octave.c_str();
-	  break;
-	case 4:
-	  std::wcout<< " g" << s_octave.c_str();
-	  break;
-	case 5:
-	  std::wcout<< " a" << s_octave.c_str();
-	  break;
-	case 6:
-	  std::wcout<< " b" << s_octave.c_str() ;
-	  break;
-	default:
-	  std::wcout<< " ?" ;
-	  break;
- 
-	}
-      
-      for(int i = 0; i < chord.intervals.size(); i++){
-	
-	int _note = chord.intervals[i].steps;
-	std::string  s_octave2 = "";
-	if(_note - chord.base.step < 0){
-	  if(s_octave == ","){
-	    s_octave2 += "";
-	  }
-	  else if (s_octave == "'"){
-	    s_octave2 += "''";
-	  }
-	  else {
-	    s_octave2 = s_octave;
-	  }
-	}
-	
-	else {
-	  s_octave2 = s_octave;
-	}
-	
-	switch((chord.base.step+_note+1)%7)
+	switch(chord.base.step)
 	  {
-	    case 0:
-	      std::wcout<< " c" << s_octave2.c_str(); 
-	      break;
-	    case 1:
-	    std::wcout<< " d" << s_octave2.c_str();
+	  case 0:
+	    std::wcout<< " c" << s_octave.c_str(); 
 	    break;
-	    case 2:
-	    std::wcout<< " e" << s_octave2.c_str();
+	  case 1:
+	    std::wcout<< " d" << s_octave.c_str();
 	    break;
-	    case 3:
-	    std::wcout<< " f" << s_octave2.c_str();
+	  case 2:
+	    std::wcout<< " e" << s_octave.c_str();
 	    break;
-	    case 4:
-	    std::wcout<< " g" << s_octave2.c_str();
+	  case 3:
+	    std::wcout<< " f" << s_octave.c_str();
 	    break;
-	    case 5:
-	    std::wcout<< " a" << s_octave2.c_str();
+	  case 4:
+	    std::wcout<< " g" << s_octave.c_str();
 	    break;
-	    case 6:
-	    std::wcout<< " b" << s_octave2.c_str() ;
+	  case 5:
+	    std::wcout<< " a" << s_octave.c_str();
 	    break;
-	    default:
+	  case 6:
+	    std::wcout<< " b" << s_octave.c_str() ;
+	    break;
+	  default:
 	    std::wcout<< " ?" ;
 	    break;
  
 	  }
-      }
+      
+	for(int i = 0; i < chord.intervals.size(); i++){
+	 
+	  int _note = chord.intervals[i].steps;
+	  std::string  s_octave2 = "";
+	  int new_note = chord.base.step-_note;
+	  if(new_note < 0){
+	    if(s_octave == "''"){
+	      s_octave2 = "'";
+	    }
+	    else if (s_octave == "'"){
+	      s_octave2 = "";
+	    }
+	    else if (s_octave == ""){
+	      s_octave2 = ",";
+	    }
+	    else {
+	      s_octave2 = ",,";
+	    }
+	  }
+	
+	  else {
+	    s_octave2 = s_octave;
+	  }
+	  
+	  if(new_note<0){
+	    new_note = 7 + new_note;
+	  }
+	  switch((new_note)%7)
+	    {
+	    case 0:
+	      std::wcout<< " c" << s_octave2.c_str(); 
+	      break;
+	    case 1:
+	      std::wcout<< " d" << s_octave2.c_str();
+	      break;
+	    case 2:
+	      std::wcout<< " e" << s_octave2.c_str();
+	      break;
+	    case 3:
+	      std::wcout<< " f" << s_octave2.c_str();
+	      break;
+	    case 4:
+	      std::wcout<< " g" << s_octave2.c_str();
+	      break;
+	    case 5:
+	      std::wcout<< " a" << s_octave2.c_str();
+	      break;
+	    case 6:
+	      std::wcout<< " b" << s_octave2.c_str() ;
+	      break;
+	    default:
+	      std::wcout<< " ?" ;
+	      break;
+ 
+	    }
+	}
       std::wcout << ">" << chord.as_rational().denominator();
       
-      //    std::wcout << " %{CHORD}% " << std::endl;
+      
     }
   }
   
@@ -276,7 +228,7 @@ private:
   result_type
   operator()(braille::ambiguous::simile const& simile) const{
     if(!scan){
-      // std::wcout << " %{SIMILE}% " << std::endl ;
+      //std::wcout << " %{SIMILE}% " << std::endl ;
     }
   }
   

@@ -4,6 +4,208 @@
 #include <fstream>
 #include "stdlib.h"
 namespace music{
+
+void  text_performer::add_articulation(enum articulation arti)const{
+    switch (arti){    
+    case appoggiatura :
+      std::wcout << "\\appoggiatura ";  
+      break;
+ 
+    case short_appoggiatura :
+      std::wcout << "\\acciaccatura ";
+      break;
+
+    case short_trill :
+      std::wcout << "\\trill ";
+  
+      break;
+
+    case extended_short_trill :
+      std::wcout << "\\prallprall "; // \startTrillSpan   ->  \stopTrillSpan
+      break;
+   
+    case turn_between_notes :
+      std::wcout << "TURN_BETWEEN_NOTES ";
+      break;
+
+    case turn_above_or_below_note :
+      std::wcout << "\\turn ";  // C'est vraiment celui là ?
+      break;
+
+    case inverted_turn_between_notes :
+      std::wcout << "INVERTED_TURN_BETWEEN_NOTES  "; //  ???
+      break;
+
+    case  inverted_turn_above_or_below_note :
+      std::wcout << "INVERTED_TURN_ABOVE_OR_BELOW_NOTE  ";  //   ???
+      break;
+   
+    case staccato :
+      std::wcout << "-. ";
+      break;
+
+    case staccatissimo :
+      std::wcout << "-| ";
+      break;
+
+    case mezzo_staccato :
+      std::wcout << "-_ ";
+      break;
+   
+    case agogic_accent :
+      std::wcout << "AGOGIC_ACCENT  ";  // 4 types différents, lequel mettre ?
+      break;
+
+    case accent :
+      std::wcout << "-> ";
+      break;
+   
+    case mordent :
+      std::wcout << "\\mordent ";
+      break;
+   
+    case extended_mordent :
+      std::wcout << "EXTENDED_MORDENT  ";
+      break;
+   
+    case arpeggio_up:
+      std::wcout << "ARPEGGIO_UP  ";
+      break;
+
+    case  arpeggio_up_multi_staff :
+      std::wcout << "ARPEGGIO_UP_MULTI_STAFF ";
+      break;
+   
+    case arpeggio_down:
+      std::wcout << "ARPEGGIO_DOWN ";
+      break;
+    
+    case  arpeggio_down_multi_staff :
+      std::wcout << "  ";
+      break;
+   
+    default:
+      break;
+    }
+
+    
+  }
+
+
+  void text_performer::add_note(enum diatonic_step d_step)const{
+       
+	switch(d_step)
+	  {
+	  case 0:
+	    std::wcout<< " c";// << s_octave.c_str() << note.as_rational().numerator() << "/" << note.as_rational().denominator();
+	    break;
+	  case 1:
+	    std::wcout<< " d";// << s_octave.c_str() << note.as_rational().numerator() << "/" << note.as_rational().denominator();
+	    break;
+	  case 2:
+	    std::wcout<< " e";// << s_octave.c_str() << note.as_rational().numerator() << "/" <<note.as_rational().denominator();
+	    break;
+	  case 3:
+	    std::wcout<< " f";// << s_octave.c_str() << note.as_rational().numerator() << "/" <<note.as_rational().denominator();
+	    break;
+	  case 4:
+	    std::wcout<< " g";// << s_octave.c_str() << note.as_rational().numerator() << "/" <<note.as_rational().denominator();
+	    break;
+	  case 5:
+	    std::wcout<< " a";// << s_octave.c_str() << note.as_rational().numerator() << "/" <<note.as_rational().denominator();
+	    break;
+	  case 6:
+	    std::wcout<< " b";// << s_octave.c_str() << note.as_rational().numerator() << "/" << note.as_rational().denominator();
+	    break;
+	  default:
+	    std::wcout<< " ?";
+	    break;
+	  }
+
+  }
+  
+  void text_performer::add_accidental_lily(boost::optional<accidental> acci)const {
+    if(acci){
+    
+    switch (*acci){
+    case natural :
+      std::wcout << ""; // Rien ?  "\key note \minor"  ?
+      break;
+    case flat:
+      std::wcout << "es";
+      break;
+    case double_flat:
+      std::wcout << "eses";
+      break;
+    case triple_flat:
+    std::wcout << "TRIPLE_FLAT "; // seem to be not implemented in lilypond
+      break;
+    case sharp:
+      std::wcout << "is";
+      break;
+    case double_sharp:
+      std::wcout << "isis";
+      break;
+    case triple_sharp:
+      std::wcout << "TRIPLE_SHARP ";  // seem to be not implemented in lilypond
+      break;
+    default:
+      break;
+    }
+    }
+
+  }
+  
+  void text_performer::add_octave_chord(int octave,std::string previous_octave)const {
+
+  }
+  void text_performer::add_octave(int octave)const{
+	
+    std::string s_octave = "";
+    if(octave == 5){
+      s_octave += "'";
+    }
+    else if( octave == 6){
+      s_octave += "''";
+    }
+    else if( octave == 7){
+      s_octave += "'''";
+    }
+    else if (octave == 2){
+      s_octave += ",,";
+    }
+    else if (octave == 1){
+      s_octave += ",,,";
+    }
+    else if (octave == 0){
+      s_octave += ",,,,";
+    }
+    else if ( octave == 3){
+      s_octave += ",";
+    }
+    else if (octave == 4){
+      s_octave += "";
+    }
+    else {
+      std::wcout << "OCTAVE OUT OF BOUND" << std::endl;
+    }
+    std::wcout << s_octave.c_str();
+  }
+
+  void text_performer::add_duration(rational duration)const{
+    if(duration.numerator() == 1){
+     
+	std::wcout <<duration.denominator();
+     
+    }
+    else{
+     
+	std::wcout <<duration.denominator()/2 << ".";
+     
+    }
+  }
+
+
   
   toLily::toLily(){}
   toLily::~toLily(){
@@ -41,12 +243,12 @@ namespace music{
 
 
 	  }
-
+	  std::wcout << "\\partial 8"; 
 	  staff_count++;
 	  current_position = zero;
 
-	  //	  for (int i = 0; i < staff.size(); i ++){
-	  	  for (int i = 0; i < 5; i ++){
+	  	    for (int i = 0; i < staff.size(); i ++){
+	  //	    for (int i = 0; i < 9; i ++){
 	    remove_barline();
 	    scan=false;
 	    boost::apply_visitor(*this,staff[i]);
@@ -77,8 +279,10 @@ namespace music{
 	}
       std::wcout << "\n>>\n" << std::endl;
     }
+    std::wcout << "\\midi {} \n \\layout {}";
     std::wcout << "}" << std::endl;
-    std::wcout << "}" << std::endl;
+
+    //    std::wcout << "}" << std::endl;
   }
 
 
@@ -99,33 +303,48 @@ namespace music{
       for(int j = 0 ; j < measure.voices.size(); j++){
 	std::wcout << "{";
 	for(int i =0; i < measure.voices[j].size() ; i++){
+	  //	      std::wcout << " ( ";
 	  for(int k = 0; k < (measure.voices[j])[i].size(); k++){
+	    //   std::wcout << " [ ";
 	    // true if there is a new partial voices
-	    if( k < ((measure.voices[j])[i]).size()-1  && 1 != ((measure.voices[j])[i]).size() ){
+	    if( k == 0  && 1 != ((measure.voices[j])[i]).size() ){
 	      //if(1 != ((measure.voices[j])[i]).size()){
-	      std::wcout << "<<";
+	      std::wcout << " << ";
 	    }
 	    text_performer perform(data,false);
+	    bool first_note = true;
 	    for(int l = 0; l < (((measure.voices[j])[i])[k]).size() ; l++ ){
+	      // std::wcout << " |- ";
 	      struct backend * fakedata = new backend;
+	      fakedata->fakescan = false;
 	      boost::apply_visitor(text_performer(fakedata,true),(((measure.voices[j])[i])[k])[l]);
-	      // if( fakedata->fakescan && k < ((measure.voices[j])[i]).size()-1  && 1 != ((measure.voices[j])[i]).size() ) {
-		if(fakedata->fakescan && 1 != ((measure.voices[j])[i]).size() ){
+	      if(fakedata->fakescan && first_note && 1 != ((measure.voices[j])[i]).size() ){
 		  std::wcout << "{";
+		  first_note = false;
 	      } 
 	      boost::apply_visitor(perform,(((measure.voices[j])[i])[k])[l]);
-	      //if(fakedata->fakescan && k < ((measure.voices[j])[i]).size()-1  && 1 != ((measure.voices[j])[i]).size()){
-	      if(fakedata->fakescan && 1 != ((measure.voices[j])[i]).size() ){
-		std::wcout << "}";
+
+	      fakedata->fakescan = false;
+	      for(int m = l+1; m < (((measure.voices[j])[i])[k]).size() ; m++ ){
+		boost::apply_visitor(text_performer(fakedata,true),(((measure.voices[j])[i])[k])[m]);
 	      }
+	      if(!(fakedata->fakescan) && 1 != ((measure.voices[j])[i]).size()){
+		std::wcout << " }";
+		if( k!= ((measure.voices[j])[i]).size() -1)
+		  std::wcout << "\\\\";    
+	      }
+	      //std::wcout << " -| ";
 	    }
 	    if( k == ((measure.voices[j])[i]).size()-1 && 1 != ((measure.voices[j])[i]).size() ){
 	      //if(1 != ((measure.voices[j])[i]).size() ){
-	      std::wcout << ">>";
+	      std::wcout << " >> ";
 	    }
+	    //std::wcout << " ] ";
+	    
 	  }
+	  //  std::wcout << " ) ";
 	}
-	std::wcout << "}";
+	std::wcout << " }";
 	if(j!=measure.voices.size()-1)
 	  std::wcout << "\\\\";    
       }
