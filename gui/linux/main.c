@@ -1,11 +1,19 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
+#include <gtksourceview/gtksourceview.h>
 #include "BrailleMusicEditor.h"
 #include "window.h"
 #include "toolbar.h"
 #include "menubar.h"
 #include "color.h"
 #include "goto.h"
+
+void text_changed(GtkWidget *widget, BrailleMusicEditor *editor)
+{
+    editor->text_changed = TRUE;
+}
+
+
 /**
  * \file main.c
  * \author Team BMC editor 
@@ -17,7 +25,7 @@ int main(int argc, char **argv)
 
     // allocate the memory needed by our BrailleMusicEditor struct 
     editor = g_slice_new (BrailleMusicEditor);
-
+ 
     //initialize GTK+ libraries
     gtk_init(&argc, &argv);
 	
@@ -43,7 +51,10 @@ int main(int argc, char **argv)
     editor->edit_scrollbar = gtk_scrolled_window_new(NULL, NULL);
     gtk_box_pack_start(GTK_BOX(editor->hbox),editor->edit_scrollbar, TRUE, TRUE, 5);
 
-    editor->textview=gtk_text_view_new();
+    editor->textview=gtk_source_view_new(); 
+    //show line number
+    gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(editor->textview), TRUE);
+    g_signal_connect(gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)), "changed", G_CALLBACK(text_changed), editor);
     gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(editor->edit_scrollbar), editor->textview);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(editor->edit_scrollbar), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     
@@ -56,7 +67,8 @@ int main(int argc, char **argv)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(editor->score_scrollbar), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     
     gtk_widget_grab_focus(editor->textview);
-        
+    
+    //Creation of the message error views with scrollbar
     editor->error_scrollbar = gtk_scrolled_window_new(NULL, NULL);
     gtk_box_pack_start(GTK_BOX(editor->vbox),editor->error_scrollbar, FALSE, TRUE, 0);
     gtk_widget_set_size_request (editor->error_scrollbar, -1, 100);

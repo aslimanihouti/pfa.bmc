@@ -103,7 +103,7 @@ gint check_for_save (BrailleMusicEditor *editor)
         
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW(editor->textview));
         
-    if (gtk_text_buffer_get_modified (buffer) == TRUE){
+    if (editor->text_changed == TRUE){
 	// we need to prompt for save 
 	GtkWidget *dialog;
 	const gchar *msg  = "Do you want to save the changes you have made?";

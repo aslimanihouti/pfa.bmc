@@ -32,6 +32,7 @@ typedef struct
     GtkWidget *score_view;/*!< A pointer to the partiture view (the right part of the window).*/ 
     GtkWidget *error_view;/*!< A pointer to the error messages textview.*/ 
     gchar     *filename;/*!< A pointer to the name of the opened file.*/ 
+    gboolean  text_changed;/*!< A pointer which indicate if the opened file has been modified.*/ 
 } BrailleMusicEditor;
 
 #endif

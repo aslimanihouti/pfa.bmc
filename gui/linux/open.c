@@ -27,6 +27,7 @@ void open_file(GtkWidget *widget, BrailleMusicEditor *editor)
     }			
     else if(resp == 0)
 	open_file_(editor);
+    editor->text_changed = FALSE;
 }
 
 /**
