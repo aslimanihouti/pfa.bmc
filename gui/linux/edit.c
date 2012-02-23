@@ -9,6 +9,24 @@
  * edit menu callback 
  */
 
+
+/**
+ * \fn void on_undo(GtkWidget *widget, BrailleMusicEditor *editor)
+ */
+void on_undo(GtkWidget *widget, BrailleMusicEditor *editor)
+{
+    g_signal_emit_by_name(editor->textview, "undo", NULL);
+}
+
+/**
+ * \fn void on_redo(GtkWidget *widget, BrailleMusicEditor *editor)
+ */
+void on_redo(GtkWidget *widget, BrailleMusicEditor *editor)
+{
+    g_signal_emit_by_name(editor->textview, "redo", NULL);
+}
+
+
 /**
  * \fn void on_copy(GtkWidget *widget, BrailleMusicEditor *editor)
  */
@@ -59,4 +77,5 @@ void on_select_all(GtkWidget *widget, BrailleMusicEditor *editor)
 /* 	gtk_text_buffer_create_mark(buffer, "selection_bound", &iter_cursor, FALSE); */
 	
 /* } */
+
 

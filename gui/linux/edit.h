@@ -11,7 +11,8 @@
 /**
  * edit menu callback prototypes
  */
-
+void on_undo(GtkWidget *widget, BrailleMusicEditor *editor);
+void on_redo(GtkWidget *widget, BrailleMusicEditor *editor);
 void on_copy(GtkWidget *widget, BrailleMusicEditor *editor);
 void on_cut(GtkWidget *widget, BrailleMusicEditor *editor);
 void on_paste(GtkWidget *widget, BrailleMusicEditor *editor);

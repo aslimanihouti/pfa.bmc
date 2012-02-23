@@ -26,7 +26,7 @@ void create_toolbar(BrailleMusicEditor *editor)
     editor->toolbar=gtk_toolbar_new();
 	
     /* Addition of buttons in the toolbar */
-    GtkToolItem *new, *open, *save, *color, *sep, *cut, *copy, *paste, *sep1, *sep2, *play, *pause, *stop, *quit, *comp;
+    GtkToolItem *new, *open, *save, *color, *sep, *undo, *redo, *cut, *copy, *paste, *sep1, *sep2, *sep3, *play, *pause, *stop, *quit, *comp;
     new = gtk_tool_button_new_from_stock(GTK_STOCK_NEW);
     gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), new, -1);
     gtk_tool_item_set_tooltip_text(new, "Create a new file");
@@ -45,6 +45,16 @@ void create_toolbar(BrailleMusicEditor *editor)
     sep = gtk_separator_tool_item_new();
     gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), sep, -1); 
 
+    undo = gtk_tool_button_new_from_stock(GTK_STOCK_UNDO);
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), undo, -1);
+    gtk_tool_item_set_tooltip_text(undo, "Undo");
+    g_signal_connect(G_OBJECT(undo),"clicked",G_CALLBACK(on_undo),editor);
+
+    redo = gtk_tool_button_new_from_stock(GTK_STOCK_REDO);
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), redo, -1);
+    gtk_tool_item_set_tooltip_text(redo, "Redo");
+    g_signal_connect(G_OBJECT(redo),"clicked",G_CALLBACK(on_redo),editor);
+
     cut = gtk_tool_button_new_from_stock(GTK_STOCK_CUT);
     gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), cut, -1);
     gtk_tool_item_set_tooltip_text(cut, "Cut the selection");
@@ -53,6 +63,7 @@ void create_toolbar(BrailleMusicEditor *editor)
     copy = gtk_tool_button_new_from_stock(GTK_STOCK_COPY);
     gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), copy, -1);
     gtk_tool_item_set_tooltip_text(copy, "Copy the selection");
+    
     g_signal_connect(G_OBJECT(copy),"clicked",G_CALLBACK(on_copy),editor);
 
     paste = gtk_tool_button_new_from_stock(GTK_STOCK_PASTE);
@@ -67,6 +78,15 @@ void create_toolbar(BrailleMusicEditor *editor)
 	
     sep1 = gtk_separator_tool_item_new();
     gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), sep1, -1); 
+
+
+    comp = gtk_tool_button_new_from_stock(GTK_STOCK_EXECUTE);
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), comp, -1);
+    g_signal_connect(G_OBJECT(comp), "clicked", G_CALLBACK(compile), editor);
+    gtk_tool_item_set_tooltip_text(comp, "Compile");
+
+    sep2 = gtk_separator_tool_item_new();
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), sep2, -1); 
 
     play = gtk_tool_button_new_from_stock(GTK_STOCK_MEDIA_PLAY);
     gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), play, -1);
@@ -84,19 +104,15 @@ void create_toolbar(BrailleMusicEditor *editor)
     g_signal_connect(G_OBJECT(stop),"clicked",G_CALLBACK(bmc_stop), NULL);
     
     
-    sep2 = gtk_separator_tool_item_new();
-    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), sep2, -1); 
+    sep3 = gtk_separator_tool_item_new();
+    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), sep3, -1); 
 
     quit = gtk_tool_button_new_from_stock(GTK_STOCK_QUIT);
     gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), quit, -1);
     g_signal_connect(G_OBJECT(quit), "clicked", G_CALLBACK(window_destroy), editor);
     gtk_tool_item_set_tooltip_text(quit, "Quit");
 
-    comp = gtk_tool_button_new_from_stock(GTK_STOCK_EXECUTE);
-    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), comp, -1);
-    g_signal_connect(G_OBJECT(comp), "clicked", G_CALLBACK(compile), editor);
-    gtk_tool_item_set_tooltip_text(comp, "Compile");
-	
+    	
     // Settings of the icons' size 
     gtk_toolbar_set_icon_size(GTK_TOOLBAR(editor->toolbar),
 			      GTK_ICON_SIZE_LARGE_TOOLBAR);

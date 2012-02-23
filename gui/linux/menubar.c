@@ -8,6 +8,7 @@
 #include "window.h"
 #include "player.h"
 #include "goto.h"
+#include "compile.h"
 /**
  * \file menubar.c
  * \author Team BMC editor 
@@ -68,17 +69,20 @@ void create_menubar(BrailleMusicEditor *editor)
     //creation of the edit submenu's items
     GtkWidget *edit = gtk_menu_item_new_with_mnemonic("_Edit");
 	
-    //	GtkWidget *undo = gtk_image_menu_item_new_from_stock(GTK_STOCK_UNDO, accel_group);
-    //	g_signal_connect(G_OBJECT(undo), "activate", 
-    //               G_CALLBACK(), accel_group);
-    //gtk_widget_add_accelerator(undo, "activate", accel_group,GDK_z, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+    GtkWidget *undo = gtk_image_menu_item_new_from_stock(GTK_STOCK_UNDO, accel_group);
+    g_signal_connect(G_OBJECT(undo), "activate", G_CALLBACK(on_undo), editor);
+    gtk_widget_add_accelerator(undo, "activate", accel_group,GDK_z, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+    GtkWidget *redo = gtk_image_menu_item_new_from_stock(GTK_STOCK_REDO, accel_group);
+    g_signal_connect(G_OBJECT(redo), "activate", G_CALLBACK(on_redo), editor);
+    gtk_widget_add_accelerator(redo, "activate", accel_group,GDK_z, GDK_CONTROL_MASK | GDK_SHIFT_MASK, GTK_ACCEL_VISIBLE);
+    GtkWidget *sep3= gtk_separator_menu_item_new();
     GtkWidget *cut = gtk_image_menu_item_new_from_stock(GTK_STOCK_CUT, accel_group);
     g_signal_connect(G_OBJECT(cut), "activate", G_CALLBACK(on_cut), editor);
     GtkWidget *copy = gtk_image_menu_item_new_from_stock(GTK_STOCK_COPY, accel_group);
     g_signal_connect(G_OBJECT(copy), "activate", G_CALLBACK(on_copy), editor);
     GtkWidget *paste = gtk_image_menu_item_new_from_stock(GTK_STOCK_PASTE, accel_group);
     g_signal_connect(G_OBJECT(paste), "activate", G_CALLBACK(on_paste), editor);
-    GtkWidget *sep3= gtk_separator_menu_item_new();
+    GtkWidget *sep4= gtk_separator_menu_item_new();
     GtkWidget *next= gtk_image_menu_item_new_from_stock(GTK_STOCK_GO_FORWARD, accel_group);
     g_signal_connect(G_OBJECT(next), "activate", G_CALLBACK(goto_next), editor);
     gtk_widget_add_accelerator(next, "activate", accel_group,GDK_n, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);	
@@ -88,7 +92,7 @@ void create_menubar(BrailleMusicEditor *editor)
     GtkWidget *goto_n = gtk_image_menu_item_new_from_stock(GTK_STOCK_JUMP_TO, accel_group);
     g_signal_connect(G_OBJECT(goto_n), "activate", G_CALLBACK(goto_num), editor);
     gtk_widget_add_accelerator(goto_n, "activate", accel_group,GDK_g, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);	
-    GtkWidget *sep4= gtk_separator_menu_item_new();
+    GtkWidget *sep5= gtk_separator_menu_item_new();
     GtkWidget *select_all = gtk_image_menu_item_new_from_stock(GTK_STOCK_SELECT_ALL, accel_group);
     g_signal_connect(G_OBJECT(select_all), "activate", G_CALLBACK(on_select_all), editor);
     gtk_widget_add_accelerator(select_all, "activate", accel_group,GDK_a, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
@@ -100,17 +104,35 @@ void create_menubar(BrailleMusicEditor *editor)
 
     //addition of the edit submenu's items in the menu 
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(edit), editmenu);
+    gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),undo);
+    gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),redo);
+    gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),sep3);
     gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),cut);
     gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),copy);
     gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),paste);
-    gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),sep3);
+    gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),sep4);
     gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),next);
     gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),prev);
     gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),goto_n);
-    gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),sep4);
+    gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),sep5);
     //	gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),select);
     gtk_menu_shell_append(GTK_MENU_SHELL(editmenu),select_all);
     gtk_menu_shell_append(GTK_MENU_SHELL(editor->menubar), edit);
+
+    //creation of the build submenu	
+    GtkWidget *buildmenu = gtk_menu_new();
+    
+    //creation of the build submenu's items
+    GtkWidget *build = gtk_menu_item_new_with_mnemonic("_Build");
+    GtkWidget *comp = gtk_image_menu_item_new_from_stock(GTK_STOCK_EXECUTE, accel_group);    
+    g_signal_connect(G_OBJECT(comp), "activate", G_CALLBACK(compile), editor);
+    
+    //addition of the buid submenu's items in the menu 
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(build), buildmenu);
+    gtk_menu_shell_append(GTK_MENU_SHELL(buildmenu), comp);
+    
+    gtk_menu_shell_append(GTK_MENU_SHELL(editor->menubar), build);
+
 
     //creation of the player submenu
     GtkWidget *playermenu = gtk_menu_new();
