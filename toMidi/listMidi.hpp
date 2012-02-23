@@ -16,11 +16,8 @@ namespace music{
 
 class listMidi{
 public:
-  std::list <keyWithInfo *> song;
+  std::list <struct keyWithInfo *> song;
   
-public:
-  listMidi();
-  ~listMidi();
 };
 }  
 #endif

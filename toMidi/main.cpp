@@ -6,11 +6,16 @@
 using namespace music;
 
 int main(){
+  int i;
   listMidi *toto = new listMidi;
-  struct keyWithInfo *test = new keyWithInfo;
+  struct keyWithInfo *test;// = new keyWithInfo;
+  test->start = 3;
   braille::ambiguous::note tata;
   toto->song.push_back(test);
-  delete(toto);
+  std::list<struct keyWithInfo *>::iterator it;
+  for(it=toto->song.begin();it!=toto->song.end();it++)
+    std::wcout << (*it)->start << std::endl;   
+ 
   return 1;
 }
 
