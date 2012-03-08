@@ -9,6 +9,8 @@
 #include "player.h"
 #include "goto.h"
 #include "compile.h"
+#include "color.h"
+
 /**
  * \file menubar.c
  * \author Team BMC editor 
@@ -155,4 +157,21 @@ void create_menubar(BrailleMusicEditor *editor)
     gtk_menu_shell_append(GTK_MENU_SHELL(playermenu), stop);
 
     gtk_menu_shell_append(GTK_MENU_SHELL(editor->menubar), player);
+
+    //creation of the options submenu
+    GtkWidget *optionsmenu = gtk_menu_new();
+    
+    //creation of the options submenu's items
+    GtkWidget *options = gtk_menu_item_new_with_mnemonic("_Options");
+    GtkWidget *color = gtk_image_menu_item_new_from_stock(GTK_STOCK_SELECT_COLOR, accel_group);
+    g_signal_connect(G_OBJECT(color), "activate", G_CALLBACK(color_options), editor);
+    
+
+    //addition of the options submenu's items in the menu 
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(options), optionsmenu);
+    gtk_menu_shell_append(GTK_MENU_SHELL(optionsmenu), color);
+    
+    gtk_menu_shell_append(GTK_MENU_SHELL(editor->menubar), options);
+
+    
 }

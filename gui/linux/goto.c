@@ -61,8 +61,10 @@ void goto_num(GtkWidget * widget, BrailleMusicEditor *editor)
     dialog = gtk_dialog_new_with_buttons("Go to the measure n°?",
 					 GTK_WINDOW(editor->window),
 					 GTK_DIALOG_MODAL,
-					 GTK_STOCK_OK,GTK_RESPONSE_OK,
-					 GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,
+					 GTK_STOCK_CANCEL,
+					 GTK_RESPONSE_CANCEL,
+					 GTK_STOCK_OK,
+					 GTK_RESPONSE_OK,
 					 NULL);
 
     // Creation of the entry zone
