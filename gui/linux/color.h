@@ -9,6 +9,8 @@
 
 void syntax_highlighting(GtkButton *widget, BrailleMusicEditor *editor);
 
+void init_braille_table();
+
 void init_colors();
 
 void set_tags(GtkTextBuffer *buffer);

@@ -13,8 +13,17 @@
 static GdkColor note_color;
 static GdkColor bar_color;
 
+static GHashTable *braille_table; 
 
+static gchar b_bar[4] = {0xE2,0xA0,0x87,0x0};
 
+static gchar C[4] = {0xE2,0xA0,0xBD,0x0};
+static gchar D[4] = {0xE2,0xA0,0xB5,0x0};
+static gchar E[4] = {0xE2,0xA0,0xAF,0x0};
+static gchar F[4] = {0xE2,0xA0,0xBF,0x0};
+static gchar G[4] = {0xE2,0xA0,0xB7,0x0};
+static gchar A[4] = {0xE2,0xA0,0xAE,0x0};
+static gchar B[4] = {0xE2,0xA0,0xBE,0x0};
 
 /**
  * \fn void syntax_highlighting(GtkButton *widget, BrailleMusicEditor *editor)
@@ -38,10 +47,25 @@ void syntax_highlighting(GtkButton *widget, BrailleMusicEditor *editor)
 
 }
 
+void init_braille_table() {
+    braille_table = g_hash_table_new(g_str_hash, g_str_equal);
+    
+    g_hash_table_insert(braille_table, b_bar, "bar");
+    g_hash_table_insert(braille_table, C, "note");
+    g_hash_table_insert(braille_table, D, "note");
+    g_hash_table_insert(braille_table, E, "note");
+    g_hash_table_insert(braille_table, F, "note");
+    g_hash_table_insert(braille_table, G, "note");
+    g_hash_table_insert(braille_table, A, "note");
+    g_hash_table_insert(braille_table, B, "note");
+}
+
 void init_colors() {
     static int initialised = 0;
     if(!initialised) {
 	gdk_color_parse("green", &bar_color);
+	gdk_color_parse("blue", &note_color);
+	
 	initialised = 1;
     }
 }
@@ -55,14 +79,19 @@ void set_tags(GtkTextBuffer *buffer) {
     
     GtkTextTag *tag = gtk_text_tag_table_lookup(tag_table,"bar");
     if(tag) {
-	//gtk_text_buffer_remove_tag_by_name(buffer, "bar", 
-	//&start, &end);
 	gtk_text_tag_table_remove(tag_table, tag);
-	    
-	    }
+    }
     gtk_text_buffer_create_tag(buffer, "bar", "foreground", 
 			       gdk_color_to_string(&bar_color), NULL); 
     
+    tag = gtk_text_tag_table_lookup(tag_table,"note");
+    if(tag) {
+	gtk_text_tag_table_remove(tag_table, tag);
+    }
+    gtk_text_buffer_create_tag(buffer, "note", "foreground", 
+			       gdk_color_to_string(&note_color), NULL);     
+
+
 }
 
 /**
@@ -70,7 +99,7 @@ void set_tags(GtkTextBuffer *buffer) {
  * \brief This function color the barlines in the textview.
  * \param editor The structure holding the data.
  * 
- * This function will color the barline present in text in blue. 
+ * This function will color the barline present in text. 
  */
 
 void color_barline(BrailleMusicEditor *editor)
@@ -78,7 +107,6 @@ void color_barline(BrailleMusicEditor *editor)
     GtkTextIter start, end;
     GtkTextIter start_match, end_match;
 
-    gchar bar_line[4] ={0xE2,0xA0,0x87,0x0};
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)); 
     
     gtk_text_buffer_get_start_iter(buffer, &start);
@@ -88,15 +116,18 @@ void color_barline(BrailleMusicEditor *editor)
     gtk_text_buffer_get_start_iter(buffer, &end_match);
     
     set_tags(buffer);
-
+    init_braille_table();
     
     do {
 	gtk_text_iter_forward_chars(&end_match, 1);
 	gchar *c = gtk_text_iter_get_slice(&start_match, &end_match);
 	//g_fprintf(stderr, "%s\n",c);
-	if(g_strcmp0(bar_line, c) == 0)
-	    gtk_text_buffer_apply_tag_by_name(buffer, "bar", &start_match, &end_match);
-		
+	
+	gchar *type = g_hash_table_lookup(braille_table, c);	
+	if(type != NULL) {
+	    gtk_text_buffer_apply_tag_by_name(buffer, type, &start_match, &end_match);
+	    //g_fprintf(stderr, "%s\n",type);
+	}
     } while(gtk_text_iter_forward_chars(&start_match, 1));
 }
 
@@ -161,6 +192,7 @@ void color_options(GtkWidget *widget, BrailleMusicEditor *editor) {
     init_colors();
 
     gtk_widget_modify_bg(bar, GTK_STATE_NORMAL, &bar_color);
+    gtk_widget_modify_bg(note, GTK_STATE_NORMAL, &note_color);
 
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)); 
     GtkStyle *style;
@@ -171,6 +203,10 @@ void color_options(GtkWidget *widget, BrailleMusicEditor *editor) {
 	case GTK_RESPONSE_OK:
 	    style = gtk_widget_get_style(bar);
 	    bar_color = style->bg[GTK_STATE_NORMAL];
+	    style = gtk_widget_get_style(note);
+	    note_color = style->bg[GTK_STATE_NORMAL];
+
+	    
 	    set_tags(buffer);
 	    syntax_highlighting(widget, editor);
 	    syntax_highlighting(widget, editor);
