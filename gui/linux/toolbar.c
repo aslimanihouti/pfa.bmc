@@ -71,10 +71,10 @@ void create_toolbar(BrailleMusicEditor *editor)
     gtk_tool_item_set_tooltip_text(paste, "Paste the clipboard's content");
     g_signal_connect(G_OBJECT(paste),"clicked",G_CALLBACK(on_paste),editor);
 
-    color = gtk_tool_button_new_from_stock(GTK_STOCK_COLOR_PICKER);
-    gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), color, -1);
-    gtk_tool_item_set_tooltip_text(color, "Syntax Highlighting");
-    g_signal_connect(G_OBJECT(color),"clicked",G_CALLBACK(syntax_highlighting), editor);
+    /* color = gtk_tool_button_new_from_stock(GTK_STOCK_SELECT_COLOR); */
+    /* gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), color, -1); */
+    /* gtk_tool_item_set_tooltip_text(color, "Lexical coloration"); */
+    /* g_signal_connect(G_OBJECT(color),"clicked",G_CALLBACK(lexical_coloration), editor); */
 	
     sep1 = gtk_separator_tool_item_new();
     gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), sep1, -1); 

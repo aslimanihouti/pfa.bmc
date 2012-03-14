@@ -230,26 +230,49 @@ static gchar right_hand[7] = {0xE2,0xA0,0xA8,0xE2,0xA0,0x9C,0x0};
 static gchar left_hand[7] = {0xE2,0xA0,0xB8,0xE2,0xA0,0x9C,0x0};
 
 
+static int coloration_enabled = 0;
 /**
- * \fn void syntax_highlighting(GtkButton *widget, BrailleMusicEditor *editor)
+ * \fn void lexical_coloration(GtkButton *widget, BrailleMusicEditor *editor)
  * \brief This function enable/disable the syntax highlighting.
  * \param widget The button trigerring the function.
  * \param editor The structure holding the data.
  * 
  *
  */
-void syntax_highlighting(GtkWidget *widget, BrailleMusicEditor *editor)
+void lexical_coloration(GtkWidget *widget, BrailleMusicEditor *editor)
 {	
-    static int clik=0;
+    
     
     init_colors();
     
-    if(clik%2 == 0)
+    if(coloration_enabled%2 == 0)
 	color(editor);
     else
-        syntax_highlighting_off(editor);
-	clik ++;
+        lexical_coloration_off(editor);
+	coloration_enabled ++;
+}
 
+/*update th lexical coloration if it's enabled*/
+void coloration_update(GtkWidget *widget, BrailleMusicEditor *editor)
+{
+    if(coloration_enabled%2 == 1)
+	color(editor);    
+}
+
+
+/**
+ * \fn void lexical_coloration_off(BrailleMusicEditor *editor)
+ * \brief This function removes the syntax highlighting.
+ * \param editor The structure holding the data.
+ *  
+ */
+void lexical_coloration_off(BrailleMusicEditor *editor) 
+{
+    GtkTextIter start, end;
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)); 
+    gtk_text_buffer_get_start_iter(buffer, &start);
+    gtk_text_buffer_get_end_iter(buffer, &end);
+    gtk_text_buffer_remove_all_tags(buffer, &start, &end);
 }
 
 void init_braille_table() {
@@ -391,23 +414,6 @@ void color(BrailleMusicEditor *editor)
 }
 
 
-/**
- * \fn void syntax_highlighting_off(BrailleMusicEditor *editor)
- * \brief This function removes the syntax highlighting.
- * \param editor The structure holding the data.
- *  
- */
-
-
-void syntax_highlighting_off(BrailleMusicEditor *editor) 
-{
-    GtkTextIter start, end;
-    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)); 
-    gtk_text_buffer_get_start_iter(buffer, &start);
-    gtk_text_buffer_get_end_iter(buffer, &end);
-    gtk_text_buffer_remove_all_tags(buffer, &start, &end);
-}
-
 /*This function will propose the different types of data (note, pause, measure bar, ...) that can be colored as the user wants
  */
 void color_options(GtkWidget *widget, BrailleMusicEditor *editor) {
@@ -456,8 +462,7 @@ void color_options(GtkWidget *widget, BrailleMusicEditor *editor) {
 	    }
 	    //updating the coloration
 	    set_tags(buffer);
-	    syntax_highlighting(widget, editor);
-	    syntax_highlighting(widget, editor);
+	    coloration_update(widget, editor);
 	    break;
 	case GTK_RESPONSE_CANCEL:
 	case GTK_RESPONSE_NONE:

@@ -57,8 +57,9 @@ int main(int argc, char **argv)
     g_signal_connect(gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)), "changed", G_CALLBACK(text_changed), editor);
     gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(editor->edit_scrollbar), editor->textview);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(editor->edit_scrollbar), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-    
-    
+    //lexical coloration auto update
+    g_signal_connect(gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)), "changed", G_CALLBACK(coloration_update), editor);
+
     editor->score_scrollbar = gtk_scrolled_window_new(NULL, NULL);
     gtk_box_pack_start(GTK_BOX(editor->hbox),editor->score_scrollbar, TRUE, TRUE, 5);
     
@@ -77,8 +78,7 @@ int main(int argc, char **argv)
     gtk_text_view_set_editable(GTK_TEXT_VIEW(editor->error_view), FALSE);
     gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(editor->error_scrollbar), editor->error_view);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(editor->error_scrollbar), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-
+    
     // show the window
     gtk_widget_show_all(editor->window);
 

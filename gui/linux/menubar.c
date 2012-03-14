@@ -163,12 +163,15 @@ void create_menubar(BrailleMusicEditor *editor)
     
     //creation of the options submenu's items
     GtkWidget *options = gtk_menu_item_new_with_mnemonic("_Options");
+    GtkWidget *enable_color = gtk_check_menu_item_new_with_label("Enable lexical coloration");
     GtkWidget *color = gtk_image_menu_item_new_from_stock(GTK_STOCK_SELECT_COLOR, accel_group);
     g_signal_connect(G_OBJECT(color), "activate", G_CALLBACK(color_options), editor);
+    g_signal_connect(G_OBJECT(enable_color), "activate", G_CALLBACK(lexical_coloration), editor);
     
 
     //addition of the options submenu's items in the menu 
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(options), optionsmenu);
+    gtk_menu_shell_append(GTK_MENU_SHELL(optionsmenu), enable_color);
     gtk_menu_shell_append(GTK_MENU_SHELL(optionsmenu), color);
     
     gtk_menu_shell_append(GTK_MENU_SHELL(editor->menubar), options);
