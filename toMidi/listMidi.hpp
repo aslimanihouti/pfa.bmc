@@ -19,7 +19,7 @@ namespace music{
 
 class listMidi{
 public:
-  std::list <struct keyWithInfo *> song[2];
+  std::list<struct keyWithInfo *>song[2];
   //  std::list <struct keyWithInfo *> song_up;
   //  std::list <struct keywithInfo *> song_down;
   

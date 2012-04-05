@@ -1,12 +1,13 @@
 #include "listMidi.hpp"
+#include <smf.h>
 
 namespace music{
-  listMidi::unfold_repetitions(){
+  void listMidi::unfold_repetitions(){
   }
 
-  listMidi::create_midi_file{
+  void listMidi::create_midi_file(){
     //on deroule les repetitions
-    self.unfold_repetitions();
+    this->unfold_repetitions();
 
     //on peut commencer le travail
     smf_t *smf;
@@ -30,35 +31,35 @@ namespace music{
       smf_add_track(smf, track);
     
     
-      int number_of_events = max(song[0].size(), song[1].size());
+      int number_of_events = std::max(song[0].size(), song[1].size());
 
       //boucle sur les midi message d'une track
       for (int j = 1; j <= number_of_events; j++) {
 	char *midiMessageON = (char*)malloc(3*sizeof(char));
-	midiMessage[0] = NOTE_ON;
-	midiMessage[1] = 0;//il faut se servir du champs note de la cellule du type song[i]->note
-	midiMessage[2] = 60;//a-t-on des informations quant a la velocite ?
+	midiMessageON[0] = NOTE_ON;
+	midiMessageON[1] = 0;//il faut se servir du champs note de la cellule du type song[i]->note
+	midiMessageON[2] = 60;//a-t-on des informations quant a la velocite ?
 
 	char *midiMessageOFF = (char*)malloc(3*sizeof(char));
-	midiMessage[0] = NOTE_OFF;
-	midiMessage[1] = 0;//il faut se servir du champs note de la cellule du type song[i]->note
-	midiMessage[2] = 60;//a-t-on des informations quant a la velocite ?
+	midiMessageOFF[0] = NOTE_OFF;
+	midiMessageOFF[1] = 0;//il faut se servir du champs note de la cellule du type song[i]->note
+	midiMessageOFF[2] = 60;//a-t-on des informations quant a la velocite ?
 	
 	//on cree les message
-	eventON = smf_event_new_from_pointer(midiMessage, 3);
+	eventON = smf_event_new_from_pointer(midiMessageON, 3);
 	eventOFF = smf_event_new_from_pointer(midiMessageOFF,3);
 	
 	//on consomme la liste
 	song[i].pop_front();
 	
-	if (event == NULL) {
+	if (eventON == NULL || eventOFF == NULL) {
 	  printf("Error creating the event");
 	  return;
 	}
 	
 	//on rajoute les message a la track
-	smf_track_add_event_seconds(track, eventON, song[i]->start_date);
-	smf_track_add_event_secondes(track, eventOFF, song[i]->end_date);
+	smf_track_add_event_seconds(track, eventON, (song[i].front())->start_date);
+	smf_track_add_event_seconds(track, eventOFF,(song[i].front())->end_date);
       }
     }
     
