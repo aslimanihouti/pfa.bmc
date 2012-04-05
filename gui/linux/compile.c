@@ -4,6 +4,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include "BrailleMusicEditor.h"
+#include <unistd.h>
 
 
 void compile(GtkWidget *widget, BrailleMusicEditor *editor)
