@@ -1,15 +1,16 @@
-BOOST_DIRECTORY=.
+LIBRARIES=/usr/lib/
+BOOSTDIR=../bmc/
+INCLUDE1=/usr/lib/i386-linux-gnu/glib-2.0/include/
+INCLUDE2=/usr/include/glib-2.0/
+INCLUDE3=/usr/include/
 
-CPPFLAGS=-DHAVE_CONFIG_H
-CFLAGS=-g -O2 -Wextra -D_POSIX_C_SOURCE=2 -D_BSD_SOURCE -D_XOPEN_SOURCE=500 -D_XOPEN_SOURCE_EXTENDED -D_GNU_SOURCE
-CXXFLAGS= -std=c++0x -I$(BOOST_DIRECTORY) -I.
+all:bmc
 
-all: bmc
+bmc:main.o listMidi.o
+	g++ -L $(LIBRARIES) -lsmf -I $(BOOSTDIR) -I $(INCLUDE3) -I $(INCLUDE1) -I $(INCLUDE2) -o $@ $^
 
-bmc: main.o music.o listMidi.o
-	$(CXX) -o $@ main.o music.o listMidi.o -lpthread -licuuc
+%.o: %.cpp
+	g++ -c -L $(LIBRARIES) -lsmf -I $(BOOSTDIR) -I $(INCLUDE3) -I $(INCLUDE1) -I $(INCLUDE2) -o $@ $<
 
 clean:
-	rm bmc
-	rm *.o
-	rm *~
+	rm *.o && rm bmc
