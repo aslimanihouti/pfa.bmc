@@ -1,12 +1,14 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 #include <gtksourceview/gtksourceview.h>
+#include <evince-view.h>
 #include "BrailleMusicEditor.h"
 #include "window.h"
 #include "toolbar.h"
 #include "menubar.h"
 #include "color.h"
 #include "goto.h"
+#include "scoreviewer.h"
 
 void text_changed(GtkWidget *widget, BrailleMusicEditor *editor)
 {
@@ -28,7 +30,8 @@ int main(int argc, char **argv)
  
     //initialize GTK+ libraries
     gtk_init(&argc, &argv);
-	
+    ev_init();
+
     // Creation of the main window 
     create_window("BMC",600,400, editor);
 	
@@ -60,12 +63,12 @@ int main(int argc, char **argv)
     //lexical coloration auto update
     g_signal_connect(gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)), "changed", G_CALLBACK(coloration_update), editor);
 
+    //score view
     editor->score_scrollbar = gtk_scrolled_window_new(NULL, NULL);
     gtk_box_pack_start(GTK_BOX(editor->hbox),editor->score_scrollbar, TRUE, TRUE, 5);
-    
-    editor->score_view = gtk_text_view_new();
-    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(editor->score_scrollbar), editor->score_view);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(editor->score_scrollbar), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+    show_score(editor->score_scrollbar);
+    
     
     gtk_widget_grab_focus(editor->textview);
     

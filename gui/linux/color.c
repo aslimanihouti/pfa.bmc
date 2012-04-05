@@ -252,7 +252,7 @@ void lexical_coloration(GtkWidget *widget, BrailleMusicEditor *editor)
 	coloration_enabled ++;
 }
 
-/*update th lexical coloration if it's enabled*/
+/*update the lexical coloration if it's enabled*/
 void coloration_update(GtkWidget *widget, BrailleMusicEditor *editor)
 {
     if(coloration_enabled%2 == 1)
@@ -434,31 +434,31 @@ void color_options(GtkWidget *widget, BrailleMusicEditor *editor) {
     init_colors();
     
     GtkWidget *buttons[NB_TYPES];
+    GtkWidget *labels[NB_TYPES];
     int i;
+    GtkWidget *box = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     for(i = 0; i < NB_TYPES; i++) {
-	buttons[i] = gtk_button_new_with_label(type_table[i]);
-
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), buttons[i], 
-			   TRUE, TRUE, 0);
-    
-	g_signal_connect(G_OBJECT(buttons[i]),"clicked", 
-			 G_CALLBACK(color_selection), editor);
-    
-	gtk_widget_modify_bg(buttons[i], GTK_STATE_NORMAL, &color_table[i]);
+       	GtkWidget *hbox = gtk_hbox_new(TRUE, 5);	
+	labels[i] = gtk_label_new(type_table[i]);
+	//buttons[i] = gtk_button_new_with_label(type_table[i]);
+	buttons[i] = gtk_color_button_new_with_color(&color_table[i]);
+	gtk_box_pack_start(GTK_BOX(hbox), labels[i], TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), buttons[i], TRUE, TRUE, 0);
+	
+	gtk_box_pack_start(GTK_BOX(box), hbox, TRUE, TRUE, 0);
+	
+    	gtk_widget_modify_fg(labels[i], GTK_STATE_NORMAL, &color_table[i]);
     }
-    gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
+    gtk_widget_show_all(box);
     
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)); 
-    GtkStyle *style;
-
+   
     // run the dialog window
     switch (gtk_dialog_run(GTK_DIALOG(dialog)))
 	{
 	case GTK_RESPONSE_OK:
 	    for(i = 0; i < NB_TYPES; i++) {
-		//retrieving the colors selected by the user
-		style = gtk_widget_get_style(buttons[i]);
-		color_table[i] = style->bg[GTK_STATE_NORMAL];
+		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttons[i]), &color_table[i]); 
 	    }
 	    //updating the coloration
 	    set_tags(buffer);
@@ -473,24 +473,4 @@ void color_options(GtkWidget *widget, BrailleMusicEditor *editor) {
     // Destruction of the dialog window
     gtk_widget_destroy((GtkWidget *) dialog); 
  
-  
-
-}
-void color_selection(GtkWidget *widget, BrailleMusicEditor *editor)
-{
-
-    GtkResponseType result;
-    GtkColorSelection *colorsel;
-    GtkWidget *dialog = gtk_color_selection_dialog_new("Font Color");
-  
-    result = gtk_dialog_run(GTK_DIALOG(dialog));
-    if (result == GTK_RESPONSE_OK)
-	{
-	    GdkColor color;
-	    colorsel = GTK_COLOR_SELECTION(GTK_COLOR_SELECTION_DIALOG(dialog)->colorsel);
-	    gtk_color_selection_get_current_color(colorsel, &color);
-	    gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, &color);
-	} 
-
-    gtk_widget_destroy(dialog);
 }

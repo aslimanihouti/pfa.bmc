@@ -26,7 +26,7 @@ void create_toolbar(BrailleMusicEditor *editor)
     editor->toolbar=gtk_toolbar_new();
 	
     /* Addition of buttons in the toolbar */
-    GtkToolItem *new, *open, *save, *color, *sep, *undo, *redo, *cut, *copy, *paste, *sep1, *sep2, *sep3, *play, *pause, *stop, *quit, *comp;
+    GtkToolItem *new, *open, *save, *sep, *undo, *redo, *cut, *copy, *paste, *sep1, *sep2, *sep3, *play, *pause, *stop, *quit, *comp;
     new = gtk_tool_button_new_from_stock(GTK_STOCK_NEW);
     gtk_toolbar_insert(GTK_TOOLBAR(editor->toolbar), new, -1);
     gtk_tool_item_set_tooltip_text(new, "Create a new file");
@@ -120,8 +120,8 @@ void create_toolbar(BrailleMusicEditor *editor)
     gtk_toolbar_set_style(GTK_TOOLBAR(editor->toolbar),
 			  GTK_TOOLBAR_ICONS);
 	
-    //Settings of the toolbar's orientation 
-    gtk_toolbar_set_orientation(GTK_TOOLBAR(editor->toolbar),GTK_ORIENTATION_HORIZONTAL);
+    //Settings of the toolbar's orientation gtk 2. 
+    //gtk_toolbar_set_orientation(GTK_TOOLBAR(editor->toolbar),GTK_ORIENTATION_HORIZONTAL);
    
 
 }

@@ -1,6 +1,6 @@
-GTKFLAGS = `pkg-config --libs --cflags gtk+-2.0 gtksourceview-2.0`
-LDFLAGS = -lSDL_mixer -lSDL
-CFLAGS = -Wall -ggdb
+GTKFLAGS = `pkg-config --libs --cflags gtk+-3.0 gtksourceview-3.0`
+LDFLAGS = -lSDL_mixer -lSDL -levview3 -levdocument3
+CFLAGS = -Wall -ggdb -I/usr/include/evince/3.0
 CC= gcc
 
 SRCLINUX = $(wildcard *.c)

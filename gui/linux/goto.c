@@ -1,5 +1,6 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <stdlib.h>
 #include "BrailleMusicEditor.h"
 #include "goto.h"
 
@@ -70,10 +71,10 @@ void goto_num(GtkWidget * widget, BrailleMusicEditor *editor)
     // Creation of the entry zone
     entry = gtk_entry_new();
     gtk_entry_set_text(GTK_ENTRY(entry), "Enter the measure number");
+    GtkWidget *box = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+    gtk_box_pack_start(GTK_BOX(box), entry, TRUE, FALSE, 0);
  
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), entry, TRUE, FALSE, 0);
- 
-    gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
+    gtk_widget_show_all(box);
 
     // run the dialog window
     switch (gtk_dialog_run(GTK_DIALOG(dialog)))
