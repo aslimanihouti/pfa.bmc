@@ -3,21 +3,29 @@
 
 #include "ambiguous.hpp"
 #include "music.hpp"
+#include <smf.h>
+
+#define NOTE_ON 0x90
+#define NOTE_OFF 0x80
 
 namespace music{
   struct keyWithInfo{
-    int start;
+    float start_date;
+    float end_date;
     braille::ambiguous::note toto;
-    struct keyWithInfo *previous;
-    struct keyWithInfo *next;
     bool startRepeat;
     bool endRepeat;
   };
 
 class listMidi{
 public:
-  std::list <struct keyWithInfo *> song;
+  std::list <struct keyWithInfo *> song[2];
+  //  std::list <struct keyWithInfo *> song_up;
+  //  std::list <struct keywithInfo *> song_down;
   
+public:
+  void unfold_repetitions();
+  void create_midi_file();
 };
 }  
 #endif
