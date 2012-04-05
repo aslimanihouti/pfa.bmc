@@ -1,5 +1,6 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <stdlib.h>
 #include "BrailleMusicEditor.h"
 #include "goto.h"
 

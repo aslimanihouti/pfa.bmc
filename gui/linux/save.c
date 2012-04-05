@@ -99,15 +99,15 @@ gint check_for_save (BrailleMusicEditor *editor)
 {
     int ret = 0;
     //0 means no, 1 means yes, 2 means cancel 
-    GtkTextBuffer *buffer;
-        
-    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW(editor->textview));
-        
+
     if (editor->text_changed == TRUE){
 	// we need to prompt for save 
 	GtkWidget *dialog;
-	const gchar *msg  = "Do you want to save the changes you have made?";
-	dialog = gtk_message_dialog_new (GTK_WINDOW(editor->window), GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, msg);
+	dialog = gtk_message_dialog_new(GTK_WINDOW(editor->window), 
+					GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT, 
+					GTK_MESSAGE_QUESTION, 
+					GTK_BUTTONS_YES_NO,
+					"Do you want to save the changes you have made?");
 	gtk_window_set_title (GTK_WINDOW (dialog), "Save?");
 	
 	gint resp=gtk_dialog_run (GTK_DIALOG (dialog));
