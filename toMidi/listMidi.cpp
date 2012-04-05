@@ -2,10 +2,69 @@
 #include <smf.h>
 
 namespace music{
-  void listMidi::unfold_repetitions(){
-  }
 
-  void listMidi::create_midi_file(){
+  void listMidi::unfold_repetitions(){
+    std::list<struct keyWithInfo *>::iterator it;
+    /*loop 0 : song[0] and song[1] */
+    for(int i = 1; i < 2 ; i++){
+      
+      /*loop 1 : reading the std::list with it (for iterator) */
+      for (it = song[i].begin() ; it!=song[i].end();  it++) { 
+	if((*it)->endRepeat){ //look for the beginnig of this repetition
+	  struct keyWithInfo * tmp_end = (*it)++; //tmp_end musn't be inluded in the repetition
+	  
+	  /*loop 1.1 : get back to the beginning of the first repetition to deal*/ 
+	  int beginning_corresponding = 0; // is >0 if another endRepeat is met in the reverse reading, so the startRepeat won't be considered 
+	  while(!(*it)->startRepeat && !beginning_corresponding){
+	    if((*it)->startRepeat)
+	      beginning_corresponding--;
+	    if((*it)->endRepeat)
+	      beginning_corresponding++;
+	    (*it)--;
+	  } //it now points to the beginning of the repetition
+	  int nb_repetitions = (*it)->nb_repetitions;
+	  std::list<struct keyWithInfo *> repetition; //copy of the repetition
+	  /*end of loop 1.1*/
+	  
+	  /*loop 1.2 : get the repetition duration*/
+	  float repetition_duration = 0;
+	  while((*it)!=tmp_end){
+	    repetition_duration+=((*it)->end_date - (*it)->start_date);
+	    repetition.push_back((*it));
+	    (*it)++;
+	  }
+	  /*end of loop 1.2*/
+	  
+	  /* loop 1.3 : insert one or more repetition(s) after tmp_end */
+	  
+	  int no_repetition = 1; 
+	  //useful to redefine the dates of the keyWithInfo elements. starts at 1 and will ++ until nb_repetitions
+	  
+	  while(no_repetition <= nb_repetitions){	   
+	    std::list<struct keyWithInfo *>::iterator rit; //iterator within the repetition
+	    rit = repetition.begin();
+	    do{
+	      (*rit)->start_date += no_repetition*repetition_duration;
+	      (*rit)->end_date += no_repetition*repetition_duration;
+	    } while(rit !=repetition.end());
+	    //the 'no_repetition'th repetition has its start_date and end_date modified
+	    
+	    song[i].splice(tmp_end, repetition); //insert the repetition list before the pointer tmp_end
+	    
+	    no_repetition++;
+	  }
+	  
+	  /*end of loop 1.3*/
+	  
+	}
+      }
+      /*end of loop 1*/
+      
+    }
+    /*end of loop 0 */ 
+  }
+  
+  void listMidi::generate_midi_file(){
     //on deroule les repetitions
     this->unfold_repetitions();
 

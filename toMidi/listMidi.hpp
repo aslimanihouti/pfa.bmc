@@ -3,7 +3,7 @@
 
 #include "ambiguous.hpp"
 #include "music.hpp"
-#include <smf.h>
+
 
 #define NOTE_ON 0x90
 #define NOTE_OFF 0x80
@@ -15,6 +15,7 @@ namespace music{
     braille::ambiguous::note toto;
     bool startRepeat;
     bool endRepeat;
+    int nb_repetitions;
   };
 
 class listMidi{
@@ -25,7 +26,7 @@ public:
   
 public:
   void unfold_repetitions();
-  void create_midi_file();
+  void generate_midi_file();
 };
 }  
 #endif
