@@ -120,8 +120,8 @@ void create_toolbar(BrailleMusicEditor *editor)
     gtk_toolbar_set_style(GTK_TOOLBAR(editor->toolbar),
 			  GTK_TOOLBAR_ICONS);
 	
-    //Settings of the toolbar's orientation 
-    gtk_toolbar_set_orientation(GTK_TOOLBAR(editor->toolbar),GTK_ORIENTATION_HORIZONTAL);
+    //Settings of the toolbar's orientation gtk 2. 
+    //gtk_toolbar_set_orientation(GTK_TOOLBAR(editor->toolbar),GTK_ORIENTATION_HORIZONTAL);
    
 
 }

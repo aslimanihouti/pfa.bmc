@@ -1,4 +1,4 @@
-GTKFLAGS = `pkg-config --libs --cflags gtk+-2.0 gtksourceview-2.0`
+GTKFLAGS = `pkg-config --libs --cflags gtk+-3.0 gtksourceview-3.0`
 LDFLAGS = -lSDL_mixer -lSDL
 CFLAGS = -Wall -ggdb
 CC= gcc

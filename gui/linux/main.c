@@ -7,6 +7,7 @@
 #include "menubar.h"
 #include "color.h"
 #include "goto.h"
+//#include "pdfviewer.h"
 
 void text_changed(GtkWidget *widget, BrailleMusicEditor *editor)
 {
@@ -64,8 +65,12 @@ int main(int argc, char **argv)
     gtk_box_pack_start(GTK_BOX(editor->hbox),editor->score_scrollbar, TRUE, TRUE, 5);
     
     editor->score_view = gtk_text_view_new();
-    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(editor->score_scrollbar), editor->score_view);
+    //gtk_widget_show(editor->score_view);
+    //gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(editor->score_scrollbar), editor->score_view);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(editor->score_scrollbar), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+    //gtk_widget_realize(editor->score_view);
+    //g_signal_connect(editor->score_scrollbar, "expose-event", G_CALLBACK(on_expose), editor);
+    
     
     gtk_widget_grab_focus(editor->textview);
     

@@ -24,6 +24,12 @@ void create_window(const gchar* title, gint width , gint height, BrailleMusicEdi
     gtk_window_set_title(GTK_WINDOW(editor->window), title);
     gtk_window_set_default_size(GTK_WINDOW(editor->window), width, height);
     gtk_window_set_position(GTK_WINDOW(editor->window), GTK_WIN_POS_CENTER);	
+    //main window background color
+    GdkColor grey;
+    gdk_color_parse("#AAAAAA",&grey);
+    gtk_widget_modify_bg(editor->window, GTK_STATE_NORMAL, &grey);
+    editor->vbox = gtk_vbox_new(FALSE, 2);
+
     g_signal_connect(G_OBJECT(editor->window), "delete_event", G_CALLBACK(window_delete_event), editor);
     g_signal_connect(G_OBJECT(editor->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);	
 }
