@@ -1,5 +1,13 @@
 #include <gtk/gtk.h>
 #include <evince-view.h>
+#include <stdlib.h>
+
+void external_link_catch(GtkWidget *w, GObject *link) {
+    EvLinkAction *l = EV_LINK_ACTION(link);
+    ev_view_copy_link_address(EV_VIEW(w), l);
+    
+    printf("%s\n", ev_link_action_get_uri(l));
+}
 
 void show_score(GtkWidget *w) {
     GError *err = NULL;
@@ -19,5 +27,6 @@ void show_score(GtkWidget *w) {
 	GtkWidget *scoreview = ev_view_new();
 	ev_view_set_model(EV_VIEW(scoreview), EV_DOCUMENT_MODEL(docmodel));
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(w), scoreview);	
+	g_signal_connect(scoreview, "external-link", G_CALLBACK(external_link_catch), NULL);
     }
 }
