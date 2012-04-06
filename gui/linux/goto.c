@@ -10,7 +10,7 @@ void goto_next_prev(GtkWidget * widget, BrailleMusicEditor *editor, char n_p)
     GtkTextIter start_match, end_match;
     GtkTextMark *cursor;
     GtkTextBuffer * buffer; 
-    gchar bar_line[4] ={0xE2,0xA0,0x80,0x0};
+    gchar bar_line[] = "⠀";
     
     // Get the textview buffer. 
     buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview));

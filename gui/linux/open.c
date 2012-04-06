@@ -57,17 +57,21 @@ void open_file_(BrailleMusicEditor *editor)
 	path = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_selection));
 	file = fopen(path,"r");
 	open_error(file_selection, file, "Can't open the file : \n%s", path);
+	
 	//save the current file path
 	editor->filename=path;
-	gtk_text_buffer_get_start_iter(buffer,&start);
-	gtk_text_buffer_get_end_iter(buffer,&end);
+
+	gtk_text_buffer_get_start_iter(buffer, &start);
+	gtk_text_buffer_get_end_iter(buffer, &end);
 	gtk_text_buffer_delete(buffer, &start, &end);
 
 	while(fgets(read, 1024, file)){
-	    gtk_text_buffer_get_end_iter(buffer,&end);
+	    gtk_text_buffer_get_end_iter(buffer, &end);
 	    gtk_text_buffer_insert(buffer, &end, read, -1);
 	}
 	fclose(file);
+	gtk_text_buffer_get_start_iter(buffer, &start);
+	gtk_text_buffer_place_cursor(buffer, &start);
     }
     gtk_widget_destroy(file_selection); 
 }

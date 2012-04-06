@@ -52,14 +52,15 @@ int main(int argc, char **argv)
     gtk_container_add(GTK_CONTAINER(editor->vbox), editor->hbox); 
 	
     editor->edit_scrollbar = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(editor->edit_scrollbar), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_box_pack_start(GTK_BOX(editor->hbox),editor->edit_scrollbar, TRUE, TRUE, 5);
 
     editor->textview=gtk_source_view_new(); 
     //show line number
     gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(editor->textview), TRUE);
     g_signal_connect(gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)), "changed", G_CALLBACK(text_changed), editor);
-    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(editor->edit_scrollbar), editor->textview);
-    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(editor->edit_scrollbar), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+    gtk_container_add(GTK_CONTAINER(editor->edit_scrollbar), editor->textview);
+    
     //lexical coloration auto update
     g_signal_connect(gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)), "changed", G_CALLBACK(coloration_update), editor);
 
