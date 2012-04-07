@@ -3,9 +3,14 @@
 
 /**
  * \file color.h
- * \author Team BMC editor 
+ * \brief Braille Music lexical coloration.
+ * \author Team BMC
+ * \version 1.0
+ * \date 07 April 2012
+ *
+ * Lexical Highlighting functions prototypes
+ *
  */
-
 
 void lexical_coloration(GtkWidget *widget, BrailleMusicEditor *editor);
 

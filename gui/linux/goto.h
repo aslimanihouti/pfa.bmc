@@ -1,6 +1,17 @@
 #ifndef GOTO_H
 #define GOTO_H
 
+/**
+ * \file goto.h
+ * \brief Insert cursor moving funtions.
+ * \author Team BMC
+ * \version 1.0
+ * \date 07 April 2012
+ *
+ * Insert cursor moving funtion prototypes.
+ *
+ */
+
 
 void goto_next_prev(GtkWidget * widget, BrailleMusicEditor *editor, char n_p); 
 

@@ -1,3 +1,14 @@
+/**
+ * \file compile.c
+ * \brief Compile the current file.
+ * \author Team BMC
+ * \version 1.0
+ * \date 07 April 2012
+ *
+ * Compile the current file by calling BMC.
+ *
+ */
+
 #include <gtk/gtk.h>
 #include <string.h>
 #include <sys/types.h>
@@ -7,8 +18,16 @@
 #include <unistd.h>
 
 
-void compile(GtkWidget *widget, BrailleMusicEditor *editor)
-{
+
+/**
+ * \fn void compile(GtkWidget *widget, BrailleMusicEditor *editor)
+ * \brief Compile callback function
+ * \param widget The widget which triggered the call.
+ * \param editor The GUI structure.
+ *
+ * This function triggers the compilation of the current file by using BMC.
+ */
+void compile(GtkWidget *widget, BrailleMusicEditor *editor) {
     GPid pid;
     GtkTextBuffer *buffer;
     char *argv[2];
@@ -24,18 +43,19 @@ void compile(GtkWidget *widget, BrailleMusicEditor *editor)
     argv[0]=cmd;
     argv[1]=NULL;
     g_spawn_async_with_pipes( "../../bmc", // const gchar *working_directory
-    			      argv,    // gchar **argv
-    			      NULL,       // gchar **envp
-    			      G_SPAWN_SEARCH_PATH | G_SPAWN_CHILD_INHERITS_STDIN ,       // GSpawnFlags flags
+    			      argv,        // gchar **argv
+    			      NULL,        // gchar **envp
+    			      G_SPAWN_SEARCH_PATH | 
+			      G_SPAWN_CHILD_INHERITS_STDIN ,       // GSpawnFlags flags
     			      NULL,       // GSpawnChildSetupFunc child_setup
     			      NULL,       // gpointer user_data
     			      &pid,       // GPid *child_pid
     			      NULL,       // gint *standard_input
     			      &standard_output,   // gint *standard_output
-    			      &standard_error,       // gint *standard_error
+    			      &standard_error,    // gint *standard_error
     			      NULL);    // GError **error
 
-
+    
     buffer=gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->error_view));
     gtk_text_buffer_get_end_iter(buffer, &iter);
     

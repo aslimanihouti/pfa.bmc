@@ -1,17 +1,22 @@
-#include <gtk/gtk.h>
-#include "BrailleMusicEditor.h"
-
 /**
  * \file edit.c
- * \author Team BMC editor 
+ * \brief Edit callback functions.
+ * \author Team BMC
+ * \version 1.0
+ * \date 07 April 2012
+ *
+ * Edit callback functions.
+ *
  */
-/**
- * edit menu callback 
- */
+
+#include <gtk/gtk.h>
+#include "BrailleMusicEditor.h"
 
 
 /**
  * \fn void on_undo(GtkWidget *widget, BrailleMusicEditor *editor)
+ * \param widget The widget which triggered the call.
+ * \param editor The GUI structure.
  */
 void on_undo(GtkWidget *widget, BrailleMusicEditor *editor)
 {
@@ -20,6 +25,8 @@ void on_undo(GtkWidget *widget, BrailleMusicEditor *editor)
 
 /**
  * \fn void on_redo(GtkWidget *widget, BrailleMusicEditor *editor)
+ * \param widget The widget which triggered the call.
+ * \param editor The GUI structure.
  */
 void on_redo(GtkWidget *widget, BrailleMusicEditor *editor)
 {
@@ -29,6 +36,8 @@ void on_redo(GtkWidget *widget, BrailleMusicEditor *editor)
 
 /**
  * \fn void on_copy(GtkWidget *widget, BrailleMusicEditor *editor)
+ * \param widget The widget which triggered the call.
+ * \param editor The GUI structure.
  */
 void on_copy(GtkWidget *widget, BrailleMusicEditor *editor)
 {
@@ -37,6 +46,8 @@ void on_copy(GtkWidget *widget, BrailleMusicEditor *editor)
 
 /**
  * \fn void on_cut(GtkWidget *widget, BrailleMusicEditor *editor)
+ * \param widget The widget which triggered the call.
+ * \param editor The GUI structure.
  */
 void on_cut(GtkWidget *widget, BrailleMusicEditor *editor)
 {
@@ -45,6 +56,8 @@ void on_cut(GtkWidget *widget, BrailleMusicEditor *editor)
 
 /**
  * \fn void on_paste(GtkWidget *widget, BrailleMusicEditor *editor)
+ * \param widget The widget which triggered the call.
+ * \param editor The GUI structure.
  */
 void on_paste(GtkWidget *widget, BrailleMusicEditor *editor)
 {
@@ -53,6 +66,8 @@ void on_paste(GtkWidget *widget, BrailleMusicEditor *editor)
 
 /**
  * \fn void on_select_all(GtkWidget *widget, BrailleMusicEditor *editor)
+ * \param widget The widget which triggered the call.
+ * \param editor The GUI structure.
  */
 void on_select_all(GtkWidget *widget, BrailleMusicEditor *editor)
 {

@@ -3,10 +3,17 @@
 
 /**
  * \file errors.h
- * \author Team BMC editor 
+ * \brief Error alert functions.
+ * \author Team BMC
+ * \version 1.0
+ * \date 07 April 2012
+ *
+ * Error alert function prototypes.
+ *
  */
 
 
-void open_error(GtkWidget *file_selection, FILE *file, const gchar * message_format, const gchar* path);
+void open_error(GtkWidget *file_selection, FILE *file, 
+		const gchar * message_format, const gchar* path);
 
 #endif

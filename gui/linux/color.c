@@ -1,16 +1,40 @@
+/**
+ * \file color.c
+ * \brief Braille Music lexical coloration.
+ * \author Team BMC
+ * \version 1.0
+ * \date 07 April 2012
+ *
+ * Lexical Highlighting callback functions
+ *
+ */
+
+
 #include <gtk/gtk.h> 
 #include "BrailleMusicEditor.h"
 #include "color.h"
 #include <string.h>
-/**
- * \file color.c
- * \author Team BMC editor 
- */
-
 
 /**
- * 
+ * \def NB_TYPES              
+ * \def NB_ACCIDENTALS         
+ * \def NB_ARTICULATIONS      
+ * \def NB_CLEFS              
+ * \def NB_FINGERINGS         
+ * \def NB_IN_ACCORDS         
+ * \def NB_INTERVALS           
+ * \def NB_NOTES              
+ * \def NB_OCTAVES            
+ * \def NB_ORNAMENTS          
+ * \def NB_REPETITONS_TREMOLO 
+ * \def NB_RESTS              
+ * \def NB_SLURS_TIES         
+ * \def NB_STEMS              
+ * \def NB_TUPLETS            
+ * \def UCHAR_SIZE            
  */
+  
+ 
 #define NB_TYPES              17
 #define NB_ACCIDENTALS         3
 #define NB_ARTICULATIONS      13
@@ -246,18 +270,15 @@ static gchar tuplets[NB_TUPLETS][UCHAR_SIZE*2+1] = {
 static gchar right_hand[] = "⠨⠜";
 static gchar left_hand[] = "⠸⠜";
 
-
 static int coloration_enabled = 0;
+
 /**
  * \fn void lexical_coloration(GtkButton *widget, BrailleMusicEditor *editor)
- * \brief This function enable/disable the syntax highlighting.
+ * \brief This function enables/disables the lexical highlighting.
  * \param widget The button trigerring the function.
- * \param editor The structure holding the data.
- * 
- *
+ * \param editor The GUI structure. 
  */
-void lexical_coloration(GtkWidget *widget, BrailleMusicEditor *editor)
-{	
+void lexical_coloration(GtkWidget *widget, BrailleMusicEditor *editor) {	
     init_colors();
     
     if(coloration_enabled%2 == 0)
@@ -267,9 +288,14 @@ void lexical_coloration(GtkWidget *widget, BrailleMusicEditor *editor)
 	coloration_enabled ++;
 }
 
-/*update the lexical coloration if it's enabled*/
-void coloration_update(GtkWidget *widget, BrailleMusicEditor *editor)
-{
+
+/**
+ * \fn void coloration_update(GtkWidget *widget, BrailleMusicEditor *editor)
+ * \brief This function updates the lexical highlighting if it's enabled.
+ * \param widget The button trigerring the function.
+ * \param editor The GUI structure. 
+ */
+void coloration_update(GtkWidget *widget, BrailleMusicEditor *editor) {
     if(coloration_enabled%2 == 1)
 	color(editor);    
 }
@@ -277,19 +303,22 @@ void coloration_update(GtkWidget *widget, BrailleMusicEditor *editor)
 
 /**
  * \fn void lexical_coloration_off(BrailleMusicEditor *editor)
- * \brief This function removes the syntax highlighting.
- * \param editor The structure holding the data.
- *  
+ * \brief This function removes the lexical highlighting.
+ * \param editor The GUI structure.
  */
-void lexical_coloration_off(BrailleMusicEditor *editor) 
-{
+void lexical_coloration_off(BrailleMusicEditor *editor) {
     GtkTextIter start, end;
-    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)); 
+    GtkTextBuffer *buffer;
+    
+    buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)); 
     gtk_text_buffer_get_start_iter(buffer, &start);
     gtk_text_buffer_get_end_iter(buffer, &end);
     gtk_text_buffer_remove_all_tags(buffer, &start, &end);
 }
-
+/**
+ * \fn void init_braille_table()
+ * \brief This function associates each braille pattern with its type
+ */
 void init_braille_table() {
     braille_table = g_hash_table_new(g_str_hash, g_str_equal);
     int i;
@@ -343,9 +372,12 @@ void init_braille_table() {
 	
     g_hash_table_insert(braille_table, right_hand, type_table[16]);
     g_hash_table_insert(braille_table, left_hand, type_table[16]);
-
 }
 
+/**
+ * \fn void init_colors()
+ * \brief This function initiates the GdkColor table
+ */
 void init_colors() {
     static int initialised = 0;
     if(!initialised) {
@@ -357,6 +389,11 @@ void init_colors() {
     }
 }
 
+/**
+ * \fn void set_tags(GtkTextBuffer *buffer)
+ * \brief This function creates a tag for each color 
+ * which is in the GdkColor table
+ */
 void set_tags(GtkTextBuffer *buffer) {
     GtkTextIter start, end;
     GtkTextTagTable *tag_table = gtk_text_buffer_get_tag_table(buffer);
@@ -380,11 +417,10 @@ void set_tags(GtkTextBuffer *buffer) {
  * \fn void color(BrailleMusicEditor *editor)
  * \brief This function color the differents types of braille music notations
  * in the textview.
- * \param editor The structure holding the data.
+ * \param editor The GUI structure.
  * 
  * This function will color the diffrents types of braille music notations present in text. 
  */
-
 void color(BrailleMusicEditor *editor)
 {
     GtkTextIter start, end;
@@ -430,7 +466,14 @@ void color(BrailleMusicEditor *editor)
 }
 
 
-/*This function will propose the different types of data (note, pause, measure bar, ...) that can be colored as the user wants
+
+/**
+ * \fn void color_options(GtkWidget *widget, BrailleMusicEditor *editor) 
+ * \brief Color options callback
+ * \param editor The GUI structure .
+ * 
+ * This function shows a dialog which allows user to customize the colors
+ * used in the lexical highlighting. 
  */
 void color_options(GtkWidget *widget, BrailleMusicEditor *editor) {
     GtkWidget* dialog;
@@ -451,6 +494,7 @@ void color_options(GtkWidget *widget, BrailleMusicEditor *editor) {
     
     GtkWidget *buttons[NB_TYPES];
     GtkWidget *labels[NB_TYPES];
+    GtkTextBuffer *buffer;
     int i;
     GtkWidget *box = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     for(i = 0; i < NB_TYPES; i++) {
@@ -467,14 +511,15 @@ void color_options(GtkWidget *widget, BrailleMusicEditor *editor) {
     }
     gtk_widget_show_all(box);
     
-    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)); 
+    buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)); 
    
     // run the dialog window
     switch (gtk_dialog_run(GTK_DIALOG(dialog)))
 	{
 	case GTK_RESPONSE_OK:
 	    for(i = 0; i < NB_TYPES; i++) {
-		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttons[i]), &color_table[i]); 
+		gtk_color_button_get_color(GTK_COLOR_BUTTON(buttons[i]), 
+					   &color_table[i]); 
 	    }
 	    //updating the coloration
 	    set_tags(buffer);
