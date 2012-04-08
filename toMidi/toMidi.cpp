@@ -1,4 +1,4 @@
-#include "listMidi.hpp"
+#include "toMidi.hpp"
 #include <smf.h>
 
 namespace music{
@@ -97,12 +97,12 @@ namespace music{
       for (int j = 1; j <= number_of_events; j++) {
 	char *midiMessageON = (char*)malloc(3*sizeof(char));
 	midiMessageON[0] = NOTE_ON;
-	midiMessageON[1] = 0;//il faut se servir du champs note de la cellule du type song[i]->note
+	midiMessageON[1] = 12*(1+(song[i].front())->key.octave) + (song[i].front())->key.step;//il faut se servir du champs note de la cellule du type song[i]->note
 	midiMessageON[2] = 60;//a-t-on des informations quant a la velocite ?
 
 	char *midiMessageOFF = (char*)malloc(3*sizeof(char));
 	midiMessageOFF[0] = NOTE_OFF;
-	midiMessageOFF[1] = 0;//il faut se servir du champs note de la cellule du type song[i]->note
+	midiMessageOFF[1] = 12*(1+(song[i].front())->key.octave) + (song[i].front())->key.step;//il faut se servir du champs note de la cellule du type song[i]->note
 	midiMessageOFF[2] = 60;//a-t-on des informations quant a la velocite ?
 	
 	//on cree les message
@@ -120,6 +120,9 @@ namespace music{
 	//on rajoute les message a la track
 	smf_track_add_event_seconds(track, eventON, (song[i].front())->start_date);
 	smf_track_add_event_seconds(track, eventOFF,(song[i].front())->end_date);
+
+	free(midiMessageON);
+	free(midiMessageOFF);
       }
     }
     

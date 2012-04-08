@@ -1,6 +1,6 @@
 #include "music.hpp"
 #include "ambiguous.hpp"
-#include "listMidi.hpp"
+#include "toMidi.hpp"
 
 
 using namespace music;
@@ -16,6 +16,6 @@ int main(){
   for(it=toto->song.begin();it!=toto->song.end();it++)
   std::wcout << (*it)->start << std::endl;   */
  
-  return 1;
+  return 0;
 }
 

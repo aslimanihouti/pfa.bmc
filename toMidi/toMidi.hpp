@@ -12,21 +12,23 @@ namespace music{
   struct keyWithInfo{
     float start_date;
     float end_date;
-    braille::ambiguous::note toto;
+    braille::ambiguous::note key;
     bool startRepeat;
     bool endRepeat;
     int nb_repetitions;
   };
-
-class listMidi{
-public:
-  std::list<struct keyWithInfo *>song[2];
-  //  std::list <struct keyWithInfo *> song_up;
-  //  std::list <struct keywithInfo *> song_down;
   
-public:
-  void unfold_repetitions();
-  void generate_midi_file();
-};
+  
+  class listMidi{
+  public:
+    std::list<struct keyWithInfo *>song[2];
+    //  std::list <struct keyWithInfo *> song_up;
+    //  std::list <struct keywithInfo *> song_down;
+  
+  public:
+    void unfold_repetitions();
+    void generate_midi_file();
+    void operator()(braille::ambiguous::score const&);
+  };
 }  
 #endif
