@@ -1,16 +1,23 @@
+/**
+ * \file window.c
+ * \brief Main window creating function.
+ * \author Team BMC
+ * \version 1.0
+ * \date 07 April 2012
+ *
+ * Main window creating function prototype.
+ *
+ */
+
 #include <stdlib.h>
 #include <gtk/gtk.h> 
 #include "BrailleMusicEditor.h"
 #include "window.h"
 #include "save.h"
 
-/**
- * \file window.c
- * \author Team BMC editor 
- */
-
 /** 
- * \fn void create_window(const gchar *title, gint width, gint height, BrailleMusicEditor *editor)
+ * \fn void create_window(const gchar *title, gint width, gint height, 
+ * BrailleMusicEditor *editor)
  * \brief Create a new window.
  * \param title The title of the window
  * \param width The width of the window
@@ -18,7 +25,8 @@
  * \param editor A pointer to a structure BrailleMusicEditor
  */
 
-void create_window(const gchar* title, gint width , gint height, BrailleMusicEditor *editor)
+void create_window(const gchar* title, gint width , gint height, 
+		   BrailleMusicEditor *editor)
 {
     editor->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(editor->window), title);
@@ -30,15 +38,17 @@ void create_window(const gchar* title, gint width , gint height, BrailleMusicEdi
     gtk_widget_modify_bg(editor->window, GTK_STATE_NORMAL, &grey);
     editor->vbox = gtk_vbox_new(FALSE, 2);
 
-    g_signal_connect(G_OBJECT(editor->window), "delete_event", G_CALLBACK(window_delete_event), editor);
-    g_signal_connect(G_OBJECT(editor->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);	
+    g_signal_connect(G_OBJECT(editor->window), "delete_event", 
+		     G_CALLBACK(window_delete_event), editor);
+    g_signal_connect(G_OBJECT(editor->window), "destroy",
+		     G_CALLBACK(gtk_main_quit), NULL);	
 }
 
 /** 
  * \fn void window_destroy (GtkWidget *widget, BrailleMusicEditor *editor)
  * \brief Closes the window.
  * \param widget The window to close
- * \param editor The BrailleMusicEditor in which to check values for saving modifications purposes
+ * \param editor A pointer to a structure BrailleMusicEditor.
  */
 
 void window_destroy (GtkWidget *widget, BrailleMusicEditor *editor)
@@ -52,21 +62,20 @@ void window_destroy (GtkWidget *widget, BrailleMusicEditor *editor)
 	gtk_main_quit();    
 }
 
+// When the window is requested to be closed, we need to check if
+// there is unsaved work.  We use this callback to prompt the
+// user to save their work before they exit the application. With the
+// "delete-event" signal, we can choose to cancel the
+// close based on the value we return.
+ 
 
 /**
- * When the window is requested to be closed, we need to check if
- * there is unsaved work.  We use this callback to prompt the
- * user to save their work before they exit the application. With the
- * "delete-event" signal, we can choose to cancel the
- * close based on the value we return.
- */
-
-/**
- * \fn gboolean window_delete_event (GtkWidget *widget, GdkEvent *event, BrailleMusicEditor *editor)
+ * \fn gboolean window_delete_event (GtkWidget *widget, GdkEvent *event, 
+ * BrailleMusicEditor *editor)
  * \brief When closing the window, checks if there is unsaved work.
  * \param widget The window to close
  * \param event
- * \param editor The BrailleMusicEditor structure containing flags for save purposes.
+ * \param editor A pointer to a structure BrailleMusicEditor.
  */
 gboolean window_delete_event (GtkWidget *widget, GdkEvent *event, 
 			      BrailleMusicEditor *editor)

@@ -1,3 +1,14 @@
+/**
+ * \file main.c
+ * \brief GUI main function.
+ * \author Team BMC
+ * \version 1.0
+ * \date 07 April 2012
+ *
+ * GUI main function.
+ *
+ */
+
 #include <stdlib.h>
 #include <gtk/gtk.h>
 #include <gtksourceview/gtksourceview.h>
@@ -9,16 +20,17 @@
 #include "color.h"
 #include "goto.h"
 #include "scoreviewer.h"
+#include "edit.h"
 
-void text_changed(GtkWidget *widget, BrailleMusicEditor *editor)
-{
-    editor->text_changed = TRUE;
-}
 
 
 /**
- * \file main.c
- * \author Team BMC editor 
+ * \fn int main(int argc, char **argv)
+ * \brief GUI main function.
+ * \param argc Number of parameters.
+ * \param argv Array of parameters.
+ * This function creates all the widgets of the structure BrailleMusicEditor
+ * and run le GUI loop.
  */
 
 int main(int argc, char **argv)
@@ -58,7 +70,7 @@ int main(int argc, char **argv)
     editor->textview=gtk_source_view_new(); 
     //show line number
     gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(editor->textview), TRUE);
-    g_signal_connect(gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)), "changed", G_CALLBACK(text_changed), editor);
+    g_signal_connect(gtk_text_view_get_buffer(GTK_TEXT_VIEW(editor->textview)), "changed", G_CALLBACK(on_text_changed), editor);
     gtk_container_add(GTK_CONTAINER(editor->edit_scrollbar), editor->textview);
     
     //lexical coloration auto update

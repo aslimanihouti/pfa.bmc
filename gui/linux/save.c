@@ -1,23 +1,28 @@
+/**
+ * \file save.c
+ * \brief Save file callback.
+ * \author Team BMC
+ * \version 1.0
+ * \date 07 April 2012
+ *
+ * Save file callback.
+ *
+ */
+
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include "BrailleMusicEditor.h"
 #include "save.h"
 #include "errors.h"
 
-
-/**
- * \file save.c
- * \author Team BMC editor 
- */
-
-
 /**
  * \fn void save_file(GtkWidget *widget, BrailleMusicEditor *editor)
  * \brief This function is called when selecting save file.
- * \param widget This parameter is not used in the function, but it has to be present in the prototype due to gtk+ standards.
- * \param editor The structure in which the current file is to be read.
+ * \param widget The widget which triggered the call.
+ * \param editor The GUI structure.
  * 
- * This function displays the window where one can chose in which file the data has to be saved.
+ * This function displays the window where one can chose 
+ * in which file the data has to be saved.
  */
 void save_file(GtkWidget *widget, BrailleMusicEditor *editor)
 {
@@ -31,11 +36,17 @@ void save_file(GtkWidget *widget, BrailleMusicEditor *editor)
 	write_file(editor->filename,buffer, NULL, editor);
     else{
 	//creation of the file selection window
-	file_selection = gtk_file_chooser_dialog_new ("Save file", NULL, GTK_FILE_CHOOSER_ACTION_SAVE, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, NULL);
+	file_selection = gtk_file_chooser_dialog_new ("Save file", NULL, 
+						      GTK_FILE_CHOOSER_ACTION_SAVE,
+						      GTK_STOCK_CANCEL, 
+						      GTK_RESPONSE_CANCEL, 
+						      GTK_STOCK_SAVE, 
+						      GTK_RESPONSE_ACCEPT, NULL);
 	//banning use of other window
 	gtk_window_set_modal(GTK_WINDOW(file_selection), TRUE);
 
-	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(file_selection), TRUE);
+	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(file_selection), 
+						       TRUE);
 	
 	if(gtk_dialog_run(GTK_DIALOG(file_selection))==GTK_RESPONSE_ACCEPT){
 	    path = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_selection));
@@ -48,8 +59,8 @@ void save_file(GtkWidget *widget, BrailleMusicEditor *editor)
 /** 
  * \fn void save_file_as(GtkWidget *widget, BrailleMusicEditor *editor)
  * \brief This function is called when selecting save file as.
- * \param widget This parameter is not used in the function, but it has to be present in the prototype due to gtk+ standards.
- * \param editor The structure in which the current file is to be read.
+ * \param widget The widget which triggered the call.
+ * \param editor The GUI structure.
  */	
 void save_file_as(GtkWidget *widget, BrailleMusicEditor *editor)
 {
@@ -59,14 +70,17 @@ void save_file_as(GtkWidget *widget, BrailleMusicEditor *editor)
 
 
 /**
- * \fn void write_file(gchar *path,GtkTextBuffer *buffer, GtkWidget *file_selection, BrailleMusicEditor *editor)
- * \brief Once save_file is called, the function calls write_file to save the content of the editor into a file.
+ * \fn void write_file(gchar *path,GtkTextBuffer *buffer, 
+ * GtkWidget *file_selection, BrailleMusicEditor *editor)
+ * \brief Once save_file is called, the function calls write_file 
+ * to save the content of the editor into a file.
  * \param path The file in which to save the data.
  * \param buffer The buffer where the data is.
- * \param file_selection 
- * \param editor The structure holding everything.
+ * \param file_selection file selection widget.
+ * \param editor The GUI structure.
  */
-void write_file(gchar *path,GtkTextBuffer *buffer, GtkWidget *file_selection, BrailleMusicEditor *editor)
+void write_file(gchar *path,GtkTextBuffer *buffer, 
+		GtkWidget *file_selection, BrailleMusicEditor *editor)
 {
     FILE *file;
     GtkTextIter start;
@@ -90,7 +104,8 @@ void write_file(gchar *path,GtkTextBuffer *buffer, GtkWidget *file_selection, Br
 
 /**
  * \fn  gint check_for_save (BrailleMusicEditor *editor)
- * \brief This functions returns the boolean that represents wether the user wants to save changes before exiting the program.
+ * \brief This functions returns the boolean that represents 
+ * whether the user wants to save changes before exiting the program.
  * \param editor The structure that holds the data.
  * \return 0 means no, 1 means yes, 2 means cancel.
  */
@@ -104,7 +119,8 @@ gint check_for_save (BrailleMusicEditor *editor)
 	// we need to prompt for save 
 	GtkWidget *dialog;
 	dialog = gtk_message_dialog_new(GTK_WINDOW(editor->window), 
-					GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT, 
+					GTK_DIALOG_MODAL|
+					GTK_DIALOG_DESTROY_WITH_PARENT, 
 					GTK_MESSAGE_QUESTION, 
 					GTK_BUTTONS_YES_NO,
 					"Do you want to save the changes you have made?");

@@ -1,8 +1,24 @@
+/**
+ * \file player.c
+ * \brief Midi player functions.
+ * \author Team BMC
+ * \version 1.0
+ * \date 07 April 2012
+ *
+ * Midi player functions.
+ *
+ */
+
+
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 #include <pthread.h>
 #include <gtk/gtk.h>
 #include "player.h"
+
+/**
+ * \def MUSIC_FILE
+ */
 
 #define MUSIC_FILE "music.mid"
 
@@ -10,18 +26,12 @@
 static Mix_Music* myMus=NULL;
 
 
-/**
- * \file player.c
- * \author Team BMC editor 
- */
-
 
 
 /**
  * \fn void *bmc_play_(void *)
  * \brief This function plays the music contained in an instance of Mix_Music. 
  */
-
 void *bmc_play_(void *v)
 {   
     
@@ -41,7 +51,8 @@ void *bmc_play_(void *v)
     Mix_PlayMusic(myMus, 1);
 
     while (Mix_PlayingMusic() == 1) {
-	//While th music isn't finshed, we do something otherwise the programme exits and stops playing 
+	//While the music isn't finshed, we do something o
+	//therwise the programme exits and stops playing 
 	SDL_Delay(10);
     }
     if(myMus != NULL)
@@ -102,9 +113,9 @@ void bmc_stop()
 
 /**
  * \fn void free_mix_music(Mix_Music *myMus)
- * \brief This function delete the instance of Mix_Music which is created by bmc_play_(). 
+ * \brief This function delete the instance of Mix_Music 
+ * which is created by bmc_play_(). 
  */
-
 
 void free_mix_music()
 {

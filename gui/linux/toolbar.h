@@ -3,7 +3,13 @@
 
 /**
  * \file toolbar.h
- * \author Team BMC editor 
+ * \brief Toolbar creating function.
+ * \author Team BMC
+ * \version 1.0
+ * \date 07 April 2012
+ *
+ * Toolbar creating function prototype.
+ *
  */
 
 

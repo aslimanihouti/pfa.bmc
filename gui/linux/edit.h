@@ -27,4 +27,5 @@ void on_select(GtkWidget *widget, BrailleMusicEditor *editor);
 
 void on_select_all(GtkWidget *widget, BrailleMusicEditor *editor);
 
+void on_text_changed(GtkWidget *widget, BrailleMusicEditor *editor);
 #endif

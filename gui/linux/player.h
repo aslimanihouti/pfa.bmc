@@ -3,7 +3,13 @@
 
 /**
  * \file player.h
- * \author Team BMC editor 
+ * \brief Midi player functions.
+ * \author Team BMC
+ * \version 1.0
+ * \date 07 April 2012
+ *
+ * Midi player function prototypes.
+ *
  */
 
 void *bmc_play_(void *);
