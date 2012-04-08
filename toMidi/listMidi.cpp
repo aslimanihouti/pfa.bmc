@@ -48,8 +48,9 @@ namespace music{
 	      (*rit)->end_date += no_repetition*repetition_duration;
 	    } while(rit !=repetition.end());
 	    //the 'no_repetition'th repetition has its start_date and end_date modified
-	    
-	    song[i].splice(tmp_end, repetition); //insert the repetition list before the pointer tmp_end
+	    std::list<struct keyWithInfo *>::iterator tmpit;
+	    *tmpit = tmp_end;
+	    song[i].splice(tmpit, repetition); //insert the repetition list before the pointer tmp_end
 	    
 	    no_repetition++;
 	  }
