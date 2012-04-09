@@ -12,7 +12,7 @@
 #include <gtk/gtk.h>
 #include <evince-view.h>
 #include <stdlib.h>
-
+#include "BrailleMusicEditor.h"
 /**
  * \fn void external_link_catch(GtkWidget *w, GObject *link) 
  * \brief This function catch the signal when a clic is made on a note.
@@ -20,19 +20,19 @@
  * \param link ev_link_action.
  * 
  */
-void external_link_catch(GtkWidget *w, GObject *link) {
+void external_link_catch(GtkWidget *widget, GObject *link) {
     EvLinkAction *l = EV_LINK_ACTION(link);
-    ev_view_copy_link_address(EV_VIEW(w), l);
+    ev_view_copy_link_address(EV_VIEW(widget), l);
     
     printf("%s\n", ev_link_action_get_uri(l));
 }
 
 /**
- * \fn void show_score(GtkWidget *w) 
+ * \fn void show_score(BrailleMusicEditor *editor) 
  * \brief This function create a scoreviewer in a widget.
- * \param w The widget in which th scoreviewer will be created.
+ * \param editor The GUI structure.
  */
-void show_score(GtkWidget *w) {
+void show_score(BrailleMusicEditor *editor) {
     GError *err = NULL;
     GFile *file;
     gchar *filename = "score.pdf";
@@ -48,10 +48,8 @@ void show_score(GtkWidget *w) {
 	err = NULL;
     } else {
 	EvDocumentModel *docmodel = ev_document_model_new_with_document(EV_DOCUMENT(doc)); 
-	GtkWidget *scoreview = ev_view_new();
-	ev_view_set_model(EV_VIEW(scoreview), EV_DOCUMENT_MODEL(docmodel));
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(w), scoreview);	
-	g_signal_connect(scoreview, "external-link", 
+	ev_view_set_model(EV_VIEW(editor->score_view), EV_DOCUMENT_MODEL(docmodel));
+	g_signal_connect(editor->score_view, "external-link", 
 			 G_CALLBACK(external_link_catch), NULL);
     }
 }

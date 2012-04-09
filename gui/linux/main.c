@@ -80,7 +80,10 @@ int main(int argc, char **argv)
     editor->score_scrollbar = gtk_scrolled_window_new(NULL, NULL);
     gtk_box_pack_start(GTK_BOX(editor->hbox),editor->score_scrollbar, TRUE, TRUE, 5);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(editor->score_scrollbar), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-    show_score(editor->score_scrollbar);
+    editor->score_view = ev_view_new();
+    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(editor->score_scrollbar), editor->score_view);	
+    show_score(editor); 
+    
     
     
     gtk_widget_grab_focus(editor->textview);

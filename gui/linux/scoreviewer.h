@@ -12,7 +12,7 @@
  *
  */
 
-void show_score(GtkWidget *w);
+void show_score(BrailleMusicEditor *editor);
 
 
 #endif
