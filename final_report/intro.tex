@@ -1,0 +1,26 @@
+\subsection*{Contexte}
+Braille Music Compiler (BMC) est un outil de conversion du braille musical principalement destiné à l'usage de personnes aveugles ou malvoyantes. Il est capable d'interpréter une partition écrite en braille pour la convertir en une sortie audio qui peut par la suite être transformée en un fichier  MIDI ou MusicXML.\\
+
+  BMC est actuellement à l'état de prototype, il est en cours de développement par Mario Lang, un autrichien non-voyant passionné par la musique et l'informatique.
+
+  L'idée de développer un tel outil lui est venue lorsqu'il voulu jouer des partitions braille de musique classique. Souvent, il n'était pas sûr de bien interpréter certaines notes et s'est vite rendu compte que cette notation peut parfois porter à confusion. La notation Braille musicale est, en effet, assez complexe et peut parfois sembler ambiguë d'où l'utilité d'un programme qui servirait de référence en permettant d'écouter la note jouée. 
+  
+  Seulement la plupart des programmes disponibles sur le marché qui vont dans ce sens sont assez chers - coût moyen de 600 euros - et ne sont en général compatibles qu'avec Windows, ce qui limite fortement leur utilisation.
+ 
+  M. Lang commença par travailler sur \textit{FreeDots}, un programme capable de convertir des partitions \textit{noires} de musique en partitions braille.
+
+  Encouragé par le succès que rencontra ce premier programme, il décida ensuite de se lancer dans la transcription inverse du braille musical, ce qui donna naissance au Braille Music Compiler. \\
+  
+  L'amélioration de l'utilisation du BMC notamment par l'implémentation d'une interface graphique nous a alors été proposée par Samuel Thibault, chercheur à l'INRIA et proche collaborateur du développeur du BMC. 
+  
+  
+ 
+\subsection*{Problématique}
+Le Braille Music Compiler était il y a quelques mois encore en cours de développement. En effet, l'exécution de sa version au début du projet requiert une certaine connaissance des outils informatiques, chose qui rendait difficile son utilisation par un usager lambda.
+
+L'intérêt de ce projet est donc d'améliorer cet outil de façon à ce qu'il devienne accessible à un plus large public. La mise en oeuvre d'une interface graphique permet en effet de rendre son utilisation plus intuitive.
+
+  Étant principalement dédié à l'usage de personnes non(ou mal)-voyantes, l'interface graphique implémentée doit donc répondre à un certain nombre de critères en termes d'accessibilité, elle se veut simple et fonctionnelle.
+  De plus, nous avons porté attention à ce que cette interface comporte aussi des fonctionnalités d'édition et de modifications de fichiers écrits en braille musical.
+   
+  Le BMC a aussi pour ambition de faciliter la collaboration entre voyants et non-voyants. En ce sens, l'interface affiche à la fois les partitions de musique écrites en braille et celles en \textit{noir} permettant ainsi à chacun des collaborateurs de pouvoir se repérer par rapport aux partitions de l'autre.    
