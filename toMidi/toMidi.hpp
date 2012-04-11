@@ -1,34 +1,61 @@
-#ifndef LIST_MIDI_H
-#define LIST_MIDI_H
+#ifndef TO_MIDI_H
+#define TO_MIDI_H
 
 #include "ambiguous.hpp"
 #include "music.hpp"
-
+#include "noteWithInfo.hpp"
 
 #define NOTE_ON 0x90
 #define NOTE_OFF 0x80
 
-namespace music{
-  struct keyWithInfo{
-    float start_date;
-    float end_date;
-    braille::ambiguous::note key;
-    bool startRepeat;
-    bool endRepeat;
-    int nb_repetitions;
-  };
+namespace music{namespace toMidi{
+    /*  struct keyWithInfo{
+	float start_date;
+	float end_date;
+	braille::ambiguous::note key;
+	bool begin_repeat;
+	bool end_repeat;
+	int nb_repetitions;
+	};*/
   
   
-  class listMidi{
-  public:
-    std::list<struct keyWithInfo *>song[2];
-    //  std::list <struct keyWithInfo *> song_up;
-    //  std::list <struct keywithInfo *> song_down;
+    class toMidi : public boost::static_visitor<void> {
+    public:
+      std::list<music::noteWithInfo *>song[2];    
   
-  public:
-    void unfold_repetitions();
-    void generate_midi_file();
-    void operator()(braille::ambiguous::score const&);
-  };
+    public:
+      void unfold_repetitions();
+      void generate_midi_file();
+
+    public:
+
+      //  result_type operator() (braille::ambiguous::measure const&) const;
+      //   result_type operator() (braille::ambiguous::barline const&) const;
+      //   result_type operator() (braille::ambiguous::simile const&) const;
+      //   result_type operator() (braille::ambiguous::value_distinction const&) const;
+      //    result_type operator() (braille::ambiguous::hand_sign const&) const;
+      //   result_type operator() (braille::ambiguous::rest const&) const;
+      //   result_type operator() (braille::ambiguous::note const&) const;
+      //   result_type operator() (braille::ambiguous::chord const&) const;
+
+    private:
+      void operator() (braille::ambiguous::score const& score);     
+      void operator() (braille::ambiguous::part const& part,
+		       braille::ambiguous::score const& score
+		       ) const;
+
+
+      //   void operator() (braille::ambiguous::voice const&) const;
+      //   void operator() (braille::ambiguous::partial_measure const&) const;
+      //   void operator() (braille::ambiguous::partial_voice const&) const;
+
+    private:
+      double mi_begin_partial_measure;
+      double mi_begin_measure;
+      double mi_current_note;
+      double mi_current_staff;
+      double mi_current_part;
+    };
+  }
 }  
 #endif

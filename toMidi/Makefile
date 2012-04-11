@@ -6,7 +6,7 @@ INCLUDE3=/usr/include/
 
 all:bmc
 
-bmc:main.o toMidi.o
+bmc:main.o toMidi.o noteWithInfo.o
 	g++ -I $(BOOSTDIR) -I $(INCLUDE3) -I $(INCLUDE1) -I $(INCLUDE2) -o $@ $^ -lsmf
 
 %.o: %.cpp

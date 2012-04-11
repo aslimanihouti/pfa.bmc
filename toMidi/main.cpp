@@ -7,8 +7,8 @@ using namespace music;
 
 int main(){
   int i;
-  listMidi *toto = new listMidi;
-  struct keyWithInfo *test;// = new keyWithInfo;
+  //listMidi *toto = new listMidi;
+  //  struct keyWithInfo *test;// = new keyWithInfo;
   /*  test->start = 3;
   braille::ambiguous::note tata;
   toto->song.push_back(test);
