@@ -113,18 +113,20 @@ void create_menubar(BrailleMusicEditor *editor)
     GtkWidget *next= gtk_image_menu_item_new_from_stock(GTK_STOCK_GO_FORWARD, 
 							accel_group);
     g_signal_connect(G_OBJECT(next), "activate", G_CALLBACK(goto_next), editor);
-    gtk_widget_add_accelerator(next, "activate", accel_group,GDK_KEY_n, 
-			       GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);	
+    gtk_widget_add_accelerator(next, "activate", accel_group,GDK_KEY_Right, 
+			       GDK_CONTROL_MASK | GDK_SHIFT_MASK 
+			       , GTK_ACCEL_VISIBLE);	
     GtkWidget *prev = gtk_image_menu_item_new_from_stock(GTK_STOCK_GO_BACK,
 							 accel_group);
     g_signal_connect(G_OBJECT(prev), "activate", G_CALLBACK(goto_prev), editor);
-    gtk_widget_add_accelerator(prev, "activate", accel_group,GDK_KEY_b,
-			       GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);	
+    gtk_widget_add_accelerator(prev, "activate", accel_group,GDK_KEY_Left,
+			       GDK_CONTROL_MASK | GDK_SHIFT_MASK , 
+			       GTK_ACCEL_VISIBLE);	
     GtkWidget *goto_n = gtk_image_menu_item_new_from_stock(GTK_STOCK_JUMP_TO, 
 							   accel_group);
     g_signal_connect(G_OBJECT(goto_n), "activate", G_CALLBACK(goto_num),editor);
     gtk_widget_add_accelerator(goto_n, "activate", accel_group,GDK_KEY_g,
-			       GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);	
+			       GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);	
     GtkWidget *sep5= gtk_separator_menu_item_new();
     GtkWidget *select_all = gtk_image_menu_item_new_from_stock(GTK_STOCK_SELECT_ALL,
 							       accel_group);
@@ -161,8 +163,9 @@ void create_menubar(BrailleMusicEditor *editor)
     
     //creation of the build submenu's items
     GtkWidget *build = gtk_menu_item_new_with_mnemonic("_Build");
-    GtkWidget *comp = gtk_image_menu_item_new_from_stock(GTK_STOCK_EXECUTE,
-							 accel_group); 
+    GtkWidget *comp = gtk_menu_item_new_with_label("Compile");
+    gtk_widget_add_accelerator(comp, "activate", accel_group,GDK_KEY_F4,
+			       (GdkModifierType)0, GTK_ACCEL_VISIBLE);	
     g_signal_connect(G_OBJECT(comp), "activate", G_CALLBACK(compile), editor);
     
     //addition of the buid submenu's items in the menu 
@@ -180,15 +183,21 @@ void create_menubar(BrailleMusicEditor *editor)
     GtkWidget *play = gtk_image_menu_item_new_from_stock(GTK_STOCK_MEDIA_PLAY,
 							 accel_group);
     g_signal_connect(G_OBJECT(play), "activate", G_CALLBACK(bmc_play), NULL);
-    //gtk_widget_add_accelerator(play, "activate", accel_group,GDK_KEY_p, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+    gtk_widget_add_accelerator(play, "activate", accel_group,GDK_KEY_F5,
+			       (GdkModifierType)0, GTK_ACCEL_VISIBLE);	
+    
     GtkWidget *pause = gtk_image_menu_item_new_from_stock(GTK_STOCK_MEDIA_PAUSE, 
 							  accel_group);
-    g_signal_connect(G_OBJECT(pause), "activate", G_CALLBACK(pause), NULL);
-    //gtk_widget_add_accelerator(pause, "activate", accel_group,GDK_KEY_o, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+    g_signal_connect(G_OBJECT(pause), "activate", G_CALLBACK(bmc_pause), NULL);
+    gtk_widget_add_accelerator(pause, "activate", accel_group,GDK_KEY_F6,
+			       (GdkModifierType)0, GTK_ACCEL_VISIBLE);	
+    
     GtkWidget *stop = gtk_image_menu_item_new_from_stock(GTK_STOCK_MEDIA_STOP,
 							 accel_group);
     g_signal_connect(G_OBJECT(stop), "activate", G_CALLBACK(bmc_stop), NULL);
-    //gtk_widget_add_accelerator(save, "activate", accel_group,GDK_KEY_s, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);	
+    gtk_widget_add_accelerator(stop, "activate", accel_group,GDK_KEY_F7, 
+			       (GdkModifierType)0, GTK_ACCEL_VISIBLE);	
+    
     //addition of the player submenu's items in the menu 
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(player), playermenu);
     gtk_menu_shell_append(GTK_MENU_SHELL(playermenu), play);
@@ -202,9 +211,9 @@ void create_menubar(BrailleMusicEditor *editor)
     
     //creation of the options submenu's items
     GtkWidget *options = gtk_menu_item_new_with_mnemonic("_Options");
-    GtkWidget *enable_color = gtk_check_menu_item_new_with_label("Enable lexical coloration");
-    GtkWidget *color = gtk_image_menu_item_new_from_stock(GTK_STOCK_SELECT_COLOR,
-							  accel_group);
+    GtkWidget *enable_color = gtk_check_menu_item_new_with_label("Enable Lexical Coloration");
+    GtkWidget *color = gtk_menu_item_new_with_label("Color Options");
+    gtk_widget_add_accelerator(enable_color, "activate", accel_group,GDK_KEY_l, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);	
     g_signal_connect(G_OBJECT(color), "activate", 
 		     G_CALLBACK(color_options), editor);
     g_signal_connect(G_OBJECT(enable_color), "activate", 
