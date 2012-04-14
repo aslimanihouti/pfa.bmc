@@ -137,13 +137,7 @@ namespace music{namespace toMidi{
     }
 
 
-    void toMidi::operator() (braille::ambiguous::part const& part,
-		       braille::ambiguous::score const& score
-		       ) const{}
-
-
-
-
+    
     void toMidi::operator()(braille::ambiguous::score const& score) 
     { 
       /*Only one partition available, if more than one partition the behavior of the program is undeterminated
@@ -157,52 +151,52 @@ namespace music{namespace toMidi{
 	mi_current_part++;
       }
     }
-  
-    // void toMidi::operator()(braille::ambiguous::part const& part,
-    // 			  braille::ambiguous::score const& score
-    // 			  )const 
-    // {
-
     
-    //   // for(size_t staff_index = 0 ; staff_index < (int) part.size() ; ++staff_index){
-    //   //   mi_current_staff = staff_index;
-    //   //   for(size_t measure_index = 0 ; measure_index < part[staff_index].size() ; ++measure_index ){ 
-    //   // 	boost::variant<braille::ambiguous::measure> const& this_measure = part[staff_index][measure_index];
-    //   // 	boost::apply_visitor(*this, this_measure);
-    //   // 	}
-    //   // }
+    void toMidi::operator()(braille::ambiguous::part const& part,
+			    braille::ambiguous::score const& score
+			    )
+    {
+      for(size_t staff_index = 0 ; staff_index < (int) part.size() ; ++staff_index){
+	mi_current_staff = staff_index;
+        for(size_t measure_index = 0 ; measure_index < part[staff_index].size() ; ++measure_index ){ 
+	  boost::variant<braille::ambiguous::measure> const& this_measure = part[staff_index][measure_index];
+	  //	  boost::apply_visitor(*this, this_measure);
+      	}
+      }
 
-    // }
-
-    // result_type toMidi::operator() (braille::ambiguous::measure const& measure) const
-    // {
-    //   // if (measure.voices.size() == 1) {
-    //   //   (*this)(measure.voices.front());
-    //   // } else {
-    //   //   for (size_t voice_index = 0; voice_index < measure.voices.size();
-    //   // 	   ++voice_index)
-    //   // 	{
-    //   // 	  mi_begin_measure = mi_current_note;
-    //   // 	  (*this)(measure.voices[voice_index]);
-    //   // 	} 
-    //   // }
-    // }
+    }
+    
+    
+    
+    toMidi::result_type toMidi::operator() (braille::ambiguous::measure const& measure)
+     {
+      if (measure.voices.size() == 1) {
+	 (*this)(measure.voices.front());
+      } else {
+         for (size_t voice_index = 0; voice_index < measure.voices.size();
+	      ++voice_index)
+      	{
+       	  mi_begin_measure = mi_current_note;
+       	  (*this)(measure.voices[voice_index]);
+       	} 
+       }
+    }
   
 
-    // void toMidi::operator() (braille::ambiguous::voice const& voice) const
-    // {
-    //   // mi_current_note = mi_begin_measure;
-    //   // for (size_t partial_measure_index = 0; partial_measure_index < voice.size();
-    //   // 	 ++partial_measure_index)
-    //   //   {
-    //   // 	mi_partial_measure = mi_current_note;
-    //   // 	(*this)(voice[partial_measure_index]);
-    //   //   }
-    // }
+    void toMidi::operator() (braille::ambiguous::voice const& voice)
+    {
+      mi_current_note = mi_begin_measure;
+      for (size_t partial_measure_index = 0; partial_measure_index < voice.size();
+	   ++partial_measure_index)
+	{
+	  mi_begin_partial_measure = mi_current_note;
+	  (*this)(voice[partial_measure_index]);
+	}
+     }
 
 
-    // void toMidi::operator() (braille::ambiguous::partial_measure const& partial_measure) const
-    // {
+    void toMidi::operator() (braille::ambiguous::partial_measure const& partial_measure) const
+    {
     //   // mi_current_note = mi_begin_partial_measure;
     //   // if (partial_measure.size() == 1) {
     //   //   (*this)(partial_measure.front());
@@ -214,7 +208,7 @@ namespace music{namespace toMidi{
 	  
     //   // 	}
     //   // }
-    // }
+      }
   
 
     // void toMidi::operator() (braille::ambiguous::partial_voice const& partial_voice) const

@@ -9,15 +9,7 @@
 #define NOTE_OFF 0x80
 
 namespace music{namespace toMidi{
-    /*  struct keyWithInfo{
-	float start_date;
-	float end_date;
-	braille::ambiguous::note key;
-	bool begin_repeat;
-	bool end_repeat;
-	int nb_repetitions;
-	};*/
-  
+    typedef bool result_type;
   
     class toMidi : public boost::static_visitor<void> {
     public:
@@ -29,7 +21,7 @@ namespace music{namespace toMidi{
 
     public:
 
-      //  result_type operator() (braille::ambiguous::measure const&) const;
+      result_type operator() (braille::ambiguous::measure const&);
       //   result_type operator() (braille::ambiguous::barline const&) const;
       //   result_type operator() (braille::ambiguous::simile const&) const;
       //   result_type operator() (braille::ambiguous::value_distinction const&) const;
@@ -42,11 +34,11 @@ namespace music{namespace toMidi{
       void operator() (braille::ambiguous::score const& score);     
       void operator() (braille::ambiguous::part const& part,
 		       braille::ambiguous::score const& score
-		       ) const;
+		       );
 
 
-      //   void operator() (braille::ambiguous::voice const&) const;
-      //   void operator() (braille::ambiguous::partial_measure const&) const;
+      void operator() (braille::ambiguous::voice const&);
+      void operator() (braille::ambiguous::partial_measure const&) const;
       //   void operator() (braille::ambiguous::partial_voice const&) const;
 
     private:
