@@ -1,7 +1,7 @@
 #include "toMidi.hpp"
 #include <smf.h>
 
-namespace music{namespace toMidi{
+namespace music{namespace toMidiPFA{
 
     void toMidi::unfold_repetitions(){
       std::list<music::noteWithInfo *>::iterator it;
@@ -195,93 +195,94 @@ namespace music{namespace toMidi{
      }
 
 
-    void toMidi::operator() (braille::ambiguous::partial_measure const& partial_measure) const
+    void toMidi::operator() (braille::ambiguous::partial_measure const& partial_measure)
     {
-    //   // mi_current_note = mi_begin_partial_measure;
-    //   // if (partial_measure.size() == 1) {
-    //   //   (*this)(partial_measure.front());
-    //   // } else {
-    //   //   for (size_t voice_index = 0; voice_index < partial_measure.size();
-    //   // 	   ++voice_index)
-    //   // 	{
-    //   // 	  (*this)(partial_measure[voice_index]);
+      mi_current_note = mi_begin_partial_measure;
+      if (partial_measure.size() == 1) {
+        (*this)(partial_measure.front());
+      } else {
+        for (size_t voice_index = 0; voice_index < partial_measure.size();
+      	   ++voice_index)
+      	{
+      	  (*this)(partial_measure[voice_index]);
 	  
-    //   // 	}
-    //   // }
+      	}
+      }
       }
   
 
-    // void toMidi::operator() (braille::ambiguous::partial_voice const& partial_voice) const
-    // {
-    //   // for (size_t element_index = 0; element_index < partial_voice.size();
-    //   // 	 ++element_index)
-    //   //   {
-    //   // 	boost::apply_visitor(*this, partial_voice[element_index]);
-    //   //   }
-    // }
+    void toMidi::operator() (braille::ambiguous::partial_voice const& partial_voice)
+    {
+      for (size_t element_index = 0; element_index < partial_voice.size();
+      	 ++element_index)
+        {
+	  //boost::apply_visitor(*this, partial_voice[element_index]);
+        }
+    }
   
-    // result_type toMidi::operator() (braille::ambiguous::barline const& barline) const{
-    //   music::noteWithInfo new_noteWithInfo = new noteWithInfo;
+    toMidi::result_type toMidi::operator() (braille::ambiguous::barline const& barline) const{
+       music::noteWithInfo *new_noteWithInfo = new noteWithInfo;
 
-    //   new_noteWithInfo->note = NULL;
+       //new_noteWithInfo->note = NULL;
 
-    //   new_noteWithInfo->start_date = mi_current_note;
-    //   new_noteWithInfo->end_date = mi_current_note;
+      new_noteWithInfo->start_date = mi_current_note;
+      new_noteWithInfo->end_date = mi_current_note;
 
-    //   switch(barline){
-    //   case begin_repeat:
-    //     new_noteWithInfo->begin_repeat = true;
-    //     new_noteWithInfo->end_repeat = false;
-    //     break;
-    //   case end_repeat:
-    //     new_noteWithInfo->begin_repeat = false;
-    //     new_noteWithInfo->end_repeat = true;
-    //     break;
-    //   case default:
-    //     throw "error barline";
-    //   }
-    //   song[mi_current_staff].push_back(new_key);
-    // }
+      switch(barline){
+      case music::braille::ambiguous::begin_repeat:
+	new_noteWithInfo->begin_repeat = true;
+	new_noteWithInfo->end_repeat = false;
+	break;
+      case music::braille::ambiguous::end_repeat:
+        new_noteWithInfo->begin_repeat = false;
+        new_noteWithInfo->end_repeat = true;
+        break;
+      default:
+        throw "error barline";
+      }
+      const noteWithInfo &refOnNote = *new_noteWithInfo;
+      //song[mi_current_staff].push_back(refOnNote);
+    }
 
-    // result_type toMidi::operator() (braille::ambiguous::simile const& simile) const
-    // {
+    toMidi::result_type toMidi::operator() (braille::ambiguous::simile const& simile) const
+    {
+      
+    }
+  
+    toMidi::result_type toMidi::operator() (braille::ambiguous::value_distinction const& value_distinction) const
+    {
     
-    // }
+    }
+
+    toMidi::result_type toMidi::operator() (braille::hand_sign const& hand_sign) const
+    {
+
+    }
   
-    // result_type toMidi::operator() (braille::ambiguous::value_distinction const& value_distinction) const
-    // {
+    toMidi::result_type toMidi::operator() (braille::ambiguous::rest const& rest)
+    {
+      mi_current_note += (rest.as_rational().numerator() / rest.as_rational().denominator() );
+
+    }
+  
+    toMidi::result_type toMidi::operator() (braille::ambiguous::note const& note)
+    {
+      music::noteWithInfo *new_noteWithInfo = new noteWithInfo;
     
-    // }
+      double note_length = (note.as_rational().numerator() / note.as_rational().denominator() );
+      // copy note call new, delete must be done later on
+      //new_noteWithInfo->note = copy_note(note);
+      new_noteWithInfo->start_date = mi_current_note;
+      new_noteWithInfo->end_date = mi_current_note + note_length;
+      //song[mi_current_staff].push_back(new_noteWithInfo);
+      mi_current_note += note_length;
 
-    // /*  result_type toMidi::operator() (braille::ambiguous::hand_sign const& hand_sign) const
-    // {
+    }
 
-    // }*/
-  
-    // result_type toMidi::operator() (braille::ambiguous::rest const& rest) const
-    // {
-    //   mi_current_note += (rest.as_rational().numerator() / rest.as_rational().denominator() );
+    toMidi::result_type toMidi::operator() (braille::ambiguous::chord const& chord)
+    {
 
-    // }
-  
-    // result_type toMidi::operator() (braille::ambiguous::note const& note) const
-    // {
-    //   music::noteWithInfo new_noteWithInfo = new noteWithInfo;
-    
-    //   double note_length = (note.as_rational().numerator() / note.as_rational().denominator() );
-    //   // copy note call new, delete must be done later on
-    //   new_noteWithInfo->key = copy_note(note);
-    //   new_noteWithInfo->start_date = mi_current_note;
-    //   new_noteWithInfo->end_date = mi_current_note + key_lenght;
-    //   this->song[mi_current_staff].push_back(new_noteWithInfo);
-    //   mi_current_note += note_length;
-
-    // }
-
-    // result_type toMidi::operator() (braille::ambiguous::chord const& chord) const 
-    // {
-
-    // }
+    }
 
   }
 }
