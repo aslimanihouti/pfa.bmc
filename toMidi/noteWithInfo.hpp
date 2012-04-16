@@ -7,12 +7,17 @@
 namespace music{
   class noteWithInfo{
   public:
-    braille::ambiguous::note note;
+    braille::ambiguous::note* note;
     double start_date;
     double end_date;
     bool begin_repeat;
     bool end_repeat;
     int nb_repetitions;
+
+  public:
+    noteWithInfo(){
+      note=NULL;
+    }
   };
 }
 
