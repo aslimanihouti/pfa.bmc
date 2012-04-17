@@ -59,75 +59,43 @@ int main (int argc, char* argv[]) {
     if (ips_file) {
       std::ostream ops_file(ips_file.rdbuf());
       if (ops_file) {
-	char c; //, l;
+	char c, l;
 	char sentence[8192]; // (un peu moins) Moche pour le moment mais je changerai après
 	std::string textedit;
 	size_t found;
 	std::string s_line, s_column;
-	//int line, column, ps_fs_pos, ps_sd_pos;
+	int line, column, ps_fs_pos, ps_sd_pos;
 	
 	// On cherche le premier textedit
 	c = (char) ips_file.get();
 	while (c != EOF ){
-	  std::cerr << c << "\t" ;
 	  
 	  if ( '0' <= c && c <= '9' ) {
-	    std::cerr << std::endl << "ligne : " << c ;
-	    
-	    ips_file.get(sentence,8192,'\n');
+	    ips_file.getline(sentence,8192,'\n');
 	    textedit = sentence; 
-	    
-	    std::cerr << sentence << std::endl ;
-	    
 	    found = textedit.find("textedit:",0);
 	    if (found != std::string::npos){
-	      std::cerr << "le texte : " << textedit << std::endl ;
-	    }
-	  }
-	  else {
-	    while (!(c==EOF || c=='\n')) {
-	      c = (char) ips_file.get();
-	      //std::cerr << "plop" << std::endl ;
-	    }
-	  }
-	  c = (char) ips_file.get();
-	}
-	std::cerr << c << " : eof" << std::endl ;
-	  
-	  /*
-	  while ( c != EOF && c != 't')
-	    c = (char) ips_file.get();
-	  
-	  if (c != EOF) {
-	    ps_fs_pos = ips_file.tellg();
-	    std::cout << "J'ai trouvé un 't' à la position : " << ps_fs_pos << "(l." << debug << ") : " ; 
-	      
-	    ips_file.get(sentence,5000000,'\n');
-	    textedit = sentence;
-	    
-
-	    debug ++;
-	    std::cout.write(textedit.c_str(),20);
-	    std::cout << std::endl ;
-	    
-	    // On trouve des t mais pas de "textedit" :x
-	    found = textedit.find("extedit:",0);
-	    if (found != std::string::npos){
-	      std::cout << "position du curseur ips : " << ips_file.tellg() << std::endl ; 
-	      ips_file.get(); // discard ':'
-	      ips_file.get(sentence,5000000,':');  
-	      std::istringstream iss1( sentence );
-	      iss1 >> line;
-	      ips_file.get(); // discard ':'
-	      ips_file.get(sentence,5000000,':');
-	      std::istringstream iss2( sentence );
-	      iss2 >> column;
-	      ips_file.get(); // discard ':'
-	      ips_file.get(sentence,5000000,')');
-	      
 	      ps_sd_pos = ips_file.tellg();
-	      std::cout << "C'est bien un textedit qui se fini en : " << ps_sd_pos << std::endl ; 	      
+	      //	      ps_fs_pos = ps_fs_pos - textedit.size() + found;
 	      
+	      std::cerr << "le texte " << ps_fs_pos << "-" << ps_sd_pos << " : " << c << textedit << std::endl ;
+	      /** /
+	      lily_file.get(sentence,8192,'{'); // better '%' and after '{'
+	      lily_file.get(); // discard '{'
+	      lily_file.get(sentence,8192,':');
+	      std::istringstream iss3( sentence );
+	      iss3 >> line;
+	      lily_file.get(); // discard ':'	      
+	      lily_file.get(sentence,8192,'%');
+	      std::istringstream iss4( sentence );
+	      iss4 >> column;
+	      found = textedit.find(".ly:",0);
+	      
+	      
+	      
+
+
+
 	      // open the .ly at the position line:column
 	      lily_file.seekg(0, std::ios::beg);
 	      
@@ -152,13 +120,13 @@ int main (int argc, char* argv[]) {
 	      std::cout << "A la position " << line << ":" << column << " on trouve le char : '" << l << "'." << std::endl ; 
 
 	      // Go to : comment
-	      lily_file.get(sentence,5000000,'{'); // better '%' and after '{'
+	      lily_file.get(sentence,8192,'{'); // better '%' and after '{'
 	      lily_file.get(); // discard '{'
-	      lily_file.get(sentence,5000000,':');
+	      lily_file.get(sentence,8192,':');
 	      std::istringstream iss3( sentence );
 	      iss3 >> line;
 	      lily_file.get(); // discard ':'	      
-	      lily_file.get(sentence,5000000,'%');
+	      lily_file.get(sentence,8192,'%');
 	      std::istringstream iss4( sentence );
 	      iss4 >> column;
 	      
@@ -174,15 +142,25 @@ int main (int argc, char* argv[]) {
 	      while ( c != EOF && c != '\n'){
 		ops_file << " " ;
 		c = ips_file.get(); 
-	      }
-	 
+		
+	      }		
+	      
+	      
+	      // */	      
+	      
+	      
+	    }
+	    
+	  }
+	  else {
+	    while (!(c==EOF || c=='\n')) {
+	      c = (char) ips_file.get();
 	    }
 	  }
-	  debug ++ ;
-	  c = (char) ips_file.get(); 
+	  c = (char) ips_file.get();
 	}
-	// */
-		
+	
+	
       } else  { std::cerr << "err out ps_file failed" << std::endl ; }  
       ips_file.close();
     } else  { std::cerr << "err in ps_file failed" << std::endl ; }  
@@ -193,5 +171,5 @@ int main (int argc, char* argv[]) {
 }
 
 
- 
+
 //}}
