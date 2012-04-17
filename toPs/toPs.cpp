@@ -50,7 +50,7 @@ int main (int argc, char* argv[]) {
 
   /**/
   //  int pos_ips = 0, pos_ops = 0, pos_ly = 0;
-  int debug = 0;
+  //int debug = 0;
   
   std::ifstream lily_file(lily_name.c_str(), std::ios::in);
   if (lily_file){
@@ -59,15 +59,42 @@ int main (int argc, char* argv[]) {
     if (ips_file) {
       std::ostream ops_file(ips_file.rdbuf());
       if (ops_file) {
-	char c = 'a', l;
-	char sentence[5000000]; // Moche pour le moment mais je changerai après
+	char c; //, l;
+	char sentence[8192]; // (un peu moins) Moche pour le moment mais je changerai après
 	std::string textedit;
 	size_t found;
 	std::string s_line, s_column;
-	int line, column, ps_fs_pos, ps_sd_pos;
+	//int line, column, ps_fs_pos, ps_sd_pos;
 	
 	// On cherche le premier textedit
-	while ( c!= EOF ){
+	c = (char) ips_file.get();
+	while (c != EOF ){
+	  std::cerr << c << "\t" ;
+	  
+	  if ( '0' <= c && c <= '9' ) {
+	    std::cerr << std::endl << "ligne : " << c ;
+	    
+	    ips_file.get(sentence,8192,'\n');
+	    textedit = sentence; 
+	    
+	    std::cerr << sentence << std::endl ;
+	    
+	    found = textedit.find("textedit:",0);
+	    if (found != std::string::npos){
+	      std::cerr << "le texte : " << textedit << std::endl ;
+	    }
+	  }
+	  else {
+	    while (!(c==EOF || c=='\n')) {
+	      c = (char) ips_file.get();
+	      //std::cerr << "plop" << std::endl ;
+	    }
+	  }
+	  c = (char) ips_file.get();
+	}
+	std::cerr << c << " : eof" << std::endl ;
+	  
+	  /*
 	  while ( c != EOF && c != 't')
 	    c = (char) ips_file.get();
 	  
@@ -75,14 +102,14 @@ int main (int argc, char* argv[]) {
 	    ps_fs_pos = ips_file.tellg();
 	    std::cout << "J'ai trouvé un 't' à la position : " << ps_fs_pos << "(l." << debug << ") : " ; 
 	      
-	    ips_file.get(sentence,5000000);
+	    ips_file.get(sentence,5000000,'\n');
 	    textedit = sentence;
 	    
 
 	    debug ++;
 	    std::cout.write(textedit.c_str(),20);
 	    std::cout << std::endl ;
-
+	    
 	    // On trouve des t mais pas de "textedit" :x
 	    found = textedit.find("extedit:",0);
 	    if (found != std::string::npos){
@@ -148,12 +175,13 @@ int main (int argc, char* argv[]) {
 		ops_file << " " ;
 		c = ips_file.get(); 
 	      }
+	 
 	    }
 	  }
 	  debug ++ ;
 	  c = (char) ips_file.get(); 
 	}
-	
+	// */
 		
       } else  { std::cerr << "err out ps_file failed" << std::endl ; }  
       ips_file.close();
