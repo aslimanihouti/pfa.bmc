@@ -3,11 +3,6 @@
 #include <cstring>
 #include <sstream>
 
-//#include "toPs.hpp"
-
-//namespace music { namespace brailleToPs {
-
-
 
 bool is_readable( const std::string & file ) 
 { 
@@ -16,20 +11,22 @@ bool is_readable( const std::string & file )
 } 
 
 // Dans un premier temps le nom du fichier d'entrée sans l'extention
-//toPs::toPs(std::string input_lily_file, std::string output_ps_file_name) {
 
 /**
  * idée : parcourir le fichier ps et "rempalcer" les 'textedit' par 'line:column'
- * pb : les espaces qui rempalcerai le surplus de charactères sont ils ignorés ?
- * pb : dans le cas où le nombre de char pour coder 'line:column' est trop grand il faut reécrire tout le fichier ps ... 
+ * pb : les espaces qui rempalcerai le surplus de charactères sont ils ignorés ? --> ignoré
+ * pb : dans le cas où le nombre de char pour coder 'line:column' est trop grand il faut reécrire tout le fichier ps ...--> ce cas ne devrai pas arriver, j'attends toujours le contre exemple, mais bon c'est une vraie question 
  * Toujours reécrire le fichier ps est peut être un peu trop couteux non ?
  */ 
 
 int main (int argc, char* argv[]) {
-  std::string file_name("foo");
+  std::string file_name;
   if (argc > 1)
     file_name = argv[1];
-  
+  else {
+    std::cout << "ligne de commande :" << std::endl << "\t" << argv[0] << " <nom_fichier_sans_extention>" << std::endl ;
+    return 0;
+  }
   std::string lily_name(file_name);
   std::string ps_name(file_name);
   lily_name += ".ly";
@@ -60,97 +57,82 @@ int main (int argc, char* argv[]) {
       std::ostream ops_file(ips_file.rdbuf());
       if (ops_file) {
 	char c, l;
-	char sentence[8192]; // (un peu moins) Moche pour le moment mais je changerai après
+	char sentence[8192];
 	std::string textedit;
 	size_t found;
-	std::string s_line, s_column;
-	int line, column, ps_fs_pos, ps_sd_pos;
-	
+	std::string s_line_column;
+	int line, column;
+	int ps_fs_pos, ps_sd_pos;
+	int i, j;
+
 	// On cherche le premier textedit
 	c = (char) ips_file.get();
 	while (c != EOF ){
 	  
 	  if ( '0' <= c && c <= '9' ) {
+	    ps_fs_pos =  (int) ips_file.tellg() - 1;
+	    
 	    ips_file.getline(sentence,8192,'\n');
 	    textedit = sentence; 
 	    found = textedit.find("textedit:",0);
 	    if (found != std::string::npos){
 	      ps_sd_pos = ips_file.tellg();
-	      //	      ps_fs_pos = ps_fs_pos - textedit.size() + found;
 	      
-	      std::cerr << "le texte " << ps_fs_pos << "-" << ps_sd_pos << " : " << c << textedit << std::endl ;
-	      /** /
-	      lily_file.get(sentence,8192,'{'); // better '%' and after '{'
-	      lily_file.get(); // discard '{'
-	      lily_file.get(sentence,8192,':');
-	      std::istringstream iss3( sentence );
-	      iss3 >> line;
-	      lily_file.get(); // discard ':'	      
-	      lily_file.get(sentence,8192,'%');
-	      std::istringstream iss4( sentence );
-	      iss4 >> column;
-	      found = textedit.find(".ly:",0);
+	      ips_file.seekg(ps_fs_pos);
+	      ips_file.getline(sentence,8192,':');
+	      ips_file.getline(sentence,8192,':');
+	      ips_file.getline(sentence,8192,':');
+	      std::istringstream iss1( sentence );
+	      iss1 >> line;
+	      ips_file.getline(sentence,8192,':');
+	      std::istringstream iss2( sentence );
+	      iss2 >> column;
 	      
-	      
-	      
-
-
-
 	      // open the .ly at the position line:column
+	      i = line;
+	      j = column;
+	      
 	      lily_file.seekg(0, std::ios::beg);
 	      
 	      l = lily_file.get();
-	      // Go to : line
-	      while (l != EOF && line > 1){
+	      // go to : line
+	      while (l != EOF && i > 1){
 		if (l == '\n') 
-		  line--;
+		  i--;
 		l = lily_file.get();
 	      }
 	      if (l == EOF)
 		std::cerr << "Pb ! " << std::endl ;
 	      
-	      // Go to : column
-	      while (l != EOF && l != '\n' && column > 1) {
-		column--;
+	      // go to : column
+	      while (l != EOF && l != '\n' && j > 0) {
+		j--;
 		l = lily_file.get();
 	      }
 	      if (l == EOF || l == '\n')
 		std::cerr << "Pb ! " << std::endl ;
 	      
-	      std::cout << "A la position " << line << ":" << column << " on trouve le char : '" << l << "'." << std::endl ; 
-
-	      // Go to : comment
-	      lily_file.get(sentence,8192,'{'); // better '%' and after '{'
-	      lily_file.get(); // discard '{'
-	      lily_file.get(sentence,8192,':');
-	      std::istringstream iss3( sentence );
-	      iss3 >> line;
-	      lily_file.get(); // discard ':'	      
+	      // go to : comment
+	      lily_file.getline(sentence,8192,'{'); // better '%' and after '{' ?
 	      lily_file.get(sentence,8192,'%');
-	      std::istringstream iss4( sentence );
-	      iss4 >> column;
+	      s_line_column = sentence;
 	      
-	      std::cout << "line:column correspondant : " << line << ":" << column << std::endl ; 
 	      // write line:column in the .ps
-	      ops_file.seekp(ps_fs_pos);
+	      ips_file.seekg(ps_fs_pos);
+	      ips_file.getline(sentence,8192,'(');
+	      ops_file.seekp(ips_file.tellg());
 	      ops_file << line << ":" << column << ") mark_URI " ;
+	      // fill with space
 	      ips_file.seekg(ops_file.tellp());
 	      if (ops_file.tellp() > ps_sd_pos)
 		std::cerr << "Pb !" << std::endl ; 
-	      c = ips_file.get(); 
-	      // completion of the line
-	      while ( c != EOF && c != '\n'){
-		ops_file << " " ;
-		c = ips_file.get(); 
-		
-	      }		
-	      
-	      
-	      // */	      
-	      
+
+	      // completion of the line 
+	      j = ps_sd_pos - ops_file.tellp() -1; 
+	      for (i=0 ; i<j ; i++)
+		ops_file.write(" ",1);
 	      
 	    }
-	    
 	  }
 	  else {
 	    while (!(c==EOF || c=='\n')) {
@@ -166,10 +148,6 @@ int main (int argc, char* argv[]) {
     } else  { std::cerr << "err in ps_file failed" << std::endl ; }  
     lily_file.close();
   } else { std::cerr << "err : in lily_file failed" << std::endl ; }
-  // */
   return 0; 
 }
 
-
-
-//}}
