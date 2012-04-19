@@ -14,5 +14,9 @@
 
 void open_file(GtkWidget *widget, BrailleMusicEditor *editor);
 
-void open_file_(BrailleMusicEditor *editor); 
+void open_file_with_path(BrailleMusicEditor *editor, const gchar *path);
+
+void open_file_with_selection(BrailleMusicEditor *editor);
+
+void open_file_(BrailleMusicEditor *editor, const gchar *path); 
 #endif
