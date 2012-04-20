@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 namespace bmc_gui {
 
@@ -53,6 +53,13 @@ namespace bmc_gui {
 	private: System::Windows::Forms::ToolStripMenuItem^  pasteToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripSeparator^  toolStripSeparator3;
 	private: System::Windows::Forms::ToolStripMenuItem^  selectAllToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  nextMeasureToolStripMenuItem;
+	private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
+	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
+	private: System::Windows::Forms::ToolStripMenuItem^  saveToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  saveAsToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripSeparator^  toolStripSeparator4;
+	private: System::Windows::Forms::ToolStripMenuItem^  quitToolStripMenuItem;
 
 	private:
 		/// <summary>
@@ -81,11 +88,18 @@ namespace bmc_gui {
 			this->copyToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->pasteToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStripSeparator3 = (gcnew System::Windows::Forms::ToolStripSeparator());
+			this->nextMeasureToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->selectAllToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
 			this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
 			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
+			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
+			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
+			this->saveToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->toolStripSeparator4 = (gcnew System::Windows::Forms::ToolStripSeparator());
+			this->quitToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->saveAsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			this->toolStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->splitContainer1))->BeginInit();
@@ -105,8 +119,9 @@ namespace bmc_gui {
 			// 
 			// fileToolStripMenuItem
 			// 
-			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->newToolStripMenuItem, 
-				this->openToolStripMenuItem, this->toolStripSeparator1});
+			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(7) {this->newToolStripMenuItem, 
+				this->openToolStripMenuItem, this->toolStripSeparator1, this->saveToolStripMenuItem, this->saveAsToolStripMenuItem, this->toolStripSeparator4, 
+				this->quitToolStripMenuItem});
 			this->fileToolStripMenuItem->Name = L"fileToolStripMenuItem";
 			this->fileToolStripMenuItem->Size = System::Drawing::Size(37, 20);
 			this->fileToolStripMenuItem->Text = L"File";
@@ -114,84 +129,100 @@ namespace bmc_gui {
 			// newToolStripMenuItem
 			// 
 			this->newToolStripMenuItem->Name = L"newToolStripMenuItem";
-			this->newToolStripMenuItem->Size = System::Drawing::Size(103, 22);
+			this->newToolStripMenuItem->Size = System::Drawing::Size(152, 22);
 			this->newToolStripMenuItem->Text = L"New";
 			// 
 			// openToolStripMenuItem
 			// 
 			this->openToolStripMenuItem->Name = L"openToolStripMenuItem";
-			this->openToolStripMenuItem->Size = System::Drawing::Size(103, 22);
+			this->openToolStripMenuItem->Size = System::Drawing::Size(152, 22);
 			this->openToolStripMenuItem->Text = L"Open";
+			this->openToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::onOpen);
 			// 
 			// toolStripSeparator1
 			// 
 			this->toolStripSeparator1->Name = L"toolStripSeparator1";
-			this->toolStripSeparator1->Size = System::Drawing::Size(100, 6);
+			this->toolStripSeparator1->Size = System::Drawing::Size(149, 6);
 			// 
 			// editToolStripMenuItem
 			// 
-			this->editToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(8) {this->undoToolStripMenuItem, 
+			this->editToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(9) {this->undoToolStripMenuItem, 
 				this->redoToolStripMenuItem, this->toolStripSeparator2, this->cutToolStripMenuItem, this->copyToolStripMenuItem, this->pasteToolStripMenuItem, 
-				this->toolStripSeparator3, this->selectAllToolStripMenuItem});
+				this->toolStripSeparator3, this->nextMeasureToolStripMenuItem, this->selectAllToolStripMenuItem});
 			this->editToolStripMenuItem->Name = L"editToolStripMenuItem";
+			this->editToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::X));
 			this->editToolStripMenuItem->Size = System::Drawing::Size(39, 20);
 			this->editToolStripMenuItem->Text = L"Edit";
 			// 
 			// undoToolStripMenuItem
 			// 
 			this->undoToolStripMenuItem->Name = L"undoToolStripMenuItem";
-			this->undoToolStripMenuItem->ShortcutKeyDisplayString = L"Ctrl+Z";
-			this->undoToolStripMenuItem->Size = System::Drawing::Size(164, 22);
+			this->undoToolStripMenuItem->ShortcutKeyDisplayString = L"";
+			this->undoToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::Z));
+			this->undoToolStripMenuItem->Size = System::Drawing::Size(174, 22);
 			this->undoToolStripMenuItem->Text = L"Undo";
 			this->undoToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::onUndo);
 			// 
 			// redoToolStripMenuItem
 			// 
 			this->redoToolStripMenuItem->Name = L"redoToolStripMenuItem";
-			this->redoToolStripMenuItem->ShortcutKeyDisplayString = L"Ctrl+Y";
-			this->redoToolStripMenuItem->Size = System::Drawing::Size(164, 22);
+			this->redoToolStripMenuItem->ShortcutKeyDisplayString = L"";
+			this->redoToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>(((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::Shift) 
+				| System::Windows::Forms::Keys::Z));
+			this->redoToolStripMenuItem->Size = System::Drawing::Size(174, 22);
 			this->redoToolStripMenuItem->Text = L"Redo";
 			this->redoToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::onRedo);
 			// 
 			// toolStripSeparator2
 			// 
 			this->toolStripSeparator2->Name = L"toolStripSeparator2";
-			this->toolStripSeparator2->Size = System::Drawing::Size(161, 6);
+			this->toolStripSeparator2->Size = System::Drawing::Size(171, 6);
 			// 
 			// cutToolStripMenuItem
 			// 
 			this->cutToolStripMenuItem->Name = L"cutToolStripMenuItem";
-			this->cutToolStripMenuItem->ShortcutKeyDisplayString = L"Ctrl+X";
-			this->cutToolStripMenuItem->Size = System::Drawing::Size(164, 22);
+			this->cutToolStripMenuItem->ShortcutKeyDisplayString = L"";
+			this->cutToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::X));
+			this->cutToolStripMenuItem->Size = System::Drawing::Size(174, 22);
 			this->cutToolStripMenuItem->Text = L"Cut";
 			this->cutToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::onCut);
 			// 
 			// copyToolStripMenuItem
 			// 
 			this->copyToolStripMenuItem->Name = L"copyToolStripMenuItem";
-			this->copyToolStripMenuItem->ShortcutKeyDisplayString = L"Ctrl+C";
-			this->copyToolStripMenuItem->Size = System::Drawing::Size(164, 22);
+			this->copyToolStripMenuItem->ShortcutKeyDisplayString = L"";
+			this->copyToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::C));
+			this->copyToolStripMenuItem->Size = System::Drawing::Size(174, 22);
 			this->copyToolStripMenuItem->Text = L"Copy";
 			this->copyToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::onCopy);
 			// 
 			// pasteToolStripMenuItem
 			// 
 			this->pasteToolStripMenuItem->Name = L"pasteToolStripMenuItem";
-			this->pasteToolStripMenuItem->ShortcutKeyDisplayString = L"Ctrl+V";
-			this->pasteToolStripMenuItem->Size = System::Drawing::Size(164, 22);
+			this->pasteToolStripMenuItem->ShortcutKeyDisplayString = L"";
+			this->pasteToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::V));
+			this->pasteToolStripMenuItem->Size = System::Drawing::Size(174, 22);
 			this->pasteToolStripMenuItem->Text = L"Paste";
 			this->pasteToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::onPaste);
 			// 
 			// toolStripSeparator3
 			// 
 			this->toolStripSeparator3->Name = L"toolStripSeparator3";
-			this->toolStripSeparator3->Size = System::Drawing::Size(161, 6);
+			this->toolStripSeparator3->Size = System::Drawing::Size(171, 6);
+			// 
+			// nextMeasureToolStripMenuItem
+			// 
+			this->nextMeasureToolStripMenuItem->Name = L"nextMeasureToolStripMenuItem";
+			this->nextMeasureToolStripMenuItem->Size = System::Drawing::Size(174, 22);
+			this->nextMeasureToolStripMenuItem->Text = L"Next Measure";
+			this->nextMeasureToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::onNext);
 			// 
 			// selectAllToolStripMenuItem
 			// 
 			this->selectAllToolStripMenuItem->Name = L"selectAllToolStripMenuItem";
-			this->selectAllToolStripMenuItem->ShortcutKeyDisplayString = L"Ctrl+A";
-			this->selectAllToolStripMenuItem->Size = System::Drawing::Size(164, 22);
+			this->selectAllToolStripMenuItem->ShortcutKeyDisplayString = L"";
+			this->selectAllToolStripMenuItem->ShortcutKeys = static_cast<System::Windows::Forms::Keys>((System::Windows::Forms::Keys::Control | System::Windows::Forms::Keys::A));
+			this->selectAllToolStripMenuItem->Size = System::Drawing::Size(174, 22);
 			this->selectAllToolStripMenuItem->Text = L"Select All";
 			this->selectAllToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::onSelectAll);
 			// 
@@ -235,6 +266,35 @@ namespace bmc_gui {
 			this->richTextBox1->TabIndex = 0;
 			this->richTextBox1->Text = L"";
 			// 
+			// openFileDialog1
+			// 
+			this->openFileDialog1->FileName = L"openFileDialog1";
+			// 
+			// saveToolStripMenuItem
+			// 
+			this->saveToolStripMenuItem->Name = L"saveToolStripMenuItem";
+			this->saveToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->saveToolStripMenuItem->Text = L"Save";
+			this->saveToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::onSave);
+			// 
+			// toolStripSeparator4
+			// 
+			this->toolStripSeparator4->Name = L"toolStripSeparator4";
+			this->toolStripSeparator4->Size = System::Drawing::Size(149, 6);
+			// 
+			// quitToolStripMenuItem
+			// 
+			this->quitToolStripMenuItem->Name = L"quitToolStripMenuItem";
+			this->quitToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->quitToolStripMenuItem->Text = L"Quit";
+			this->quitToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainWindow::onQuit);
+			// 
+			// saveAsToolStripMenuItem
+			// 
+			this->saveAsToolStripMenuItem->Name = L"saveAsToolStripMenuItem";
+			this->saveAsToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->saveAsToolStripMenuItem->Text = L"Save As";
+			// 
 			// MainWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -261,23 +321,21 @@ namespace bmc_gui {
 #pragma endregion
 	private: System::Void MainWindow_Load(System::Object^  sender, System::EventArgs^  e) {
 			 }
-	private: System::Void onUndo(System::Object^  sender, System::EventArgs^  e) {
-				 richTextBox1->Undo();	
-			 }
-	private: System::Void onRedo(System::Object^  sender, System::EventArgs^  e) {
-				 richTextBox1->Redo();	
-			 }
-	private: System::Void onCut(System::Object^  sender, System::EventArgs^  e) {
-				 richTextBox1->Cut();
-			 }
-	private: System::Void onCopy(System::Object^  sender, System::EventArgs^  e) {
-				 richTextBox1->Copy();
-			 }
-	private: System::Void onPaste(System::Object^  sender, System::EventArgs^  e) {
-				 richTextBox1->Paste();
-			 }
-	private: System::Void onSelectAll(System::Object^  sender, System::EventArgs^  e) {
-				 richTextBox1->SelectAll();
-			 }
-};
+	
+	
+	//
+	//Edit Menu Callbacks
+	//
+	private: System::Void onUndo(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void onRedo(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void onCut(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void onCopy(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void onPaste(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void onSelectAll(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void onNext(System::Object^  sender, System::EventArgs^  e);
+	
+	private: System::Void onOpen(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void onQuit(System::Object^  sender, System::EventArgs^  e);
+	private: System::Void onSave(System::Object^  sender, System::EventArgs^  e);
+	};
 }
