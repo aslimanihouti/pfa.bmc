@@ -3,12 +3,13 @@
 #include <cstring>
 #include <sstream>
 
-
+/** /
 bool is_readable( const std::string & file ) 
 { 
     std::ifstream fichier( file.c_str() ); 
     return !fichier.fail(); 
 } 
+/**/
 
 // Dans un premier temps le nom du fichier d'entrée sans l'extention
 
@@ -31,8 +32,6 @@ int main (int argc, char* argv[]) {
   std::string ps_name(file_name);
   lily_name += ".ly";
   ps_name   += ".ps";
-
-
 
   
   std::cout << "arg : "          << file_name << std::endl;
@@ -121,7 +120,7 @@ int main (int argc, char* argv[]) {
 	      ips_file.seekg(ps_fs_pos);
 	      ips_file.getline(sentence,8192,'(');
 	      ops_file.seekp(ips_file.tellg());
-	      ops_file << line << ":" << column << ") mark_URI " ;
+	      ops_file << s_line_column << ") mark_URI " ;
 	      // fill with space
 	      ips_file.seekg(ops_file.tellp());
 	      if (ops_file.tellp() > ps_sd_pos)
