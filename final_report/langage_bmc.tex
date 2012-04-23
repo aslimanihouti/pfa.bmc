@@ -1,14 +1,14 @@
 
-\textit{Braille music compiler} est un programme qui se veut de
-transformer un fichier écrit en \textit{Braille Music} en un autre langage
-utilisable par d'autres applications. La difficulté est que le langage
-\textit{Braille Music} possède beaucoup d'ambiguïtés, en effet par exemple
-pour connaître la note exacte en cours, il est nécessaire de savoir
-quelles ont été les notes précédentes. \`A l'heure actuelle le programme
-arrive correctement à compiler le langage \textit{Braille Music} en un
-langage Abstrait qui lui ne possède aucune ambiguïté. Ce langage
-abstrait peut être converti en n'importe quels formats de musique. Par
-exemple : 
+\textit{Braille music compiler} est un programme qui a pour objectif
+de transformer un fichier écrit en \textit{Braille Music} en un autre
+langage utilisable par d'autres applications. La difficulté est que le
+langage \textit{Braille Music} possède beaucoup d'ambiguïtés, en effet
+par exemple pour connaître la note exacte en cours, il est nécessaire
+de savoir quelles ont été les notes précédentes. \`A l'heure actuelle
+le programme arrive correctement à compiler le langage \textit{Braille
+  Music} en un langage Abstrait qui lui ne possède aucune
+ambiguïté. Ce langage abstrait peut être converti en n'importe quels
+formats de musique. Par exemple :
 
 \begin{itemize}
 \item MIDI (Format AUDIO)
@@ -24,13 +24,13 @@ Le schéma \ref{compiler} résume le fonctionement de BMC.
   \label{compiler}
 \end{figure}
 
-Notre travail est donc d'implémenter ces modules de conversion. Pour
-cela il est nécessaire de comprendre comment est conçu le langage
-Abstrait. Après la compilation du \textit{Braille Music}, l'ensemble des
-données sont stockées dans une structure nommée "score". Cette
-structure est une multitude de vecteurs imbriqués les uns dans les
-autres. Voici le code de la strucure suivi d'une représentation visuel (\ref{score})
-:
+Notre travail a été d'implémenter quelque uns de ces modules de
+conversion. Pour cela il est nécessaire de comprendre comment est
+conçu le langage Abstrait. Après la compilation du \textit{Braille
+  Music}, l'ensemble des données sont stockées dans une structure
+nommée "score". Cette structure est une multitude de vecteurs
+imbriqués les uns dans les autres. Voici le code de la strucure suivi
+d'une représentation visuel (\ref{score}) :
 
 \begin{verbatim}
 typedef boost::variant<note, rest, chord, value_distinction, hand_sign, simile, barline>;
@@ -77,14 +77,9 @@ une partition de musique ses différents termes.
   \label{musicexe}
 \end{figure}
 
-Avant de se mettre à faire la conversion du langage abstrait vers un format de musique conventionel nous avons d'abord créé les classes de base que nous devrons utiliser pour effectuer les différentes conversions. On procède dans un premier temps à un affichage sur le terminal.
+À partir de ce langage intermédiaire nous avons pu réaliser deux
+classes qui ont été intégré dans le programme bmc. Chaqu'une d'elle
+créer un fichier représentant une partition braille passée en argument
+dans un autre langage.
 
-\begin{verbatim}
-./bmc < input/bwv988-v30.bmc 
-
- r1/8  r1/8 >  |   r1/2  r1/4  r1/8 D 5 >   r1/1 >  |  G 5 A 5 B 5 C 6 D 
-6 C 6 B 5 A 5  r1/8 >  G 5 G 5 A 5 A 5 >  |  D 6 D 6 E 6 E 6 >  G 5 A 5 G 
-5 F 5 Natural  E 5 D 5 C 5 B 5 >  |  B 5 A 5 G 5 G 5 G 5 D 5 >  |   r1/2 
- r1/4  r1/8 D 6 >  G 5 A 5 B 5 C 6 D 6 C 6 B 5 A 5 D 6 >  G 5 G 5 A 5 A 5 > 
-\end{verbatim}
 

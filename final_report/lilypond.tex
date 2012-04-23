@@ -1,3 +1,43 @@
 % lilypond.tex
 
 % ben : je veux bien m'en charger
+\subsubsection{Génération du fichier Lilypond}
+Nous nous somme dans un premier temps consacré à l'exportation sous le
+format lilypond.  Ce format est destiné à produire des partitions au
+format pdf de grande qualité.  Ce choix nous est apparut fondamental,
+d'une part le format pdf est très répandu, d'une autre cela nous a
+permit de pouvoir afficher la partition pour voyant dans notre
+interface graphique.
+
+L'implémentation de cette fonctionalité consiste en la création de la
+classe \textit{toLily}. Les fonctions de cette classe parsent le
+langage abstrait produit par le bmc pour le convertir en langage
+lilypond. Ce dernier ressemble un peu au langage \LaTeX. À chaque
+structure contenue dans le premier langage on associe une action qui
+écrira dans le fichier lilypond généré et mettra à jour les variables
+de la classe.
+
+Une fois cette classe implémenté nous l'avons partagé avec M Lang. Il
+l'a ensuite amélioré avant de l'intégrer dans bmc.
+
+
+\subsubsection{Génération du format pdf}
+Une fois le fichier lilypond généré par cette nouvelle version de bmc
+crée, il est facile d'obtenir un pdf de la partition correspondante à
+l'aide de la commande : $$lilypond\ fichier.ly$$ Cependant nous
+avions besoin dans notre interface graphique de récupérer certaines
+informations lorsque l'utilisateur clique sur les notes de ce pdf.
+
+Lors de la construction du pdf le logiciel lilypond ce charge de
+rajouter des liens des notes vèrs la note correspondante dans le
+fichier \textit{.ly}. Nous avons crée un programme pour remplacer ces
+liens par les informations souhaitées ,\textit{i.e.} la position de la
+note dans le ficheir braille music. Après avoir rajouté en commentaire
+ces informations après chaque note dans le fichier lilypond, ce
+programme compile d'abord le fichier en format ps grace à la commande
+$$lilypond\ --ps\ fichier.ly$$ Puis il remplace tous les liens
+vèrs le fichier lilypond par la position de la note dans le fichier
+braille music, enfin il compile le ps obtenue en pdf grace à la
+commade : $$ps2pdf\ fichier.ps$$
+
+Le pdf obtenu est ensuite utilisable par notre interface graphique.
