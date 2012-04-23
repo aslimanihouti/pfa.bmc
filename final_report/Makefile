@@ -14,6 +14,7 @@ endif
 
 $(PDF): $(TEX)
 	$(CC) rapport.tex
+	$(CC) rapport.tex
 
 .PHONY: clean mrproper clean_pdf
 
